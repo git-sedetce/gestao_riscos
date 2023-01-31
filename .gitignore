@@ -1,3 +1,4 @@
 server/node_modules/*
 server/src/database/index.ts
 server/config/sequelizeCli.js
+server/.adminjs/.entry.js
