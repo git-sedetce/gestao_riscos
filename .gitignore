@@ -1,4 +1,5 @@
+client/node_modules/*
 server/node_modules/*
-server/src/database/index.ts
-server/config/sequelizeCli.js
+/server/src/database/index.ts
+/server/config/sequelizeCli.js
 server/.adminjs/.entry.js
