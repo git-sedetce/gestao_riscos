@@ -1,6 +1,7 @@
 import { sequelize } from "../database";
 import { DataTypes, Model, Optional } from "sequelize";
-import bcrypt from "bcrypt";
+
+const bcrypt = require("bcryptjs");
 
 type CheckPasswordCallback = (err?: Error, isSame?: boolean) => void;
 
@@ -76,7 +77,7 @@ User.prototype.checkPassword = function (
   password: string,
   callbackfn: CheckPasswordCallback
 ) {
-  bcrypt.compare(password, this.password, (err, isSame) => {
+  bcrypt.compare(password, this.password, (err: Error, isSame: boolean) => {
     if (err) {
       callbackfn(err);
     } else {

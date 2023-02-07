@@ -2,6 +2,7 @@ import api from "./api";
 
 interface RegisterParams {
   name: string;
+  email: string;
   password: string;
 }
 

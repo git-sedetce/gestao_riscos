@@ -1,6 +1,19 @@
 import { Risk } from "../models";
+import { RiskCreationAttributes } from "src/models/Risk";
 
 export const riskService = {
+  findByName: async (name: string) => {
+    const risk = await Risk.findOne({
+      where: { name },
+    });
+    return risk;
+  },
+
+  create: async (attributes: RiskCreationAttributes) => {
+    const risk = await Risk.create(attributes);
+    return risk;
+  },
+
   findByIdWithTreatments: async (id: string) => {
     const riskWithTreatments = await Risk.findByPk(id, {
       attributes: [
