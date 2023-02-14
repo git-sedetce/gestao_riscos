@@ -1,8 +1,14 @@
-@import "../../../../styles//colors.module.scss";
+@import "../../../../styles/colors.module.scss";
 
+.Link {
+  text-decoration: none;
+}
 .imgLogoNav {
   width: 10rem;
   cursor: pointer;
+}
+.navColor {
+  background-color: #facc15;
 }
 .nav {
   display: flex;

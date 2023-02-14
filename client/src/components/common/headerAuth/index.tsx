@@ -48,52 +48,54 @@ const HeaderAuth = function () {
 
   return (
     <>
-      <Container className={styles.nav}>
-        <Link href="/home">
-          <img
-            src="/gestao-risco.svg"
-            alt="logoGestaoRisco"
-            className={styles.imgLogoNav}
-          />
-        </Link>
-        <div className="d-flex align-items-center">
-          <Form onSubmit={handleSearch}>
-            <Input
-              name="search"
-              type="search"
-              placeholder="Pesquisar"
-              className={styles.input}
-              value={searchName}
-              onChange={(event) => {
-                setSearchName(event.currentTarget.value.toLowerCase());
-              }}
+      <div className={styles.navColor}>
+        <Container className={styles.nav}>
+          <Link href="/home">
+            <img
+              src="/gestao-risco.svg"
+              alt="logoGestaoRisco"
+              className={styles.imgLogoNav}
             />
-          </Form>
-          <img
-            src="/iconSearch.svg"
-            alt="lupaHeader"
-            className={styles.searchImg}
-            onClick={handleSearchClick}
-          />
-          <p className={styles.userProfile} onClick={handleOpenModal}>
-            {initials}
-          </p>
-        </div>
-        <Modal
-          isOpen={modalOpen}
-          onRequestClose={handleCloseModal}
-          shouldCloseOnEsc={true}
-          className={styles.modal}
-          overlayClassName={styles.overLayModal}
-        >
-          <Link href="/profile">
-            <p className={styles.modalLink}>Meus Dados</p>
           </Link>
-          <p className={styles.modalLink} onClick={handleLogout}>
-            Sair
-          </p>
-        </Modal>
-      </Container>
+          <div className="d-flex align-items-center">
+            <Form onSubmit={handleSearch}>
+              <Input
+                name="search"
+                type="search"
+                placeholder="Pesquisar"
+                className={styles.input}
+                value={searchName}
+                onChange={(event) => {
+                  setSearchName(event.currentTarget.value.toLowerCase());
+                }}
+              />
+            </Form>
+            <img
+              src="/iconSearch.svg"
+              alt="lupaHeader"
+              className={styles.searchImg}
+              onClick={handleSearchClick}
+            />
+            <p className={styles.userProfile} onClick={handleOpenModal}>
+              {initials}
+            </p>
+          </div>
+          <Modal
+            isOpen={modalOpen}
+            onRequestClose={handleCloseModal}
+            shouldCloseOnEsc={true}
+            className={styles.modal}
+            overlayClassName={styles.overLayModal}
+          >
+            <Link href="/profile" className={styles.Link}>
+              <p className={styles.modalLink}>Meus Dados</p>
+            </Link>
+            <p className={styles.modalLink} onClick={handleLogout}>
+              Sair
+            </p>
+          </Modal>
+        </Container>
+      </div>
     </>
   );
 };

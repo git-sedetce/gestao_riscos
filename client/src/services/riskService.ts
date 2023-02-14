@@ -29,15 +29,15 @@ export type RiskType = {
 };
 
 const riskService = {
-    getNewestRisks: async () => {
-      const res = await api.get("/risks/newest").catch((error) => {
-        console.log(error.response.data.message);
+  getNewestRisks: async () => {
+    const res = await api.get("/risks/newest").catch((error) => {
+      console.log(error.response.data.message);
 
-        return error.response;
-      });
+      return error.response;
+    });
 
-      return res;
-    },
+    return res;
+  },
   getRisks: async () => {
     const token = sessionStorage.getItem("risks-token");
 

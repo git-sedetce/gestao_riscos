@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Footer from "src/components/common/footer";
 import PageSpinner from "../src/components/common/spinner";
 import ListRisks from "../src/components/homeAuth/listRisks";
 
@@ -10,7 +11,7 @@ const HomeAuth = function () {
 
   useEffect(() => {
     if (!sessionStorage.getItem("risks-token")) {
-      router.push("/login");
+      router.push("/");
     } else {
       setLoading(false);
     }
@@ -28,7 +29,7 @@ const HomeAuth = function () {
       </Head>
       <main>
         <ListRisks />
-        TESTE
+        <Footer />
       </main>
     </>
   );

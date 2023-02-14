@@ -5,12 +5,14 @@ import { Container, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { FormEvent, useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
+import useSWR from "swr";
 import HeaderGeneric from "../src/components/common/headerGeneric";
 import ToastComponent from "../src/components/common/toast";
-import authService from "../src/services/authService";
+import authService, { EntityType } from "../src/services/authService";
 
 const Register = function () {
   const router = useRouter();
+  const [selectedEntity, setSelectedEntity] = useState("");
   const [toastIsOpen, setToastIsOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
@@ -20,6 +22,8 @@ const Register = function () {
     }
   }, []);
 
+  const { data: entityData } = useSWR("/listEntities", authService.getEntities);
+
   const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -28,7 +32,8 @@ const Register = function () {
     const email = formData.get("email")!.toString();
     const password = formData.get("password")!.toString();
     const confirmPassword = formData.get("confirmPassword")!.toString();
-    const params = { name, email, password };
+    const entityId = Number(selectedEntity);
+    const params = { name, email, entityId, password };
 
     if (password != confirmPassword) {
       setToastIsOpen(true);
@@ -43,7 +48,7 @@ const Register = function () {
     const { data, status } = await authService.register(params);
 
     if (status === 201) {
-      router.push("/login?registred=true");
+      router.push("/?registred=true");
     } else {
       setToastIsOpen(true);
       setTimeout(() => {
@@ -93,6 +98,53 @@ const Register = function () {
                 required
                 className={styles.input}
               />
+            </FormGroup>
+            <FormGroup>
+              <Label for="entity" className={styles.label}>
+                ÁREA
+              </Label>
+              <Input
+                type="select"
+                name="entityId"
+                id="entityId"
+                value={selectedEntity}
+                onChange={(event) =>
+                  setSelectedEntity(String(event.target.value))
+                }
+                className={styles.input}
+              >
+                <option value="">Selecione a área</option>
+                {entityData &&
+                  entityData.data.map((entity: EntityType) => (
+                    <option
+                      key={entity.id}
+                      value={entity.id}
+                      className={styles.inputOption}
+                    >
+                      {entity.name}
+                    </option>
+                  ))}
+              </Input>
+              {/* <Input
+                type="select"
+                name="entity.name"
+                id="entity.id"
+                value={selectedEntity}
+                onChange={(event) => setSelectedEntity(event.target.value)}
+                className={styles.input}
+              >
+                <option value="">Selecione a área</option>
+                {entityData &&
+                  entityData.data.map((entity: EntityType) => (
+                    <option
+                      key={entity.id}
+                      value={entity.id}
+                      className={styles.inputOption}
+                    >
+                      {entity.name}
+                    </option>
+                  ))}
+              </Input> */}
             </FormGroup>
             <FormGroup>
               <Label for="password" className={styles.label}>
