@@ -15,6 +15,7 @@
 .form {
   border: 1px solid $darkGray;
   padding: 20px 0px;
+  max-width: 100%;
   background-color: #16a34a;
 }
 .formName {
@@ -42,11 +43,6 @@
   font-size: 30px;
   font-weight: bold;
 }
-.memberTime {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
 .memberText {
   font-size: 14px;
   color: $lightGray;
@@ -60,12 +56,29 @@
   flex-wrap: wrap;
   justify-content: center;
   // gap: 50px;
-  gap: 30px;
+  gap: 50px;
 }
 .inputFlex {
   // text-transform: uppercase;
   //   width: 250px;
   width: 550px;
+  background-color: transparent;
+  border: 1px solid $darkGray;
+  color: white;
+  &::placeholder {
+    color: $lightGray;
+  }
+  &:focus {
+    box-shadow: none;
+    border-color: $lightGreen;
+    color: white;
+    background-color: transparent;
+  }
+}
+.inputFlexPassword {
+  // text-transform: uppercase;
+  //   width: 250px;
+  width: 250px;
   background-color: transparent;
   border: 1px solid $darkGray;
   color: white;
@@ -136,6 +149,11 @@
 }
 
 @media (max-width: 991px) {
+  .memberTime {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
   .title {
     text-align: center;
   }

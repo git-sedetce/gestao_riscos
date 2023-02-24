@@ -113,7 +113,7 @@ const PasswordForm = function () {
               onChange={(event) => {
                 setNewPassword(event.target.value);
               }}
-              className={styles.inputFlex}
+              className={styles.inputFlexPassword}
             />
           </FormGroup>
           <FormGroup>
@@ -132,7 +132,7 @@ const PasswordForm = function () {
               onChange={(event) => {
                 setConfirmPassword(event.target.value);
               }}
-              className={styles.inputFlex}
+              className={styles.inputFlexPassword}
             />
           </FormGroup>
         </div>

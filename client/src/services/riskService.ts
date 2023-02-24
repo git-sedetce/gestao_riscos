@@ -1,6 +1,22 @@
 import api from "./api";
+interface CreateParams {
+  areaId: number;
+  userId: number;
+  types_originId: number;
+  risks_originId: number;
+  name: string;
+  event: string;
+  cause: string;
+  consequence: string;
+  categoryId: number;
+  probabilityId: number;
+  impactId: number;
+  priority: boolean;
+}
 
 export type TreatmentType = {
+  status: any;
+  type: any;
   id: number;
   types_treatmentId: number;
   name: string;
@@ -24,17 +40,24 @@ export type RiskType = {
   category_id: number;
   probability_id: number;
   impact_id: number;
-  priority: boolean;
+  priority: string;
   treatments?: TreatmentType[];
 };
 
 const riskService = {
   getNewestRisks: async () => {
-    const res = await api.get("/risks/newest").catch((error) => {
-      console.log(error.response.data.message);
+    const token = sessionStorage.getItem("risks-token");
+    const res = await api
+      .get("/risks/newest", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
 
-      return error.response;
-    });
+        return error.response;
+      });
 
     return res;
   },
@@ -50,6 +73,62 @@ const riskService = {
       .catch((error) => {
         console.log(error.response.data.message);
 
+        return error.response;
+      });
+
+    return res;
+  },
+  create: async (params: CreateParams) => {
+    const res = await api.post("/risk", params).catch((error) => {
+      if (error.response.status === 400) {
+        return error.response;
+      }
+
+      return error;
+    });
+
+    return res;
+  },
+  getSearch: async (name: string) => {
+    const token = sessionStorage.getItem("risks-token");
+
+    const res = await api
+      .get(`/risks/search?name=${name}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        return error.response;
+      });
+
+    return res;
+  },
+  getTreatments: async (id: number | string) => {
+    const token = sessionStorage.getItem("risks-token");
+
+    const res = await api
+      .get(`risks/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        return error.response;
+      });
+
+    return res;
+  },
+  getFeaturedRisks: async () => {
+    const token = sessionStorage.getItem("risks-token");
+
+    const res = await api
+      .get("/risks/featured", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
         return error.response;
       });
 
@@ -99,54 +178,6 @@ const riskService = {
   //           Authorization: `Bearer ${token}`,
   //         },
   //       })
-  //       .catch((error) => {
-  //         return error.response;
-  //       });
-
-  //     return res;
-  //   },
-  //   getSearch: async (indicator: string) => {
-  //     const token = sessionStorage.getItem("risks-token");
-
-  //     const res = await api
-  //       .get(`/risks/search?indicator=${indicator}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       })
-  //       .catch((error) => {
-  //         return error.response;
-  //       });
-
-  //     return res;
-  //   },
-  //   getTreatments: async (id: number | string) => {
-  //     const token = sessionStorage.getItem("risks-token");
-
-  //     const res = await api
-  //       .get(`risks/${id}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       })
-  //       .catch((error) => {
-  //         return error.response;
-  //       });
-
-  //     return res;
-  //   },
-  //   postRisk: async () => {
-  //     const token = sessionStorage.getItem("risks-token");
-
-  //     const res = await api
-  //       .post(
-  //         "/risks",
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         }
-  //       )
   //       .catch((error) => {
   //         return error.response;
   //       });

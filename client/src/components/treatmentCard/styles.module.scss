@@ -1,0 +1,51 @@
+@import "../../../styles/colors.module.scss";
+
+.treatmentCard {
+  border: 1px solid $lightGray;
+  margin-bottom: 20px;
+  width: 550px;
+  height: 190px;
+  cursor: pointer;
+  padding: 10px 14px;
+  overflow: hidden;
+  transition: 0.5s;
+  &:hover {
+    border-color: $lightGreen;
+    height: 300px;
+  }
+}
+.treatmentTitleDescription {
+  text-align: center;
+  margin: 10px 0px;
+}
+.treatmentTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.treatmentDescription {
+  color: $lightGray;
+}
+
+@media (max-width: 570px) {
+  .treatmentCard {
+    width: 95%;
+  }
+}
+@media (max-width: 400px) {
+  .treatmentCard {
+    &:hover {
+      risk: RiskType;
+      .treatmentTitle {
+        font-size: 20px;
+      }
+    }
+  }
+  .treatmentTitle {
+    font-size: 18px;
+  }
+  .treatmentDescription {
+    word-break: break-all;
+    font-size: 14px;
+  }
+}

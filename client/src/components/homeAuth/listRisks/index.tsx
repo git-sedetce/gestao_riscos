@@ -32,7 +32,7 @@ const ListRisks = function () {
             (area: AreaType) => area.id === risk.areaId
           );
           const user = userData.data.find(
-            (user: UserType) => user.id === risk.areaId
+            (user: UserType) => user.id === risk.userId
           );
           return (
             <>

@@ -47,11 +47,12 @@ const SlideComponent = function ({ risk }: props) {
             },
           }}
         >
-          {risk?.map((risk) => (
-            <SplideSlide key={risk.id}>
-              <SlideCard risk={risk} />
-            </SplideSlide>
-          ))}
+          {Array.isArray(risk) &&
+            risk.map((risk) => (
+              <SplideSlide key={risk.id}>
+                <SlideCard risk={risk} />
+              </SplideSlide>
+            ))}
         </Splide>
       </div>
     </>
@@ -59,3 +60,9 @@ const SlideComponent = function ({ risk }: props) {
 };
 
 export default SlideComponent;
+
+// {risk?.map((risk) => (
+//   <SplideSlide key={risk.id}>
+//     <SlideCard risk={risk} />
+//   </SplideSlide>
+// ))}

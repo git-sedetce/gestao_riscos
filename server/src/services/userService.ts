@@ -9,6 +9,13 @@ export const userService = {
     return user;
   },
 
+  findById: async (id: string) => {
+    const user = await User.findOne({
+      where: { id },
+    });
+    return user;
+  },
+
   create: async (attributes: UserCreationAttributes) => {
     const user = await User.create(attributes);
     return user;

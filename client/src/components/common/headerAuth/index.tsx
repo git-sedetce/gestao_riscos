@@ -17,12 +17,12 @@ const HeaderAuth = function () {
   const handleSearch = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    router.push(`search?indicator=${searchName}`);
+    router.push(`search?name=${searchName}`);
     setSearchName("");
   };
 
   const handleSearchClick = () => {
-    router.push(`search?indicator=${searchName}`);
+    router.push(`search?name=${searchName}`);
     setSearchName("");
   };
 

@@ -14,6 +14,19 @@ export const usersController = {
       }
     }
   },
+  // GET /users/:id
+  showId: async (req: AuthenticatedRequest, res: Response) => {
+    const { id } = req.params;
+
+    try {
+      const user = await userService.findById(id);
+      return res.json(user);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
 
   // PUT /users/current
   update: async (req: AuthenticatedRequest, res: Response) => {

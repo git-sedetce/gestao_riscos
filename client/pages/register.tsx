@@ -101,7 +101,7 @@ const Register = function () {
             </FormGroup>
             <FormGroup>
               <Label for="entity" className={styles.label}>
-                ÁREA
+                ENTIDADE
               </Label>
               <Input
                 type="select"
@@ -125,26 +125,6 @@ const Register = function () {
                     </option>
                   ))}
               </Input>
-              {/* <Input
-                type="select"
-                name="entity.name"
-                id="entity.id"
-                value={selectedEntity}
-                onChange={(event) => setSelectedEntity(event.target.value)}
-                className={styles.input}
-              >
-                <option value="">Selecione a área</option>
-                {entityData &&
-                  entityData.data.map((entity: EntityType) => (
-                    <option
-                      key={entity.id}
-                      value={entity.id}
-                      className={styles.inputOption}
-                    >
-                      {entity.name}
-                    </option>
-                  ))}
-              </Input> */}
             </FormGroup>
             <FormGroup>
               <Label for="password" className={styles.label}>

@@ -9,7 +9,7 @@ interface props {
 const SlideCard = function ({ risk }: props) {
   return (
     <>
-      <Link href={`risk/${risk.id}`}>
+      <Link href={`risks/${risk.id}`} className={styles.slideLink}>
         <div className={styles.slide}>
           <p className={styles.slideTitle}>{risk.name}</p>
           <p className={styles.slideDescription}>{risk.event}</p>

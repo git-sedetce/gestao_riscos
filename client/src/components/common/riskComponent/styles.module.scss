@@ -1,0 +1,39 @@
+.table {
+  background-color: #075985;
+}
+
+.slide {
+  display: table-row;
+  th:first-child,
+  td:first-child {
+    width: 10%;
+  }
+  td:nth-child(2) {
+    width: 45%;
+  }
+  td:nth-child(3) {
+    width: 45%;
+  }
+}
+.slideIndicator {
+  color: white;
+  padding-top: 4px;
+  padding-right: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.slideEvent {
+  font-size: 14px;
+  color: white;
+  text-align: left;
+}
+
+.noWrap td,
+.noWrap th {
+  border: none;
+}

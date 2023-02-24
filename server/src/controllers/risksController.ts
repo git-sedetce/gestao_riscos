@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { Risk } from "../models";
 import { getPaginationParams } from "../helpers/getPaginationParams";
 import { riskService } from "../services/riskService";
 
@@ -20,6 +21,76 @@ export const risksController = {
       }
     }
   },
+
+  // GET /risksall
+  showRisks: async (req: Request, res: Response) => {
+    try {
+      const risks = await Risk.findAll({
+        attributes: ["id",
+        "areaId",
+        "userId",
+        "types_originId",
+        "risks_originId",
+        "name",
+        "periodId",
+        "event",
+        "cause",
+        "consequence",
+        "category_id",
+        "probability_id",
+        "impact_id",
+        "priority",],
+        order: [["name", "ASC"]],
+      });
+  
+      return res.json(risks);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
+
+  // GET /risks/featured
+  featured: async (req: Request, res: Response) => {
+    try {
+      const featuredRisks = await riskService.getRandomFeaturedRisks()
+      return res.json(featuredRisks)
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
+
+  // GET /risks/newest
+  newest: async (req: Request, res: Response) => {
+    try {
+      const newestRisks = await riskService.getNewestRisks()
+      return res.json(newestRisks)
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
+
+  // GET /risks/search?name=
+  searchRisks: async (req: Request, res: Response) => {
+    const { name } = req.query
+    const [page, perPage] = getPaginationParams(req.query)
+
+    try {
+      if (typeof name !== "string") throw new Error("name param must be of type string")
+      const risks = await riskService.findByNameAll(name, page, perPage)
+      return res.json(risks)
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
+  
   // POST /risk
   register: async (req: Request, res: Response) => {
     const {
@@ -42,7 +113,7 @@ export const risksController = {
       const riskAlreadyExists = await riskService.findByName(name);
 
       if (riskAlreadyExists) {
-        throw new Error("Este e-mail já está cadastrado.");
+        throw new Error("O Indicador de risco já está cadastrado.");
       }
 
       const risk = await riskService.create({
@@ -70,12 +141,12 @@ export const risksController = {
   },
 
   // GET /risks/:id
-  show: async (req: Request, res: Response) => {
+  showId: async (req: Request, res: Response) => {
     const { id } = req.params;
 
     try {
-      const category = await riskService.findByIdWithTreatments(id);
-      return res.json(category);
+      const risk = await riskService.findByIdWithTreatments(id);
+      return res.json(risk);
     } catch (err) {
       if (err instanceof Error) {
         return res.status(400).json({ message: err.message });

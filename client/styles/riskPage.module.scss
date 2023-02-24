@@ -1,0 +1,76 @@
+@import "../styles/colors.module.scss";
+
+// .riskInfo {
+//   margin-top: -60px;
+// }
+.riskTitle {
+  font-size: 40px;
+  font-weight: bold;
+  padding-bottom: 25px;
+  width: 700px;
+}
+.riskDescription {
+  color: $lightGray;
+  width: 650px;
+  padding-bottom: 25px;
+}
+.riskBtn {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 10px 35px;
+  color: white;
+  border-color: $lightGreen;
+  &:hover {
+    border-color: $darkGreen;
+    color: $lightGray;
+    background-color: transparent;
+  }
+}
+.buttonImg {
+  width: 10px;
+  margin: 0;
+  padding: 0;
+}
+.treatmentInfo {
+  padding: 60px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.treatmentRegister {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.treatmentDivision {
+  font-weight: bold;
+  border-bottom: 1px solid $lightGray;
+  padding: 3px 14px;
+  margin-bottom: 10px;
+}
+@media (max-width: 767px) {
+  .riskTitle {
+    font-size: 26px;
+    width: 99%;
+  }
+  .riskDescription {
+    width: 95%;
+  }
+}
+@media (max-width: 400px) {
+  .riskInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .riskTitle {
+    font-size: 22px;
+  }
+  .riskDescription {
+    font-size: 14px;
+  }
+}
