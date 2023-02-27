@@ -34,7 +34,7 @@ router.get("/risks/:id", ensureAuth, risksController.showId);
 router.post("/risk", risksController.register);
 
 router.get("/treatments/:id", ensureAuth, treatmentsController.show);
-router.post("/treatments", ensureAuth, treatmentsController.register);
+router.post("/treatment", treatmentsController.register);
 router.get(
   "/statustreatments",
   ensureAuth,

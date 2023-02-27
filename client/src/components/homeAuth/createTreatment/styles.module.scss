@@ -1,0 +1,79 @@
+@import "../../../../styles/colors.module.scss";
+
+.main {
+  background-image: linear-gradient(to bottom, #022c16, #16a34a);
+}
+.formTitle {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 2.5rem;
+}
+.form {
+  // width: 37.5rem;
+  width: 28.125rem;
+  padding: 3.125rem;
+  border: 1px solid $lightGray;
+  margin: 0 auto;
+}
+.label {
+  font-size: 14px;
+  font-weight: bold;
+  padding-top: 20px;
+}
+.input {
+  border-color: $lightGray;
+  background-color: transparent;
+  color: white;
+
+  &::placeholder {
+    color: #e2e8f0;
+  }
+  &:focus {
+    background-color: transparent;
+    border-color: #a3e635;
+    color: white;
+    box-shadow: none;
+  }
+}
+.inputName {
+  @extend .input;
+  //   text-transform: uppercase;
+  &::placeholder {
+    text-transform: none;
+  }
+}
+.inputOption {
+  color: $darkGray;
+}
+.formBtn {
+  display: block;
+  margin: 50px auto 0 auto;
+  border-color: $lightGray;
+  color: white;
+
+  &:hover {
+    background-color: transparent;
+    color: $lightGray;
+    border-color: #a3e635;
+  }
+}
+
+@media (max-width: 767px) {
+  .formTitle {
+    font-size: 30px;
+  }
+  .form {
+    width: 95%;
+  }
+}
+@media (max-width: 575px) {
+  .form {
+    padding: 50px 10px;
+  }
+}
+@media (max-width: 423px) {
+  .formTitle {
+    font-size: 24px;
+    text-align: center;
+  }
+}

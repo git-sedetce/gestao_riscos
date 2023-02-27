@@ -51,8 +51,14 @@ const TreatmentCard = function ({ treatment }: props) {
               }
             </p>
           )}
-          <p className={styles.treatmentDescription}>{treatment.user}</p>
-          <p className={styles.treatmentDescription}>{treatment.deadline}</p>
+          <p className={styles.treatmentDescription}>
+            <b>Responsável pela medida:</b>
+            <br />
+            {treatment.user}
+          </p>
+          <p className={styles.treatmentDescription}>
+            <b>Prazo:</b> {treatment.deadline}
+          </p>
           {statusTreatmentData.data.find(
             (status_treatmentId: StatusTreatmentType) =>
               status_treatmentId.id === treatment.status_treatmentId
@@ -67,7 +73,11 @@ const TreatmentCard = function ({ treatment }: props) {
               }
             </p>
           )}
-          <p className={styles.treatmentDescription}>{treatment.notes}</p>
+          <p className={styles.treatmentDescription}>
+            <b>Notas:</b>
+            <br />
+            {treatment.notes}
+          </p>
           {console.log(`types_treatmentId: ${treatment.types_treatmentId}`)}
           {console.log(`status_treatmentId: ${treatment.status_treatmentId}`)}
         </div>

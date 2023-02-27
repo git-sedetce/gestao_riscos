@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "reactstrap";
+import Footer from "../src/components/common/footer";
 import HeaderAuth from "../src/components/common/headerAuth";
 import PageSpinner from "../src/components/common/spinner";
 import PasswordForm from "../src/components/profile/password";
@@ -63,6 +64,7 @@ const UserInfo = function () {
             </Col>
           </Row>
         </Container>
+        <Footer />
       </main>
     </>
   );

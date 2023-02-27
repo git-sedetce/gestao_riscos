@@ -80,16 +80,18 @@ const authService = {
   getRoles: async (id: number) => {
     const token = sessionStorage.getItem("risks-token");
 
-    const res = await api.get(`users/${ id }`, {
+    const res = await api
+      .get(`users/${id}`, {
         headers: {
-            Authorization: `Bearer ${ token }`
-        }
-    }).catch((error) => {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
         return error.response;
-    })
+      });
 
     return res;
-},
+  },
 };
 
 export default authService;

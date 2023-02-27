@@ -9,6 +9,7 @@ import useSWR from "swr";
 import HeaderGeneric from "../src/components/common/headerGeneric";
 import ToastComponent from "../src/components/common/toast";
 import authService, { EntityType } from "../src/services/authService";
+import Footer from "../src/components/common/footer";
 
 const Register = function () {
   const router = useRouter();
@@ -166,6 +167,7 @@ const Register = function () {
           isOpen={toastIsOpen}
           message={toastMessage}
         />
+        <Footer />
       </main>
     </>
   );

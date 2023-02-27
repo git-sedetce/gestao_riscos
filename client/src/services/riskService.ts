@@ -13,11 +13,19 @@ interface CreateParams {
   impactId: number;
   priority: boolean;
 }
+interface CreateParamsTreatment {
+  riskId: number;
+  types_treatmentId: number;
+  name: string;
+  user: string;
+  deadline: string;
+  status_treatmentId: number;
+  notes: string;
+}
 
 export type TreatmentType = {
-  status: any;
-  type: any;
   id: number;
+  riskId: number;
   types_treatmentId: number;
   name: string;
   user: string;
@@ -78,8 +86,36 @@ const riskService = {
 
     return res;
   },
+  getRisksAll: async () => {
+    const token = sessionStorage.getItem("risks-token");
+
+    const res = await api
+      .get("/risksall", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+
+        return error.response;
+      });
+
+    return res;
+  },
   create: async (params: CreateParams) => {
     const res = await api.post("/risk", params).catch((error) => {
+      if (error.response.status === 400) {
+        return error.response;
+      }
+
+      return error;
+    });
+
+    return res;
+  },
+  createTreat: async (params: CreateParamsTreatment) => {
+    const res = await api.post("/treatment", params).catch((error) => {
       if (error.response.status === 400) {
         return error.response;
       }

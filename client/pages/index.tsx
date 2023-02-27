@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { FormEvent, useEffect, useState } from "react";
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
+import Footer from "../src/components/common/footer";
 import HeaderGeneric from "../src/components/common/headerGeneric";
 import ToastComponent from "../src/components/common/toast";
 import authService from "../src/services/authService";
@@ -108,6 +109,7 @@ const Login = function () {
             message={toastMessage}
           />
         </Container>
+        <Footer />
       </main>
     </>
   );

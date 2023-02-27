@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Container } from "reactstrap";
 import SearchCard from "../src/components/searchCard";
 import PageSpinner from "../src/components/common/spinner";
+import Footer from "../src/components/common/footer";
 
 const Search = function () {
   const router = useRouter();
@@ -56,6 +57,7 @@ const Search = function () {
             <p className={styles.noSearchText}>Nenhum resultado encontrado!</p>
           </div>
         )}
+        <Footer />
       </main>
     </>
   );
