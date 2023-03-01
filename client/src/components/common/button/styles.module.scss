@@ -1,13 +1,20 @@
 @import "../../../../styles/colors.module.scss";
 
-.footer {
-  width: 100%;
-  bottom: 0;
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.938rem;
+  font-weight: bold;
+  padding: 0.625rem 2.188rem;
+
+  &:hover {
+    border-color: $lightGreen;
+    background-color: transparent;
+    color: $lightGray;
+  }
 }
-.footerLogo {
-  width: 100%;
-}
-.footerLink {
+.link {
   text-decoration: none;
   color: $mediumGray;
   transition: 0.3s;

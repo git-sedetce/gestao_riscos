@@ -2,15 +2,17 @@
 
 .searchCard {
   width: 320px;
-  height: 400px;
+  height: 240px;
   border: 1px solid $darkGray;
   overflow: hidden;
   text-overflow: clip;
   cursor: pointer;
   transition: 0.4s;
+  background-color: #075985;
+  border-radius: 20px;
   &:hover {
     border-color: $lightGreen;
-    height: 416px;
+    height: 300px;
   }
 }
 .searchCardImg {

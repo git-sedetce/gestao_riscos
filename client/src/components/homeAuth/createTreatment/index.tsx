@@ -162,13 +162,13 @@ const createTreatment = function () {
             </FormGroup>
             <FormGroup>
               <Label for="user" className={styles.label}>
-                USUÁRIO
+                RESPONSÁVEL
               </Label>
               <Input
                 id="user"
                 name="user"
                 type="text"
-                placeholder="Qual o usuário"
+                placeholder="Qual o responsável"
                 required
                 value={user}
                 onChange={(event) => setUser(event.target.value)}
@@ -191,7 +191,7 @@ const createTreatment = function () {
             </FormGroup>
             <FormGroup>
               <Label for="statustreatment" className={styles.label}>
-                STATUS
+                STATUS DO TRATAMENTO
               </Label>
               <Input
                 type="select"

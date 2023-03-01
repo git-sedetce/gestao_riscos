@@ -33,6 +33,7 @@ router.get("/risks/search", ensureAuth, risksController.searchRisks);
 router.get("/risks/:id", ensureAuth, risksController.showId);
 router.post("/risk", risksController.register);
 
+router.get("/treatments", ensureAuth, treatmentsController.index);
 router.get("/treatments/:id", ensureAuth, treatmentsController.show);
 router.post("/treatment", treatmentsController.register);
 router.get(
@@ -44,6 +45,16 @@ router.get(
   "/typestreatments",
   ensureAuth,
   treatmentsController.showTypesTreatment
+);
+router.get(
+  "/statustreatments/:id",
+  ensureAuth,
+  treatmentsController.showStatusTreatmentId
+);
+router.get(
+  "/typestreatments/:id",
+  ensureAuth,
+  treatmentsController.showTypesTreatmentId
 );
 
 router.get("/users/current", ensureAuth, usersController.show);

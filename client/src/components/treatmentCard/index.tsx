@@ -1,9 +1,5 @@
 import styles from "./styles.module.scss";
-import { TreatmentType } from "../../services/riskService";
-import listService, {
-  StatusTreatmentType,
-  TypesTreatmentType,
-} from "../../../src/services/listService";
+import riskService, { TreatmentType } from "../../services/riskService";
 import useSWR from "swr";
 
 interface props {
@@ -13,23 +9,16 @@ interface props {
 const TreatmentCard = function ({ treatment }: props) {
   const { data: statusTreatmentData, error: statusTreatmentError } = useSWR(
     "/listStatusTreatments",
-    listService.getStatusTreatments
+    riskService.getStatusTreatmentsId
   );
   const { data: typesTreatmentData, error: typesTreatmentError } = useSWR(
     "/listTypesTreatment",
-    listService.getTypesTreatments
+    riskService.getTypesTreatmentsId
   );
 
-  if (!treatment.types_treatmentId || !treatment.status_treatmentId) {
-    return <div>No treatment data</div>;
-  }
-
-  if (statusTreatmentError || typesTreatmentError) {
-    return <div>Error loading data</div>;
-  }
-
-  if (!statusTreatmentData || !typesTreatmentData) {
-    return <div>Loading data...</div>;
+  function formatDeadline(deadline: string) {
+    const date = new Date(deadline);
+    return date.toLocaleDateString();
   }
 
   return (
@@ -37,42 +26,25 @@ const TreatmentCard = function ({ treatment }: props) {
       <div className={styles.treatmentCard}>
         <div className={styles.treatmentTitleDescription}>
           <p className={styles.treatmentTitle}>{treatment.name}</p>
-          {typesTreatmentData.data.find(
-            (types_treatmentId: TypesTreatmentType) =>
-              types_treatmentId.id === treatment.types_treatmentId
-          ) && (
-            <p className={styles.searchCardDescription}>
-              Tipos de tratamento:{" "}
-              {
-                typesTreatmentData.data.find(
-                  (types_treatmentId: TypesTreatmentType) =>
-                    types_treatmentId.id === treatment.types_treatmentId
-                ).position
-              }
-            </p>
-          )}
+          <p className={styles.treatmentDescription}>
+            <b>Types Treatment:</b>
+            <br />
+            {typesTreatmentData?.data?.name}
+          </p>
           <p className={styles.treatmentDescription}>
             <b>Responsável pela medida:</b>
             <br />
             {treatment.user}
           </p>
           <p className={styles.treatmentDescription}>
-            <b>Prazo:</b> {treatment.deadline}
+            <b>Prazo:</b> {formatDeadline(treatment.deadline)}
           </p>
-          {statusTreatmentData.data.find(
-            (status_treatmentId: StatusTreatmentType) =>
-              status_treatmentId.id === treatment.status_treatmentId
-          ) && (
-            <p className={styles.searchCardDescription}>
-              Status de tratamento:{" "}
-              {
-                statusTreatmentData.data.find(
-                  (status_treatmentId: StatusTreatmentType) =>
-                    status_treatmentId.id === treatment.status_treatmentId
-                ).position
-              }
-            </p>
-          )}
+          <p className={styles.treatmentDescription}>
+            <b>Status Treatment:</b>
+            <br />
+            {statusTreatmentData?.data?.name}
+          </p>
+
           <p className={styles.treatmentDescription}>
             <b>Notas:</b>
             <br />
@@ -88,35 +60,72 @@ const TreatmentCard = function ({ treatment }: props) {
 
 export default TreatmentCard;
 
-{
-  /* <div className={styles.treatmentCard}>
-        <div className={styles.treatmentTitleDescription}>
-          <p className={styles.treatmentTitle}>{treatment.name}</p>
-          {typesTreatmentData && typesTreatmentData.data && (
-            <p className={styles.searchCardDescription}>
-              Tipos de tratamento:{" "}
-              {treatment.types_treatmentId
-                ? typesTreatmentData.data.find(
-                    (types_treatment: TypesTreatmentType) =>
-                      types_treatment.id === treatment.types_treatmentId
-                  )?.name
-                : "N/A"}
-            </p>
-          )}
-          <p className={styles.treatmentDescription}>{treatment.user}</p>
-          <p className={styles.treatmentDescription}>{treatment.deadline}</p>
-          {statusTreatmentData && statusTreatmentData.data && (
-            <p className={styles.searchCardDescription}>
-              Status de tratamento:{" "}
-              {treatment.status_treatmentId
-                ? statusTreatmentData.data.find(
-                    (status_treatment: StatusTreatmentType) =>
-                      status_treatment.id === treatment.status_treatmentId
-                  )?.name
-                : "N/A"}
-            </p>
-          )}
-          <p className={styles.treatmentDescription}>{treatment.notes}</p>
-        </div>
-      </div> */
-}
+// const baseUrl = `http://localhost:3000`;
+
+// const TreatmentCard = ({ treatment }: Props) => {
+//   const [statusTreatmentName, setStatusTreatmentName] = useState("");
+//   const [typesTreatmentName, setTypesTreatmentName] = useState("");
+
+//   useEffect(() => {
+//     const getStatusTreatmentName = async () => {
+//       const res = await fetch(
+//         `${baseUrl}/statustreatments/${treatment.status_treatmentId}`
+//       );
+//       const data = await res.json();
+//       setStatusTreatmentName(data.name);
+//     };
+
+//     const getTypesTreatmentName = async () => {
+//       const res = await fetch(
+//         `${baseUrl}/typestreatments/${treatment.types_treatmentId}`
+//       );
+//       const data = await res.json();
+//       setTypesTreatmentName(data.name);
+//     };
+
+//     getStatusTreatmentName();
+//     getTypesTreatmentName();
+//   }, [treatment]);
+
+//   function formatDeadline(deadline: string) {
+//     const date = new Date(deadline);
+//     return date.toLocaleDateString();
+//   }
+
+//   return (
+//     <>
+//       <div className={styles.treatmentCard}>
+//         <div className={styles.treatmentTitleDescription}>
+//           <p className={styles.treatmentTitle}>{treatment.name}</p>
+//           {typesTreatmentName && (
+//             <p className={styles.treatmentDescription}>
+//               <b>Tipo de tratamento:</b> {typesTreatmentName}
+//             </p>
+//           )}
+//           <p className={styles.treatmentDescription}>
+//             <b>Responsável pela medida:</b>
+//             <br />
+//             {treatment.user}
+//           </p>
+//           <p className={styles.treatmentDescription}>
+//             <b>Prazo:</b> {formatDeadline(treatment.deadline)}
+//           </p>
+//           {statusTreatmentName && (
+//             <p className={styles.treatmentDescription}>
+//               <b>Status de tratamento:</b> {statusTreatmentName}
+//             </p>
+//           )}
+//           <p className={styles.treatmentDescription}>
+//             <b>Notas:</b>
+//             <br />
+//             {treatment.notes}
+//           </p>
+//           {console.log(`types_treatmentId: ${treatment.types_treatmentId}`)}
+//           {console.log(`status_treatmentId: ${treatment.status_treatmentId}`)}
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default TreatmentCard;

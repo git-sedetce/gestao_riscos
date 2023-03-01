@@ -1,9 +1,26 @@
+import { Treatment } from "./../models";
 import { TypesTreatment } from "./../models/TypesTreatment";
 import { StatusTreatment } from "./../models/StatusTreatment";
 import { Request, Response } from "express";
 import { treatmentService } from "../services/treatmentService";
 
+
 export const treatmentsController = {
+  index: async (req: Request, res: Response) => {
+    try {
+      const treatments = await Treatment.findAll({
+        attributes: ["id", "riskId", "types_treatmentId", "name", "user", "deadline", "status_treatmentId", "notes"],
+        order: [["name", "ASC"]],
+      });
+
+      return res.json(treatments);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
+
   // GET /treatments/:id
   show: async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -75,6 +92,32 @@ export const treatmentsController = {
       });
 
       return res.json(types_treatments);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
+  showStatusTreatmentId: async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    try {
+      const statusTreatment = await treatmentService.findByStatusTreatmentId(
+        id
+      );
+      return res.json(statusTreatment);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
+  showTypesTreatmentId: async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    try {
+      const typesTreatment = await treatmentService.findByTypesTreatmentId(id);
+      return res.json(typesTreatment);
     } catch (err) {
       if (err instanceof Error) {
         return res.status(400).json({ message: err.message });

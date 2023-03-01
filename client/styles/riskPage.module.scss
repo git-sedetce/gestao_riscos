@@ -6,11 +6,12 @@
 .riskTitle {
   font-size: 40px;
   font-weight: bold;
+  padding-top: 10px;
   padding-bottom: 25px;
   width: 700px;
 }
 .riskDescription {
-  color: #60a5fa;
+  color: #f5f5f5;
   width: 650px;
   padding-bottom: 25px;
 }
@@ -35,7 +36,7 @@
   padding: 0;
 }
 .treatmentInfo {
-  padding: 60px 0px;
+  padding: 10px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,6 +51,9 @@
   border-bottom: 1px solid $lightGray;
   padding: 3px 14px;
   margin-bottom: 10px;
+}
+.treatmentPadding {
+  margin-top: -30px;
 }
 @media (max-width: 767px) {
   .riskTitle {

@@ -24,7 +24,7 @@ const categoriesService = {
 
     return res;
   },
-  getRisks: async (id: number) => {
+  getCategoriesRisks: async (id: number) => {
     const token = sessionStorage.getItem("risks-token");
 
     const res = await api

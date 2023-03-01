@@ -1,4 +1,5 @@
 import useSWR from "swr";
+import styles from "../../../../styles/slideCategory.module.scss";
 import categoriesService, {
   CategoryType,
 } from "../../../services/categoriesService";
@@ -19,6 +20,7 @@ const ListCategories = function () {
 
   return (
     <>
+      <p className={styles.titleCategory}>CATEGORIAS</p>
       {listData.data.categories?.map((category: CategoryType) => (
         <ListCategorySlide
           key={category.id}

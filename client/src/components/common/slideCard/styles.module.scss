@@ -3,16 +3,16 @@
 .slide {
   //   width: 280px;
   //   height: 308px;
+  background-color: #075985;
   width: 280px;
   height: 200px;
   border: 1px solid $darkGray;
   cursor: pointer;
   transition: 0.4s;
   margin-left: 10px;
-
   overflow: hidden;
   text-overflow: clip;
-
+  border-radius: 10px;
   &:hover {
     border-color: $lightGreen;
     // height: 330px;

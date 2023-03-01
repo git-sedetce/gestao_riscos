@@ -155,6 +155,54 @@ const riskService = {
 
     return res;
   },
+  getTreatmentsAll: async () => {
+    const token = sessionStorage.getItem("risks-token");
+
+    const res = await api
+      .get("/treatments", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+
+        return error.response;
+      });
+
+    return res;
+  },
+
+  getStatusTreatmentsId: async (id: number | string) => {
+    const token = sessionStorage.getItem("risks-token");
+
+    const res = await api
+      .get(`statustreatments/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        return error.response;
+      });
+
+    return res;
+  },
+  getTypesTreatmentsId: async (id: number | string) => {
+    const token = sessionStorage.getItem("risks-token");
+
+    const res = await api
+      .get(`typestreatments/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        return error.response;
+      });
+
+    return res;
+  },
   getFeaturedRisks: async () => {
     const token = sessionStorage.getItem("risks-token");
 

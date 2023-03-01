@@ -16,12 +16,16 @@
   overflow: hidden;
   text-overflow: clip;
 }
+.link {
+  text-decoration: none;
+}
 .button {
   display: flex;
   align-items: center;
   gap: 0.938rem;
   font-weight: bold;
   padding: 0.625rem 2.188rem;
+
   &:hover {
     border-color: $lightGreen;
     background-color: transparent;

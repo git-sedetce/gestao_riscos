@@ -4,6 +4,7 @@ import categoriesService from "../../../services/categoriesService";
 import SlideComponent from "../../common/slideComponent";
 import PageSpinner from "../../common/spinner";
 import RiskComponent from "../../common/riskComponent";
+import { RiskType } from "../../../../src/services/riskService";
 
 interface props {
   categoryId: number;
@@ -12,7 +13,7 @@ interface props {
 
 const ListCategoriesSlide = ({ categoryId, categoryName }: props) => {
   const { data, error } = useSWR(`/categoriesRisks/${categoryId}`, () =>
-    categoriesService.getRisks(categoryId)
+    categoriesService.getCategoriesRisks(categoryId)
   );
 
   if (error) {
@@ -21,6 +22,12 @@ const ListCategoriesSlide = ({ categoryId, categoryName }: props) => {
 
   if (!data) {
     return <PageSpinner />;
+  }
+
+  const risks = data.data.risks.filter((risk: RiskType) => risk.name);
+
+  if (risks.length === 0) {
+    return null;
   }
 
   return (

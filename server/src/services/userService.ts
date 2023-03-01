@@ -16,6 +16,33 @@ export const userService = {
     return user;
   },
 
+  findByIdWithRisks: async (id: string) => {
+    const userWithRisks = await User.findByPk(id, {
+      attributes: ["id", "name"],
+      include: {
+        association: "risks",
+        attributes: [
+          "id",
+          "areaId",
+          "userId",
+          "types_originId",
+          "risks_originId",
+          "name",
+          "periodId",
+          "event",
+          "cause",
+          "consequence",
+          "category_id",
+          "probability_id",
+          "impact_id",
+          "priority",
+        ],
+      },
+    });
+
+    return userWithRisks;
+  },
+
   create: async (attributes: UserCreationAttributes) => {
     const user = await User.create(attributes);
     return user;

@@ -1,7 +1,9 @@
 .titleCategory {
   font-size: 24px;
   font-weight: bold;
-  margin: 40px 0px 0px 7%;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
 }
 .titleCategories {
   font-size: 22px;
@@ -9,5 +11,5 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 4px;
+  margin-top: 10px;
 }

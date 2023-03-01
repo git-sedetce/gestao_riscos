@@ -19,7 +19,7 @@ export const usersController = {
     const { id } = req.params;
 
     try {
-      const user = await userService.findById(id);
+      const user = await userService.findByIdWithRisks(id);
       return res.json(user);
     } catch (err) {
       if (err instanceof Error) {

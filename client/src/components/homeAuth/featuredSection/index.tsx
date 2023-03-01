@@ -24,7 +24,7 @@ const FeaturedSection = function () {
             <Container className="pt-4" color="danger" outline>
               <p className={styles.title}>{risk.name}</p>
               <p className={styles.description}>{risk.event}</p>
-              <Link href={`/risks/${risk.id}`}>
+              <Link href={`/risks/${risk.id}`} className={styles.link}>
                 <Button outline color="light" className={styles.button}>
                   ACESSE AGORA!
                   <img

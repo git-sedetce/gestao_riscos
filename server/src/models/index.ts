@@ -13,13 +13,13 @@ import { TypesTreatment } from "./TypesTreatment";
 import { User } from "./User";
 
 Area.hasMany(Risk);
-Category.hasMany(Risk, { as: "risks"});
+Category.hasMany(Risk, { as: "risks" });
 Impact.hasMany(Risk);
 Period.hasMany(Risk);
 Probability.hasMany(Risk);
 RisksOrigin.hasMany(Risk);
 TypesOrigin.hasMany(Risk);
-User.hasMany(Risk);
+User.hasMany(Risk, { as: "risks" });
 
 Entity.hasMany(User);
 
@@ -34,12 +34,11 @@ Risk.belongsTo(Period);
 Risk.belongsTo(Probability);
 Risk.belongsTo(RisksOrigin);
 Risk.belongsTo(TypesOrigin);
-Risk.belongsTo(User)
+Risk.belongsTo(User);
 
 User.belongsTo(Entity);
 
 Treatment.belongsTo(Risk);
-
 
 export {
   Area,

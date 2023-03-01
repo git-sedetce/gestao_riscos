@@ -1,10 +1,11 @@
 @import "../../../styles/colors.module.scss";
 
 .treatmentCard {
+  background-color: #075985;
   border: 1px solid $lightGray;
   margin-bottom: 20px;
   width: 550px;
-  height: 190px;
+  height: 250px;
   cursor: pointer;
   padding: 10px 14px;
   overflow: hidden;

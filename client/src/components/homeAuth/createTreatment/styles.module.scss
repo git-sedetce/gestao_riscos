@@ -1,7 +1,7 @@
 @import "../../../../styles/colors.module.scss";
 
 .main {
-  background-image: linear-gradient(to bottom, #022c16, #16a34a);
+  background-color: #15803d;
 }
 .formTitle {
   font-size: 40px;
@@ -10,6 +10,7 @@
 }
 .form {
   // width: 37.5rem;
+  background-color: #075985;
   width: 28.125rem;
   padding: 3.125rem;
   border: 1px solid $lightGray;

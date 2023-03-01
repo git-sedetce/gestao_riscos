@@ -4,10 +4,9 @@ import HeaderAuth from "../../src/components/common/headerAuth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import riskService, { RiskType } from "../../src/services/riskService";
-import { Button, Container } from "reactstrap";
+import { Container } from "reactstrap";
 import PageSpinner from "../../src/components/common/spinner";
 import TreatmentCard from "../../src/components/treatmentCard/index";
-import CreateRisk from "../../src/components/homeAuth/createRisk";
 import useSWR from "swr";
 import authService, { UserType } from "../../src/services/authService";
 import listService, {
@@ -19,6 +18,7 @@ import listService, {
   RisksOriginType,
   TypesOriginType,
 } from "../../src/services/listService";
+import CreateTreatment from "../../src/components/homeAuth/createTreatment";
 import Footer from "../../src/components/common/footer";
 
 const RiskPage = function () {
@@ -157,7 +157,7 @@ const RiskPage = function () {
           )}
           {impactData && impactData.data && (
             <p className={styles.riskDescription}>
-              <b>Categoria:</b>{" "}
+              <b>Impacto:</b>{" "}
               {risk.impact_id
                 ? impactData.data.find(
                     (impact: ImpactType) => impact.id === risk.impact_id
@@ -185,7 +185,9 @@ const RiskPage = function () {
               <p className={styles.treatmentRegister}>
                 <strong>Tratamento não cadastrado! Cadastre um novo</strong>
               </p>
-              <CreateRisk />
+              <div className={styles.treatmentPadding}>
+                <CreateTreatment />
+              </div>
             </div>
           ) : (
             risk?.treatments?.map((treatment) => (
@@ -193,7 +195,7 @@ const RiskPage = function () {
             ))
           )}
         </Container>
-        <Footer />;
+        <Footer />
       </main>
     </>
   );
