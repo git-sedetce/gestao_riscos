@@ -9,7 +9,6 @@
   padding: 0.625rem 2.188rem;
 
   &:hover {
-    border-color: $lightGreen;
     background-color: transparent;
     color: $lightGray;
   }
@@ -17,10 +16,13 @@
 .link {
   text-decoration: none;
   color: $mediumGray;
+  background-color: $darkBlue;
   transition: 0.3s;
-
+  border-radius: 60px;
   &:hover {
     color: $lightGray;
+    background-color: #006699;
+    border-color: #006699;
   }
 }
 

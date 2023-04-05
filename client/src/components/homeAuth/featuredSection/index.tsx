@@ -22,18 +22,20 @@ const FeaturedSection = function () {
           <>
             <HeaderAuth />
             <Container className="pt-4" color="danger" outline>
-              <p className={styles.title}>{risk.name}</p>
-              <p className={styles.description}>{risk.event}</p>
-              <Link href={`/risks/${risk.id}`} className={styles.link}>
-                <Button outline color="light" className={styles.button}>
-                  ACESSE AGORA!
-                  <img
-                    src="/buttonPlay.svg"
-                    alt="buttonImg"
-                    className={styles.buttonImg}
-                  />
-                </Button>
-              </Link>
+              <div className={styles.color}>
+                <p className={styles.title}>{risk.name}</p>
+                <p className={styles.description}>{risk.event}</p>
+                <Link href={`/risks/${risk.id}`} className={styles.link}>
+                  <Button outline color="light" className={styles.button}>
+                    ACESSE AGORA!
+                    <img
+                      src="/buttonPlay.svg"
+                      alt="buttonImg"
+                      className={styles.buttonImg}
+                    />
+                  </Button>
+                </Link>
+              </div>
             </Container>
           </>
         ))[0]

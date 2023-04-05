@@ -1,7 +1,21 @@
 @import "../../../../styles/colors.module.scss";
 
 .main {
-  background-color: #15803d;
+  height: 50px;
+}
+.modal {
+  display: block;
+  margin: 20px auto 0 auto;
+  background-color: $darkBlue;
+  &:hover {
+    color: $mediumWhite;
+    background-color: $mediumBlue;
+    border-color: $mediumBlue;
+  }
+}
+.modalBody {
+  display: flex;
+  position: absolute;
 }
 .formTitle {
   font-size: 40px;
@@ -10,11 +24,11 @@
 }
 .form {
   // width: 37.5rem;
-  background-color: #075985;
-  width: 28.125rem;
+  background-color: $mediumBlue;
+  width: 26rem;
   padding: 3.125rem;
   border: 1px solid $lightGray;
-  margin: 0 auto;
+  margin: 5 auto;
 }
 .label {
   font-size: 14px;
@@ -31,7 +45,7 @@
   }
   &:focus {
     background-color: transparent;
-    border-color: #a3e635;
+    border-color: $lightBlue;
     color: white;
     box-shadow: none;
   }
@@ -55,7 +69,7 @@
   &:hover {
     background-color: transparent;
     color: $lightGray;
-    border-color: #a3e635;
+    border-color: $lightBlue;
   }
 }
 

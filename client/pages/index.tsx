@@ -114,24 +114,3 @@ const Login = function () {
 };
 
 export default Login;
-
-// import Head from "next/head";
-
-// const Home = () => {
-//   return (
-//     <>
-//       <Head>
-//         <title>Gestão de riscos</title>
-//         <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
-//         <meta property="og:title" content="Gestão de riscos" key="title" />
-//         <meta
-//           name="description"
-//           content="Gestão de riscos da SEDET - Secretaria do Desenvolvimento Econômico e Trabalho do Ceará"
-//         ></meta>
-//       </Head>
-//       <main></main>
-//     </>
-//   );
-// };
-
-// export default Home;

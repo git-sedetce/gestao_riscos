@@ -44,7 +44,7 @@ const UserInfo = function () {
                 onClick={() => {
                   setForm("userForm");
                 }}
-                style={{ color: form === "userForm" ? "#059669" : "white" }}
+                style={{ color: form === "userForm" ? "white" : "#006699" }}
               >
                 DADOS PESSOAIS
               </Button>
@@ -54,7 +54,7 @@ const UserInfo = function () {
                 onClick={() => {
                   setForm("passwordForm");
                 }}
-                style={{ color: form === "passwordForm" ? "#059669" : "white" }}
+                style={{ color: form === "passwordForm" ? "white" : "#006699" }}
               >
                 SENHA
               </Button>

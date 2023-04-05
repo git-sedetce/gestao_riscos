@@ -3,7 +3,8 @@
 .header {
   // background-color: #059669;
   // background-color: #138a0f;
-  background-color: #facc15;
+  // background-color: #facc15;
+  background: linear-gradient(to bottom, #1c92d2, #f2fcfe);
 }
 .headerContainer {
   display: flex;
@@ -21,15 +22,16 @@
   cursor: pointer;
 }
 .headerBtn {
+  color: white;
+  background-color: $darkBlue;
+  border-color: $darkBlue;
+  transition: background-color 0.3s ease-in-out;
   height: 2.5rem;
   margin-top: 0.875rem;
-  background-color: #138a0f;
   &:hover {
-    // border-color: $lightGreen;
-    border-color: #16a34a;
-    color: $lightGray;
-    // background-color: transparent;
-    background-color: #16a34a;
+    color: $mediumGray;
+    background-color: #006699;
+    border-color: #006699;
   }
 }
 

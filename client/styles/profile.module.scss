@@ -3,6 +3,7 @@
 .main {
   display: flex;
   flex-direction: column;
+  background-color: $mediumWhite;
 }
 .gridContainer {
   flex: 1 0 auto;
@@ -16,7 +17,7 @@
   border: 1px solid $darkGray;
   padding: 20px 0px;
   max-width: 100%;
-  background-color: #16a34a;
+  background-color: $mediumBlue;
 }
 .formName {
   display: flex;

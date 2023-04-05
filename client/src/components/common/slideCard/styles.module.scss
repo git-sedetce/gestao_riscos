@@ -3,7 +3,7 @@
 .slide {
   //   width: 280px;
   //   height: 308px;
-  background-color: #075985;
+  background-color: $mediumBlue;
   width: 280px;
   height: 200px;
   border: 1px solid $darkGray;
@@ -34,7 +34,7 @@
 .slideDescription {
   font-size: 14px;
   padding: 8px 16px;
-  color: #ccc8c8;
+  color: $mediumGray;
 }
 
 @media (max-width: 1200px) {

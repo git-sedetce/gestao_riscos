@@ -46,16 +46,8 @@ router.get(
   ensureAuth,
   treatmentsController.showTypesTreatment
 );
-router.get(
-  "/statustreatments/:id",
-  ensureAuth,
-  treatmentsController.showStatusTreatmentId
-);
-router.get(
-  "/typestreatments/:id",
-  ensureAuth,
-  treatmentsController.showTypesTreatmentId
-);
+router.get("/statustreatments/:id", treatmentsController.showStatusTreatmentId);
+router.get("/typestreatments/:id", treatmentsController.showTypesTreatmentId);
 
 router.get("/users/current", ensureAuth, usersController.show);
 router.get("/users/:id", ensureAuth, usersController.showId);

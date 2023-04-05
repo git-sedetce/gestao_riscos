@@ -1,5 +1,9 @@
 @import "../../../../styles/colors.module.scss";
 
+.color {
+  padding: 10px;
+  background-color: $mediumWhite;
+}
 .title {
   font-size: 50px;
   font-weight: bold;
@@ -21,15 +25,16 @@
 }
 .button {
   display: flex;
+  background-color: $darkBlue;
   align-items: center;
   gap: 0.938rem;
   font-weight: bold;
   padding: 0.625rem 2.188rem;
 
   &:hover {
-    border-color: $lightGreen;
-    background-color: transparent;
     color: $lightGray;
+    background-color: #006699;
+    border-color: #006699;
   }
 }
 .buttonImg {
