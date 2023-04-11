@@ -6,11 +6,12 @@
 .modal {
   display: block;
   margin: 20px auto 0 auto;
-  background-color: $darkBlue;
+  color: $mediumGray;
+  background-color: $mediumBlue;
   &:hover {
-    color: $mediumWhite;
-    background-color: $mediumBlue;
-    border-color: $mediumBlue;
+    color: $lightGray;
+    background-color: $darkBlue;
+    border-color: $darkBlue;
   }
 }
 .modalBody {

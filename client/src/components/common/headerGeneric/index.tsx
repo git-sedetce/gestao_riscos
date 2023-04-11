@@ -15,7 +15,7 @@ const HeaderGeneric = ({ logoUrl, btnUrl, btnContent }: props) => {
         <Container className={styles.headerContainer}>
           <Link href={logoUrl}>
             <img
-              src="/gestao-risco.svg"
+              src="/gestao-risco2.svg"
               alt="Logo gestao-riscos"
               className={styles.headerLogo}
             />

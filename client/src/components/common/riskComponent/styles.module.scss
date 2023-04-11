@@ -1,5 +1,7 @@
+@import "../../../../styles/colors.module.scss";
+
 .table {
-  background-color: #075985;
+  background-color: $mediumBlue;
   margin-top: 10px;
 }
 
@@ -15,6 +17,9 @@
   td:nth-child(3) {
     width: 45%;
   }
+}
+.link {
+  text-decoration: none;
 }
 .slideIndicator {
   color: white;
@@ -37,4 +42,8 @@
 .noWrap td,
 .noWrap th {
   border: none;
+}
+
+.titles {
+  cursor: pointer;
 }

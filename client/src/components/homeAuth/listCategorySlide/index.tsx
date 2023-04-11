@@ -1,7 +1,6 @@
 import styles from "../../../../styles/slideCategory.module.scss";
 import useSWR from "swr";
 import categoriesService from "../../../services/categoriesService";
-import SlideComponent from "../../common/slideComponent";
 import PageSpinner from "../../common/spinner";
 import RiskComponent from "../../common/riskComponent";
 import { RiskType } from "../../../../src/services/riskService";
