@@ -33,7 +33,6 @@ const ListCategoriesSlide = ({ categoryId, categoryName }: props) => {
     <>
       <p className={styles.titleCategories}>{categoryName}</p>
       <RiskComponent risk={data.data.risks} />
-      {/* <SlideComponent risk={data.data.risks} /> */}
     </>
   );
 };

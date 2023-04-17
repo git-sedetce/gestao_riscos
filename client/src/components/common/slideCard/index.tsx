@@ -22,9 +22,11 @@ const SlideCard = function ({ risk }: props) {
             <p className={styles.slideDescription}>
               <b>Usuário:</b>{" "}
               {risk.userId
-                ? userData.data.find(
-                    (user: UserType) => user.id === risk.userId
-                  )?.name
+                ? userData.data
+                    .find((user: UserType) => user.id === risk.userId)
+                    ?.name.split(" ")
+                    .slice(0, 2)
+                    .join(" ")
                 : "N/A"}
             </p>
           )}

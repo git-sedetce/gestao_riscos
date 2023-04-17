@@ -165,18 +165,6 @@ const RiskPage = function () {
                 : "N/A"}
             </p>
           )}
-          {/* <Button
-            outline
-            className={styles.riskBtn}
-            disabled={risk?.treatments?.length === 0 ? true : false}
-          >
-            ACESSAR AGORA!
-            <img
-              src="/buttonPlay.svg"
-              alt="buttonImg"
-              className={styles.buttonImg}
-            />
-          </Button> */}
         </Container>
         <Container className={styles.treatmentInfo}>
           <p className={styles.treatmentDivision}>TRATAMENTO</p>
@@ -185,15 +173,16 @@ const RiskPage = function () {
               <p className={styles.treatmentRegister}>
                 <strong>Tratamento não cadastrado! Cadastre um novo</strong>
               </p>
-              <div className={styles.treatmentPadding}>
-                <CreateTreatment />
-              </div>
+              {/* <div className={styles.treatmentPadding}>
+                <CreateTreatment riskId={Number(id)} />
+              </div> */}
             </div>
           ) : (
             risk?.treatments?.map((treatment) => (
               <TreatmentCard key={treatment.id} treatment={treatment} />
             ))
           )}
+          <CreateTreatment riskId={Number(id)} />
         </Container>
         <Footer />
       </main>

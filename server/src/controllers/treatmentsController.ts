@@ -4,12 +4,20 @@ import { StatusTreatment } from "./../models/StatusTreatment";
 import { Request, Response } from "express";
 import { treatmentService } from "../services/treatmentService";
 
-
 export const treatmentsController = {
   index: async (req: Request, res: Response) => {
     try {
       const treatments = await Treatment.findAll({
-        attributes: ["id", "riskId", "types_treatmentId", "name", "user", "deadline", "status_treatmentId", "notes"],
+        attributes: [
+          "id",
+          "riskId",
+          "types_treatmentId",
+          "name",
+          "user",
+          "deadline",
+          "status_treatmentId",
+          "notes",
+        ],
         order: [["name", "ASC"]],
       });
 
@@ -47,11 +55,11 @@ export const treatmentsController = {
     } = req.body;
 
     try {
-      const treatmentAlreadyExists = await treatmentService.findByName(name);
+      // const treatmentAlreadyExists = await treatmentService.findByName(name);
 
-      if (treatmentAlreadyExists) {
-        throw new Error("O Indicador de risco já está cadastrado.");
-      }
+      // if (treatmentAlreadyExists) {
+      //   throw new Error("O Tratamento de risco já está cadastrado.");
+      // }
 
       const treatment = await treatmentService.create({
         riskId,

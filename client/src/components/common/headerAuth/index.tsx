@@ -52,7 +52,7 @@ const HeaderAuth = function () {
         <Container className={styles.nav}>
           <Link href="/home">
             <img
-              src="/gestao-risco2.svg"
+              src="/gestao-risco3.svg"
               alt="logoGestaoRisco"
               className={styles.imgLogoNav}
             />

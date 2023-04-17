@@ -1,7 +1,16 @@
 import styles from "./styles.module.scss";
 
 import useSWR from "swr";
-import { Container, Button, Form, FormGroup, Label, Input } from "reactstrap";
+import {
+  Container,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Modal,
+  ModalBody,
+} from "reactstrap";
 import { FormEvent, useState } from "react";
 import riskService, { RiskType } from "../../../services/riskService";
 import ToastComponent from "../../../components/common/toast";
@@ -11,13 +20,18 @@ import listService, {
 } from "../../../../src/services/listService";
 import router from "next/router";
 
-const createTreatment = function () {
-  const [selectedRisk, setSelectedRisk] = useState("");
+type CreateTreatmentProps = {
+  riskId: number;
+};
+
+const createTreatment = function ({ riskId }: CreateTreatmentProps) {
+  const [selectedRisk, setSelectedRisk] = useState(riskId.toString());
   const [selectedType, setSelectedType] = useState("");
   const [name, setName] = useState("");
   const [user, setUser] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
   const [notes, setNotes] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
 
   const [toastColor, setToastColor] = useState("");
   const [toastIsOpen, setToastIsOpen] = useState(false);
@@ -32,6 +46,8 @@ const createTreatment = function () {
     "/listStatusTreatments",
     listService.getStatusTreatments
   );
+
+  const toggleModal = () => setModalOpen(!modalOpen);
 
   const handleCreate = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -85,157 +101,167 @@ const createTreatment = function () {
     <>
       <main className={styles.main}>
         <Container className="py-5">
-          <Form className={styles.form} onSubmit={handleCreate}>
-            <p className="text-center">
-              <strong>Faça o cadastro de tratamento!</strong>
-            </p>
-            <FormGroup>
-              <Label for="risk" className={styles.label}>
-                RISCO
-              </Label>
-              <Input
-                type="select"
-                name="riskId"
-                id="riskId"
-                value={selectedRisk}
-                onChange={(event) =>
-                  setSelectedRisk(String(event.target.value))
-                }
-                className={styles.input}
-              >
-                <option value="">Selecione o risco</option>
-                {riskData &&
-                  riskData.data.map((risk: RiskType) => (
-                    <option
-                      key={risk.id}
-                      value={risk.id}
-                      className={styles.inputOption}
-                    >
-                      {risk.name}
-                    </option>
-                  ))}
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Label for="typestreatment" className={styles.label}>
-                TIPO DE TRATAMENTO
-              </Label>
-              <Input
-                type="select"
-                name="types_treatmentId"
-                id="types_treatmentId"
-                value={selectedType}
-                onChange={(event) =>
-                  setSelectedType(String(event.target.value))
-                }
-                className={styles.input}
-              >
-                <option value="">Selecione o tipo de tratamento</option>
-                {typesTreatmentData &&
-                  typesTreatmentData.data.map(
-                    (typesTreatment: TypesTreatmentType) => (
-                      <option
-                        key={typesTreatment.id}
-                        value={typesTreatment.id}
-                        className={styles.inputOption}
-                      >
-                        {typesTreatment.name}
-                      </option>
-                    )
-                  )}
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Label for="name" className={styles.label}>
-                TRATAMENTO
-              </Label>
-              <Input
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Qual o tratamento"
-                required
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                className={styles.input}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="user" className={styles.label}>
-                RESPONSÁVEL
-              </Label>
-              <Input
-                id="user"
-                name="user"
-                type="text"
-                placeholder="Qual o responsável"
-                required
-                value={user}
-                onChange={(event) => setUser(event.target.value)}
-                className={styles.input}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="deadline" className={styles.label}>
-                PRAZO DE ENTREGA
-              </Label>
-              <Input
-                id="deadline"
-                name="deadline"
-                type="date"
-                min="2020-01-01"
-                max="2050-12-31"
-                required
-                className={styles.input}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="statustreatment" className={styles.label}>
-                STATUS DO TRATAMENTO
-              </Label>
-              <Input
-                type="select"
-                name="status_treatmentId"
-                id="status_treatmentId"
-                value={selectedStatus}
-                onChange={(event) =>
-                  setSelectedStatus(String(event.target.value))
-                }
-                className={styles.input}
-              >
-                <option value="">Selecione o status</option>
-                {statusTreatmentData &&
-                  statusTreatmentData.data.map(
-                    (statusTreatment: StatusTreatmentType) => (
-                      <option
-                        key={statusTreatment.id}
-                        value={statusTreatment.id}
-                        className={styles.inputOption}
-                      >
-                        {statusTreatment.name}
-                      </option>
-                    )
-                  )}
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Label for="notes" className={styles.label}>
-                NOTAS
-              </Label>
-              <Input
-                id="notes"
-                name="notes"
-                type="text"
-                placeholder="Quais as notas"
-                value={notes}
-                onChange={(event) => setNotes(event.target.value)}
-                className={styles.input}
-              />
-            </FormGroup>
-            <Button type="submit" outline className={styles.formBtn}>
-              CADASTRAR
-            </Button>
-          </Form>
+          <Button className={styles.modal} onClick={toggleModal}>
+            CRIAR TRATAMENTO
+          </Button>
+          <Modal isOpen={modalOpen} toggle={toggleModal}>
+            <ModalBody className={styles.modalBody}>
+              <Form className={styles.form} onSubmit={handleCreate}>
+                <p className="text-center">
+                  <strong>Faça o cadastro de tratamento!</strong>
+                </p>
+                <FormGroup>
+                  <Label for="risk" className={styles.label}>
+                    RISCO
+                  </Label>
+                  <Input
+                    type="select"
+                    name="riskId"
+                    id="riskId"
+                    value={selectedRisk}
+                    onChange={(event) =>
+                      setSelectedRisk(String(event.target.value))
+                    }
+                    className={styles.input}
+                  >
+                    <option value="">Selecione o risco</option>
+                    {riskData &&
+                      riskData.data.map((risk: RiskType) => (
+                        <option
+                          key={risk.id}
+                          value={risk.id}
+                          className={styles.inputOption}
+                        >
+                          {risk.name}
+                        </option>
+                      ))}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="typestreatment" className={styles.label}>
+                    TIPO DE TRATAMENTO
+                  </Label>
+                  <Input
+                    type="select"
+                    name="types_treatmentId"
+                    id="types_treatmentId"
+                    value={selectedType}
+                    onChange={(event) =>
+                      setSelectedType(String(event.target.value))
+                    }
+                    className={styles.input}
+                  >
+                    <option value="">Selecione o tipo de tratamento</option>
+                    {typesTreatmentData &&
+                      typesTreatmentData.data.map(
+                        (typesTreatment: TypesTreatmentType) => (
+                          <option
+                            key={typesTreatment.id}
+                            value={typesTreatment.id}
+                            className={styles.inputOption}
+                          >
+                            {typesTreatment.name}
+                          </option>
+                        )
+                      )}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="name" className={styles.label}>
+                    TRATAMENTO
+                  </Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="Qual o tratamento"
+                    required
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                    className={styles.input}
+                    autocomplete="off"
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="user" className={styles.label}>
+                    RESPONSÁVEL
+                  </Label>
+                  <Input
+                    id="user"
+                    name="user"
+                    type="text"
+                    placeholder="Qual o responsável"
+                    required
+                    value={user}
+                    onChange={(event) => setUser(event.target.value)}
+                    className={styles.input}
+                    autocomplete="off"
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="deadline" className={styles.label}>
+                    PRAZO DE ENTREGA
+                  </Label>
+                  <Input
+                    id="deadline"
+                    name="deadline"
+                    type="date"
+                    min="2020-01-01"
+                    max="2050-12-31"
+                    required
+                    className={styles.input}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="statustreatment" className={styles.label}>
+                    STATUS DO TRATAMENTO
+                  </Label>
+                  <Input
+                    type="select"
+                    name="status_treatmentId"
+                    id="status_treatmentId"
+                    value={selectedStatus}
+                    onChange={(event) =>
+                      setSelectedStatus(String(event.target.value))
+                    }
+                    className={styles.input}
+                  >
+                    <option value="">Selecione o status</option>
+                    {statusTreatmentData &&
+                      statusTreatmentData.data.map(
+                        (statusTreatment: StatusTreatmentType) => (
+                          <option
+                            key={statusTreatment.id}
+                            value={statusTreatment.id}
+                            className={styles.inputOption}
+                          >
+                            {statusTreatment.name}
+                          </option>
+                        )
+                      )}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="notes" className={styles.label}>
+                    NOTAS
+                  </Label>
+                  <Input
+                    id="notes"
+                    name="notes"
+                    type="text"
+                    placeholder="Quais as notas"
+                    value={notes}
+                    onChange={(event) => setNotes(event.target.value)}
+                    className={styles.input}
+                    autocomplete="off"
+                  />
+                </FormGroup>
+                <Button type="submit" outline className={styles.formBtn}>
+                  CADASTRAR
+                </Button>
+              </Form>
+            </ModalBody>
+          </Modal>
         </Container>
         <ToastComponent
           color={toastColor}

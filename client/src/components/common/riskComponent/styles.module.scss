@@ -9,14 +9,30 @@
   display: table-row;
   th:first-child,
   td:first-child {
-    width: 10%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 400;
+    width: 1%;
   }
+  // td:nth-child(2) {
+  //   width: 20%;
+  // }
+  // td:nth-child(n + 3) {
+  //   width: 20%;
+  // }
+  // td:nth-child(3) {
+  //   width: 45%;
+  // }
   td:nth-child(2) {
-    width: 45%;
+    width: 5%;
   }
   td:nth-child(3) {
-    width: 45%;
+    width: 5%;
   }
+}
+.titles {
+  font-weight: 400;
 }
 .link {
   text-decoration: none;

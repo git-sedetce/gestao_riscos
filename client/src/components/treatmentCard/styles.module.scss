@@ -1,7 +1,7 @@
 @import "../../../styles/colors.module.scss";
 
 .treatmentCard {
-  background-color: #075985;
+  background-color: $mediumBlue;
   border: 1px solid $lightGray;
   margin-bottom: 20px;
   width: 550px;
@@ -11,7 +11,7 @@
   overflow: hidden;
   transition: 0.5s;
   &:hover {
-    border-color: $lightGreen;
+    border-color: $lightBlue;
     height: 300px;
   }
 }
@@ -25,7 +25,7 @@
   margin-bottom: 10px;
 }
 .treatmentDescription {
-  color: $lightGray;
+  color: $mediumWhite;
 }
 
 @media (max-width: 570px) {
