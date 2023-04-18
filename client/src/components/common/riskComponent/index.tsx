@@ -9,7 +9,10 @@ import useSWR from "swr";
 import authService, { UserType } from "../../../../src/services/authService";
 import listService, {
   AreaType,
+  CategoryType,
+  ImpactType,
   PeriodType,
+  ProbabilityType,
   RisksOriginType,
   TypesOriginType,
 } from "../../../../src/services/listService";
@@ -29,18 +32,21 @@ const RiskComponent = function ({ risk }: props) {
     listService.getRisksOrigins
   );
   const { data: periodData } = useSWR("/listPeriods", listService.getPeriods);
-  // const { data: categoryData } = useSWR(
-  //   "/listCategories",
-  //   listService.getCategories
-  // );
-  // const { data: probabilityData } = useSWR(
-  //   "/listProbabilities",
-  //   listService.getProbabilities
-  // );
-  // const { data: impactData } = useSWR("/listImpacts", listService.getImpacts);
+  const { data: categoryData } = useSWR(
+    "/listCategories",
+    listService.getCategories
+  );
+  const { data: probabilityData } = useSWR(
+    "/listProbabilities",
+    listService.getProbabilities
+  );
+  const { data: impactData } = useSWR("/listImpacts", listService.getImpacts);
 
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [sortIdOrder, setSortIdOrder] = useState<"asc" | "desc">("asc");
+
   const [sortColumn, setSortColumn] = useState<
+    | "#"
     | "indicador"
     | "event"
     | "user"
@@ -48,10 +54,15 @@ const RiskComponent = function ({ risk }: props) {
     | "types_origin"
     | "risks_origin"
     | "period"
+    | "category"
+    | "probability"
+    | "impact"
+    | "priority"
   >("indicador");
 
   const handleSortByColumn = (
     column:
+      | "#"
       | "indicador"
       | "event"
       | "user"
@@ -59,17 +70,32 @@ const RiskComponent = function ({ risk }: props) {
       | "types_origin"
       | "risks_origin"
       | "period"
+      | "category"
+      | "probability"
+      | "impact"
+      | "priority"
   ) => {
     if (sortColumn === column) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+      if (column === "#") {
+        setSortIdOrder(sortIdOrder === "asc" ? "desc" : "asc");
+      } else {
+        setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+      }
     } else {
       setSortColumn(column);
       setSortOrder("asc");
+      setSortIdOrder("asc");
     }
   };
 
   const sortedRisks = risk.slice().sort((up, down) => {
-    if (sortColumn === "indicador") {
+    if (sortColumn === "#") {
+      if (sortIdOrder === "asc") {
+        return up.id - down.id;
+      } else {
+        return down.id - up.id;
+      }
+    } else if (sortColumn === "indicador") {
       if (sortOrder === "asc") {
         return up.name.localeCompare(down.name);
       } else {
@@ -231,6 +257,104 @@ const RiskComponent = function ({ risk }: props) {
             ""
         );
       }
+    } else if (sortColumn === "category") {
+      if (sortOrder === "asc") {
+        return (
+          (up.category_id &&
+            categoryData?.data.find(
+              (category: CategoryType) => category.id === up.category_id
+            )?.name) ||
+          ""
+        ).localeCompare(
+          (down.category_id &&
+            categoryData?.data.find(
+              (category: CategoryType) => category.id === down.category_id
+            )?.name) ||
+            ""
+        );
+      } else {
+        return (
+          (down.category_id &&
+            categoryData?.data.find(
+              (category: CategoryType) => category.id === down.category_id
+            )?.name) ||
+          ""
+        ).localeCompare(
+          (up.category_id &&
+            categoryData?.data.find(
+              (category: CategoryType) => category.id === up.category_id
+            )?.name) ||
+            ""
+        );
+      }
+    } else if (sortColumn === "probability") {
+      if (sortOrder === "asc") {
+        return (
+          (up.probability_id &&
+            probabilityData?.data.find(
+              (probability: ImpactType) => probability.id === up.probability_id
+            )?.name) ||
+          ""
+        ).localeCompare(
+          (down.probability_id &&
+            probabilityData?.data.find(
+              (probability: ImpactType) =>
+                probability.id === down.probability_id
+            )?.name) ||
+            ""
+        );
+      } else {
+        return (
+          (down.probability_id &&
+            probabilityData?.data.find(
+              (probability: ImpactType) =>
+                probability.id === down.probability_id
+            )?.name) ||
+          ""
+        ).localeCompare(
+          (up.probability_id &&
+            probabilityData?.data.find(
+              (probability: ImpactType) => probability.id === up.probability_id
+            )?.name) ||
+            ""
+        );
+      }
+    } else if (sortColumn === "impact") {
+      if (sortOrder === "asc") {
+        return (
+          (up.impact_id &&
+            impactData?.data.find(
+              (impact: ProbabilityType) => impact.id === up.impact_id
+            )?.name) ||
+          ""
+        ).localeCompare(
+          (down.impact_id &&
+            impactData?.data.find(
+              (impact: ProbabilityType) => impact.id === down.impact_id
+            )?.name) ||
+            ""
+        );
+      } else {
+        return (
+          (down.impact_id &&
+            impactData?.data.find(
+              (impact: ProbabilityType) => impact.id === down.impact_id
+            )?.name) ||
+          ""
+        ).localeCompare(
+          (up.impact_id &&
+            impactData?.data.find(
+              (impact: ProbabilityType) => impact.id === up.impact_id
+            )?.name) ||
+            ""
+        );
+      }
+    } else if (sortColumn === "priority") {
+      if (sortOrder === "asc") {
+        return up.priority === down.priority ? 0 : up.priority ? -1 : 1;
+      } else {
+        return up.priority === down.priority ? 0 : up.priority ? 1 : -1;
+      }
     }
   });
 
@@ -243,6 +367,10 @@ const RiskComponent = function ({ risk }: props) {
       | "types_origin"
       | "risks_origin"
       | "period"
+      | "category"
+      | "probability"
+      | "impact"
+      | "priority"
   ) => {
     if (sortColumn === column) {
       if (sortOrder === "asc") {
@@ -255,6 +383,10 @@ const RiskComponent = function ({ risk }: props) {
     }
   };
 
+  const renderPriority = (priority: string | undefined) => {
+    return priority ? "Sim" : "Não";
+  };
+
   return (
     <div className={styles.table}>
       <Table
@@ -265,7 +397,9 @@ const RiskComponent = function ({ risk }: props) {
       >
         <thead>
           <tr className={styles.titles}>
-            <th>#</th>
+            <th onClick={() => handleSortByColumn("#")}>
+              # {sortIdOrder === "asc" ? <FaSortUp /> : <FaSortDown />}
+            </th>
             <th onClick={() => handleSortByColumn("indicador")}>
               Indicador {sortIcon("indicador")}
             </th>
@@ -286,6 +420,18 @@ const RiskComponent = function ({ risk }: props) {
             </th>
             <th onClick={() => handleSortByColumn("period")}>
               Período {sortIcon("period")}
+            </th>
+            <th onClick={() => handleSortByColumn("category")}>
+              Categoria{sortIcon("category")}
+            </th>
+            <th onClick={() => handleSortByColumn("probability")}>
+              Probabilidade{sortIcon("probability")}
+            </th>
+            <th onClick={() => handleSortByColumn("impact")}>
+              Impacto{sortIcon("impact")}
+            </th>
+            <th onClick={() => handleSortByColumn("priority")}>
+              Prioridade{sortIcon("priority")}
             </th>
           </tr>
         </thead>
@@ -346,6 +492,36 @@ const RiskComponent = function ({ risk }: props) {
                       )?.name
                     : "N/A")}
               </td>
+              <td className={styles.slideEvent}>
+                {categoryData &&
+                  categoryData.data &&
+                  (risk.category_id
+                    ? categoryData.data.find(
+                        (category: CategoryType) =>
+                          category.id === risk.category_id
+                      )?.name
+                    : "N/A")}
+              </td>
+              <td className={styles.slideEvent}>
+                {probabilityData &&
+                  probabilityData.data &&
+                  (risk.probability_id
+                    ? probabilityData.data.find(
+                        (probability: ProbabilityType) =>
+                          probability.id === risk.probability_id
+                      )?.name
+                    : "N/A")}
+              </td>
+              <td className={styles.slideEvent}>
+                {impactData &&
+                  impactData.data &&
+                  (risk.impact_id
+                    ? impactData.data.find(
+                        (impact: ImpactType) => impact.id === risk.impact_id
+                      )?.name
+                    : "N/A")}
+              </td>
+              <td>{renderPriority(risk.priority)}</td>
             </tr>
           ))}
         </tbody>

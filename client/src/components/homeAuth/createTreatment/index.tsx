@@ -37,7 +37,7 @@ const createTreatment = function ({ riskId }: CreateTreatmentProps) {
   const [toastIsOpen, setToastIsOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
-  const { data: riskData } = useSWR("/", riskService.getRisksAll);
+  const { data: riskData } = useSWR("/listRisksAll", riskService.getRisksAll);
   const { data: typesTreatmentData } = useSWR(
     "/listTypesTreatments",
     listService.getTypesTreatments
@@ -126,6 +126,7 @@ const createTreatment = function ({ riskId }: CreateTreatmentProps) {
                   >
                     <option value="">Selecione o risco</option>
                     {riskData &&
+                      Array.isArray(riskData.data) &&
                       riskData.data.map((risk: RiskType) => (
                         <option
                           key={risk.id}

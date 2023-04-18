@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import { treatmentService } from "../services/treatmentService";
 
 export const treatmentsController = {
+  // GET /treatments
   index: async (req: Request, res: Response) => {
     try {
       const treatments = await Treatment.findAll({

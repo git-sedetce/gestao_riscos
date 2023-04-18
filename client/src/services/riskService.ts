@@ -50,6 +50,7 @@ export type RiskType = {
   impact_id: number;
   priority: string;
   treatments?: TreatmentType[];
+  riskId?: number;
 };
 
 const riskService = {

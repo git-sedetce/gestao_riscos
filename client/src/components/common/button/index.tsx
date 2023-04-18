@@ -26,9 +26,9 @@ const UserButton = () => {
               CATEGORIAS
             </Button>
           </Link>
-          <Link href="/treatmentslist" className={styles.link}>
+          <Link href="/riskslist" className={styles.link}>
             <Button outline color="light" size="lg" className={styles.button}>
-              TRATAMENTOS
+              RISCOS
             </Button>
           </Link>
         </Container>
