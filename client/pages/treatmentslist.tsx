@@ -3,14 +3,11 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import PageSpinner from "../src/components/common/spinner";
 import HeaderAuth from "src/components/common/headerAuth";
-import riskService, { RiskType } from "src/services/riskService";
-import RiskComponent from "src/components/common/riskComponent";
-import useSWR from "swr";
+import TreatmentComponent from "src/components/common/treatmentComponent";
 
-const RisksList = function () {
+const TreatmentsList = function () {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const { data: riskData } = useSWR("/listRisksAll", riskService.getRisks);
 
   useEffect(() => {
     if (!sessionStorage.getItem("risks-token")) {
@@ -24,25 +21,18 @@ const RisksList = function () {
     return <PageSpinner />;
   }
 
-  const risks =
-    riskData?.data?.risks?.filter((risk: RiskType) => risk.name) || [];
-
-  if (!risks || risks.length === 0) {
-    return null;
-  }
-
   return (
     <>
       <Head>
-        <title>Gestão de riscos - Lista de Riscos</title>
+        <title>Gestão de riscos - Lista de Tratamentos</title>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
       </Head>
       <main>
         <HeaderAuth />
-        <RiskComponent risk={risks} />
+        <TreatmentComponent />
       </main>
     </>
   );
 };
 
-export default RisksList;
+export default TreatmentsList;

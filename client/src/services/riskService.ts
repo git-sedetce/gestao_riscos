@@ -32,6 +32,7 @@ export type TreatmentType = {
   deadline: string;
   status_treatmentId: number;
   notes: string;
+  [key: string]: any;
 };
 
 export type RiskType = {

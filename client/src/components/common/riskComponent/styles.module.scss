@@ -34,16 +34,15 @@
 .titles {
   font-weight: 400;
 }
-.link {
-  text-decoration: none;
-}
+// .link {
+//   text-decoration: none;
+// }
 .slideIndicator {
   color: white;
   padding-top: 4px;
   padding-right: 4px;
   font-weight: bold;
   cursor: pointer;
-  text-decoration: none;
   &:hover {
     text-decoration: underline;
   }
@@ -62,4 +61,42 @@
 
 .titles {
   cursor: pointer;
+}
+@import "../../../../styles/colors.module.scss";
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.938rem;
+  font-weight: bold;
+  padding: 0.625rem 2.188rem;
+
+  &:hover {
+    background-color: transparent;
+    color: $lightGray;
+  }
+}
+.link {
+  text-decoration: none;
+  color: $mediumGray;
+  background-color: $mediumBlue;
+  transition: 0.3s;
+  border-radius: 60px;
+  &:hover {
+    color: $lightGray;
+    background-color: #006699;
+    border-color: #006699;
+  }
+}
+
+@media (max-width: 575px) {
+  .footer {
+    padding: 26px 16px;
+  }
+}
+@media (max-width: 410px) {
+  .footer {
+    justify-content: center;
+  }
 }

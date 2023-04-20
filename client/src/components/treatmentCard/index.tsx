@@ -6,9 +6,9 @@ interface Props {
   treatment: TreatmentType;
 }
 
-const baseUrl = `http://localhost:3000`;
+// const baseUrl = `http://localhost:3000`;
 
-// const baseUrl = `https://api-gestaoderiscos.sedet.ce.gov.br`;
+const baseUrl = `https://api-gestaoderiscos.sedet.ce.gov.br`;
 
 const TreatmentCard = ({ treatment }: Props) => {
   const [statusTreatmentName, setStatusTreatmentName] = useState("");

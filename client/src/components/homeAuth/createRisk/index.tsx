@@ -145,7 +145,7 @@ const createRisk = function () {
     <>
       <main className={styles.main}>
         <Container className="py-5">
-          <Button className={styles.modal} onClick={toggleModal}>
+          <Button className={styles.button} onClick={toggleModal}>
             CRIAR RISCO
           </Button>
           <Modal isOpen={modalOpen} toggle={toggleModal}>

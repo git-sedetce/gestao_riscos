@@ -1,268 +1,298 @@
-import "@splidejs/splide/dist/css/splide.min.css";
-import { useState } from "react";
-import { Table } from "reactstrap";
-import riskService, {
-  RiskType,
-  TreatmentType,
-} from "../../../services/riskService";
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
-import useSWR from "swr";
+import { Table } from "reactstrap";
 import listService, {
   StatusTreatmentType,
   TypesTreatmentType,
 } from "../../../../src/services/listService";
-interface props {
-  treatment: TreatmentType[];
-}
+import riskService, {
+  RiskType,
+  TreatmentType,
+} from ".././../../../src/services/riskService";
+import CreateTreatment from "src/components/homeAuth/createTreatment";
+import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
+import Link from "next/link";
 
-const TreatmentComponent = function ({ treatment }: props) {
-  const { data: riskData } = useSWR(
-    "/listRisksAll",
-    riskService.getTreatmentsAll
+const TreatmentComponent = () => {
+  const [treatments, setTreatments] = useState<TreatmentType[]>([]);
+  const [risks, setRisks] = useState<RiskType[]>([]);
+  const [types_treatments, setTypesTreatments] = useState<TypesTreatmentType[]>(
+    []
   );
-  const { data: typesTreatmentData } = useSWR(
-    "/listTypesTreatments",
-    listService.getTypesTreatments
-  );
-  const { data: statusTreatmentData } = useSWR(
-    "/listStatusTreatments",
-    listService.getStatusTreatments
-  );
+  const [status_treatments, setStatusTreatments] = useState<
+    StatusTreatmentType[]
+  >([]);
+  const [sortConfig, setSortConfig] = useState<{
+    key: string;
+    direction: string;
+  }>({
+    key: "",
+    direction: "",
+  });
+  const [sortedTreatments, setSortedTreatments] = useState<TreatmentType[]>([]);
 
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [sortIdOrder, setSortIdOrder] = useState<"asc" | "desc">("asc");
+  useEffect(() => {
+    const fetchTreatments = async () => {
+      const res = await riskService.getTreatmentsAll();
 
-  const [sortColumn, setSortColumn] = useState<
-    | "risk"
-    | "treatment"
-    | "types_treatment"
-    | "user"
-    | "deadline"
-    | "status_treatment"
-    | "notes"
-  >("risk");
+      if (res && res.data) {
+        const sortedData = [...res.data].sort((a, b) => {
+          if (sortConfig.key === "riskId") {
+            const riskNameA = getRiskNameById(a.riskId);
+            const riskNameB = getRiskNameById(b.riskId);
+            if (riskNameA < riskNameB) {
+              return sortConfig.direction === "ascending" ? -1 : 1;
+            }
+            if (riskNameA > riskNameB) {
+              return sortConfig.direction === "ascending" ? 1 : -1;
+            }
+            return 0;
+          } else if (sortConfig.key === "deadline") {
+            const dateA = new Date(a.deadline);
+            const dateB = new Date(b.deadline);
+            if (dateA < dateB) {
+              return sortConfig.direction === "ascending" ? -1 : 1;
+            }
+            if (dateA > dateB) {
+              return sortConfig.direction === "ascending" ? 1 : -1;
+            }
+            return 0;
+          } else {
+            if (a[sortConfig.key] < b[sortConfig.key]) {
+              return sortConfig.direction === "ascending" ? -1 : 1;
+            }
+            if (a[sortConfig.key] > b[sortConfig.key]) {
+              return sortConfig.direction === "ascending" ? 1 : -1;
+            }
+            return 0;
+          }
+        });
+        setSortedTreatments(sortedData);
+        setTreatments(res.data);
+      }
+    };
+    const fetchRisks = async () => {
+      const res = await riskService.getRisksAll();
 
-  const handleSortByColumn = (
-    column:
-      | "risk"
-      | "treatment"
-      | "types_treatment"
-      | "user"
-      | "deadline"
-      | "status_treatment"
-      | "notes"
-  ) => {
-    if (sortColumn === column) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortColumn(column);
-      setSortOrder("asc");
-    }
+      if (res && res.data) {
+        setRisks(res.data);
+      }
+    };
+    const fetchTypesTreatments = async () => {
+      const res = await listService.getTypesTreatments();
+
+      if (res && res.data) {
+        setTypesTreatments(res.data);
+      }
+    };
+    const fetchStatusTreatments = async () => {
+      const res = await listService.getStatusTreatments();
+
+      if (res && res.data) {
+        setStatusTreatments(res.data);
+      }
+    };
+
+    fetchTreatments();
+    fetchRisks();
+    fetchTypesTreatments();
+    fetchStatusTreatments();
+  }, [sortConfig]);
+
+  const getRiskNameById = (id: number) => {
+    const risk = risks.find((r) => r.id === id);
+    return risk?.name || "";
   };
 
-  const sortedTreatments = treatment.slice().sort((up, down) => {
-    if (sortColumn === "risk") {
-      if (sortOrder === "asc") {
-        return (
-          (up.riskId &&
-            riskData?.data.find((risk: RiskType) => risk.id === up.riskId)
-              ?.name) ||
-          ""
-        ).localeCompare(
-          (down.riskId &&
-            riskData?.data.find((risk: RiskType) => risk.id === down.riskId)
-              ?.name) ||
-            ""
-        );
-      } else {
-        return (
-          (down.riskId &&
-            riskData?.data.find((risk: RiskType) => risk.id === down.riskId)
-              ?.name) ||
-          ""
-        ).localeCompare(
-          (up.riskId &&
-            riskData?.data.find((risk: RiskType) => risk.id === up.riskId)
-              ?.name) ||
-            ""
-        );
-      }
-    } else if (sortColumn === "treatment") {
-      if (sortOrder === "asc") {
-        return up.name.localeCompare(down.name);
-      } else {
-        return down.name.localeCompare(up.name);
-      }
-    } else if (sortColumn === "types_treatment") {
-      if (sortOrder === "asc") {
-        return (
-          (up.types_treatmentId &&
-            typesTreatmentData?.data.find(
-              (types_treatment: TypesTreatmentType) =>
-                types_treatment.id === up.types_treatmentId
-            )?.name) ||
-          ""
-        ).localeCompare(
-          (down.types_treatmentId &&
-            typesTreatmentData?.data.find(
-              (types_treatment: TypesTreatmentType) =>
-                types_treatment.id === down.types_treatmentId
-            )?.name) ||
-            ""
-        );
-      } else {
-        return (
-          (down.types_treatmentId &&
-            typesTreatmentData?.data.find(
-              (types_treatment: TypesTreatmentType) =>
-                types_treatment.id === down.types_treatmentId
-            )?.name) ||
-          ""
-        ).localeCompare(
-          (up.types_treatmentId &&
-            typesTreatmentData?.data.find(
-              (types_treatment: TypesTreatmentType) =>
-                types_treatment.id === up.types_treatmentId
-            )?.name) ||
-            ""
-        );
-      }
-    } else if (sortColumn === "user") {
-      if (sortOrder === "asc") {
-        return up.user.localeCompare(down.user);
-      } else {
-        return down.user.localeCompare(up.user);
-      }
-    } else if (sortColumn === "deadline") {
-      if (sortOrder === "asc") {
-        return up.deadline.localeCompare(down.deadline);
-      } else {
-        return down.deadline.localeCompare(up.deadline);
-      }
-    } else if (sortColumn === "status_treatment") {
-      if (sortOrder === "asc") {
-        return (
-          (up.status_treatmentId &&
-            statusTreatmentData?.data.find(
-              (status_treatment: StatusTreatmentType) =>
-                status_treatment.id === up.status_treatmentId
-            )?.name) ||
-          ""
-        ).localeCompare(
-          (down.status_treatmentId &&
-            statusTreatmentData?.data.find(
-              (status_treatment: StatusTreatmentType) =>
-                status_treatment.id === down.status_treatmentId
-            )?.name) ||
-            ""
-        );
-      } else {
-        return (
-          (down.status_treatmentId &&
-            statusTreatmentData?.data.find(
-              (status_treatment: StatusTreatmentType) =>
-                status_treatment.id === down.status_treatmentId
-            )?.name) ||
-          ""
-        ).localeCompare(
-          (up.status_treatmentId &&
-            statusTreatmentData?.data.find(
-              (status_treatment: StatusTreatmentType) =>
-                status_treatment.id === up.status_treatmentId
-            )?.name) ||
-            ""
-        );
-      }
-    } else if (sortColumn === "notes") {
-      if (sortOrder === "asc") {
-        return up.notes.localeCompare(down.notes);
-      } else {
-        return down.notes.localeCompare(up.notes);
-      }
-    }
-  });
+  const getTypeNameById = (id: number) => {
+    const types_treatment = types_treatments.find((r) => r.id === id);
+    return types_treatment?.name || "";
+  };
 
-  const sortIcon = (
-    column:
-      | "risk"
-      | "treatment"
-      | "types_treatment"
-      | "user"
-      | "deadline"
-      | "status_treatment"
-      | "notes"
-  ) => {
-    if (sortColumn === column) {
-      if (sortOrder === "asc") {
-        return <FaSortUp />;
-      } else {
-        return <FaSortDown />;
+  const getStatusNameById = (id: number) => {
+    const status_treatment = status_treatments.find((r) => r.id === id);
+    return status_treatment?.name || "";
+  };
+
+  function formatDeadline(deadline: string) {
+    const date = new Date(deadline);
+    return date.toLocaleDateString();
+  }
+
+  const handleSort = (key: string) => {
+    let direction = "ascending";
+
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+
+    const sortedData = [...treatments].sort((a, b) => {
+      if (a[key] < b[key]) {
+        return direction === "ascending" ? -1 : 1;
       }
-    } else {
+      if (a[key] > b[key]) {
+        return direction === "ascending" ? 1 : -1;
+      }
+      return 0;
+    });
+
+    setTreatments(sortedData);
+    setSortConfig({ key, direction });
+  };
+
+  const getSortIcon = (columnKey: string) => {
+    if (sortConfig.key !== columnKey) {
       return <FaSort />;
+    } else if (sortConfig.direction === "ascending") {
+      return <FaSortUp />;
+    } else {
+      return <FaSortDown />;
     }
   };
 
   return (
-    <div className={styles.table}>
-      <Table
-        responsive
-        bordered
-        className="noWrap"
-        style={{ color: "white", textAlign: "center" }}
-      >
-        <thead>
-          <tr className={styles.titles}>
-            <th>#</th>
-            <th onClick={() => handleSortByColumn("risk")}>
-              Risco {sortIcon("risk")}
-            </th>
-            <th onClick={() => handleSortByColumn("treatment")}>
-              Tratamento {sortIcon("treatment")}
-            </th>
-            <th onClick={() => handleSortByColumn("types_treatment")}>
-              Tipos de tratamento {sortIcon("types_treatment")}
-            </th>
-            <th onClick={() => handleSortByColumn("user")}>
-              Responsável {sortIcon("user")}
-            </th>
-            <th onClick={() => handleSortByColumn("deadline")}>
-              Prazo{sortIcon("deadline")}
-            </th>
-            <th onClick={() => handleSortByColumn("status_treatment")}>
-              Status {sortIcon("status_treatment")}
-            </th>
-            <th onClick={() => handleSortByColumn("notes")}>
-              Observações {sortIcon("notes")}
-            </th>
-          </tr>
-        </thead>
-        <tbody className="tbody-space">
-          {sortedTreatments?.map((risk, key) => (
-            <tr key={key} className={styles.slide}>
-              <th scope="row">{risk.id}</th>
-              {/* <Link href={`risks/${risk.id}`} className={styles.link}>
-                <td className={styles.slideIndicator}>{risk.name}</td>
-              </Link> */}
-              <td className={styles.slideEvent}>
-                {riskData &&
-                  riskData.data &&
-                  (risk.riskId
-                    ? riskData.data
-                        .find((risk: RiskType) => risk.id === risk.riskId)
-                        ?.name.split(" ")
-                        .slice(0, 2)
-                        .join(" ")
-                    : "N/A")}
-              </td>
-              <td className={styles.slideEvent}>{risk.name}</td>
+    <>
+      <CreateTreatment riskId={0} />
+      <div className={styles.table}>
+        <Table
+          responsive
+          bordered
+          className="noWrap"
+          style={{ color: "black", textAlign: "center" }}
+        >
+          <thead>
+            <tr>
+              <th onClick={() => handleSort("id")}>ID {getSortIcon("id")}</th>
+              <th onClick={() => handleSort("riskId")}>
+                Riscos {getSortIcon("riskId")}
+              </th>
+              <th onClick={() => handleSort("name")}>
+                Tratamentos {getSortIcon("name")}
+              </th>
+              <th>Tipos de Tratamento</th>
+              <th>Status de Tratamento</th>
+              <th onClick={() => handleSort("deadline")}>
+                Prazo {getSortIcon("deadline")}
+              </th>
+              <th>Observações</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-    </div>
+          </thead>
+          <tbody>
+            {sortedTreatments.map((treatment) => (
+              <tr key={treatment.id}>
+                <td>{treatment.id}</td>
+                <Link
+                  href={`risks/${treatment.riskId}`}
+                  className={styles.link}
+                >
+                  <td>{getRiskNameById(treatment.riskId)}</td>
+                </Link>
+                <td>{treatment.name}</td>
+                {/* <td>{treatment.types_treatmentId}</td>
+                <td>{treatment.status_treatmentId}</td> */}
+                <td>{getTypeNameById(treatment.types_treatmentId)}</td>
+                <td>{getStatusNameById(treatment.status_treatmentId)}</td>
+                <td>{formatDeadline(treatment.deadline)}</td>
+                <td>{treatment.notes}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    </>
   );
 };
 
 export default TreatmentComponent;
+
+// import React, { useEffect, useState } from "react";
+// import { Table } from "reactstrap";
+// import riskService, { RiskType, TreatmentType } from "src/services/riskService";
+
+// interface Props {
+//   treatment: TreatmentType;
+// }
+
+// const baseUrl = `http://localhost:3000`;
+
+// // const baseUrl = `https://api-gestaoderiscos.sedet.ce.gov.br`;
+
+// const TreatmentComponent = ({ treatment }: Props) => {
+//   const [treatments, setTreatments] = useState<TreatmentType[]>([]);
+//   const [risks, setRisks] = useState<RiskType[]>([]);
+//   const [typesTreatmentName, setTypesTreatmentName] = useState("");
+//   const [statusTreatmentName, setStatusTreatmentName] = useState("");
+
+//   useEffect(() => {
+//     const fetchTreatments = async () => {
+//       const res = await riskService.getTreatmentsAll();
+
+//       if (res && res.data) {
+//         setTreatments(res.data);
+//       }
+//     };
+//     const fetchRisks = async () => {
+//       const res = await riskService.getRisksAll();
+
+//       if (res && res.data) {
+//         setRisks(res.data);
+//       }
+//     };
+// const fetchTypesTreatments = async () => {
+//   if (treatment && treatment.types_treatmentId) {
+//     const res = await fetch(
+//       `${baseUrl}/typestreatments/${treatment.types_treatmentId}`
+//     );
+//     const data = await res.json();
+//     setTypesTreatmentName(data.name);
+//   }
+// };
+
+// const fetchStatusTreatments = async () => {
+//   if (treatment && treatment.status_treatmentId) {
+//     const res = await fetch(
+//       `${baseUrl}/statustreatments/${treatment.status_treatmentId}`
+//     );
+//     const data = await res.json();
+//     setStatusTreatmentName(data.name);
+//   }
+// };
+
+//     fetchTreatments();
+//     fetchRisks();
+//     fetchTypesTreatments();
+//     fetchStatusTreatments();
+//   }, [treatment]);
+
+//   const getRiskNameById = (id: number) => {
+//     const risk = risks.find((r) => r.id === id);
+//     return risk?.name || "";
+//   };
+
+//   return (
+//     <Table>
+//       <thead>
+//         <tr>
+//           <th>ID</th>
+//           <th>Riscos</th>
+//           <th>Tratamentos</th>
+//           <th>Tipos de Tratamentos</th>
+//           <th>Status do Tratamento</th>
+//         </tr>
+//       </thead>
+//       <tbody>
+//         {treatments.map((treatment) => (
+//           <tr key={treatment.id}>
+//             <td>{treatment.id}</td>
+//             <td>{getRiskNameById(treatment.riskId)}</td>
+//             <td>{treatment.name}</td>
+//             {typesTreatmentName && <td>{typesTreatmentName}</td>}
+//             {statusTreatmentName && <td>{statusTreatmentName}</td>}
+//           </tr>
+//         ))}
+//       </tbody>
+//     </Table>
+//   );
+// };
+
+// export default TreatmentComponent;

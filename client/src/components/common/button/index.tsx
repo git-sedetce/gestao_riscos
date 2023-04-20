@@ -16,21 +16,26 @@ const UserButton = () => {
     return (
       <>
         <Container className={styles.button}>
-          <Link href="/userslist" className={styles.link}>
-            <Button outline color="light" size="lg" className={styles.button}>
-              USUÁRIOS
-            </Button>
-          </Link>
-          <Link href="/categorieslist" className={styles.link}>
-            <Button outline color="light" size="lg" className={styles.button}>
-              CATEGORIAS
-            </Button>
-          </Link>
           <Link href="/riskslist" className={styles.link}>
             <Button outline color="light" size="lg" className={styles.button}>
               RISCOS
             </Button>
           </Link>
+          <Link href="/treatmentslist" className={styles.link}>
+            <Button outline color="light" size="lg" className={styles.button}>
+              TRATAMENTOS
+            </Button>
+          </Link>
+          <Link href="/userslist" className={styles.link}>
+            <Button outline color="light" size="lg" className={styles.button}>
+              USUÁRIOS
+            </Button>
+          </Link>
+          {/* <Link href="/categorieslist" className={styles.link}>
+            <Button outline color="light" size="lg" className={styles.button}>
+              CATEGORIAS
+            </Button>
+          </Link> */}
         </Container>
       </>
     );

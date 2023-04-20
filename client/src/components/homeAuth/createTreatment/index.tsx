@@ -169,7 +169,7 @@ const createTreatment = function ({ riskId }: CreateTreatmentProps) {
                 </FormGroup>
                 <FormGroup>
                   <Label for="name" className={styles.label}>
-                    TRATAMENTO
+                    MEDIDAS DE TRATAMENTO
                   </Label>
                   <Input
                     id="name"
@@ -185,7 +185,7 @@ const createTreatment = function ({ riskId }: CreateTreatmentProps) {
                 </FormGroup>
                 <FormGroup>
                   <Label for="user" className={styles.label}>
-                    RESPONSÁVEL
+                    RESPONSÁVEL PELA MEDIDA
                   </Label>
                   <Input
                     id="user"
@@ -244,7 +244,7 @@ const createTreatment = function ({ riskId }: CreateTreatmentProps) {
                 </FormGroup>
                 <FormGroup>
                   <Label for="notes" className={styles.label}>
-                    NOTAS
+                    OBSERVAÇÕES
                   </Label>
                   <Input
                     id="notes"

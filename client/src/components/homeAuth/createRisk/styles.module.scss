@@ -3,11 +3,12 @@
 .main {
   height: 50px;
 }
-.modal {
+.button {
   display: block;
   margin: 20px auto 0 auto;
   color: $mediumGray;
   background-color: $mediumBlue;
+  padding: 15px 32px;
   &:hover {
     color: $lightGray;
     background-color: $darkBlue;

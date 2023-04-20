@@ -16,6 +16,7 @@ import listService, {
   RisksOriginType,
   TypesOriginType,
 } from "../../../../src/services/listService";
+import CreateRisk from "src/components/homeAuth/createRisk";
 interface props {
   risk: RiskType[];
 }
@@ -388,145 +389,148 @@ const RiskComponent = function ({ risk }: props) {
   };
 
   return (
-    <div className={styles.table}>
-      <Table
-        responsive
-        bordered
-        className="noWrap"
-        style={{ color: "white", textAlign: "center" }}
-      >
-        <thead>
-          <tr className={styles.titles}>
-            <th onClick={() => handleSortByColumn("#")}>
-              # {sortIdOrder === "asc" ? <FaSortUp /> : <FaSortDown />}
-            </th>
-            <th onClick={() => handleSortByColumn("indicador")}>
-              Indicador {sortIcon("indicador")}
-            </th>
-            <th onClick={() => handleSortByColumn("event")}>
-              Evento {sortIcon("event")}
-            </th>
-            <th onClick={() => handleSortByColumn("user")}>
-              User {sortIcon("user")}
-            </th>
-            <th onClick={() => handleSortByColumn("area")}>
-              Area {sortIcon("area")}
-            </th>
-            <th onClick={() => handleSortByColumn("types_origin")}>
-              Tipo Origem {sortIcon("types_origin")}
-            </th>
-            <th onClick={() => handleSortByColumn("risks_origin")}>
-              Origem {sortIcon("risks_origin")}
-            </th>
-            <th onClick={() => handleSortByColumn("period")}>
-              Período {sortIcon("period")}
-            </th>
-            <th onClick={() => handleSortByColumn("category")}>
-              Categoria{sortIcon("category")}
-            </th>
-            <th onClick={() => handleSortByColumn("probability")}>
-              Probabilidade{sortIcon("probability")}
-            </th>
-            <th onClick={() => handleSortByColumn("impact")}>
-              Impacto{sortIcon("impact")}
-            </th>
-            <th onClick={() => handleSortByColumn("priority")}>
-              Prioridade{sortIcon("priority")}
-            </th>
-          </tr>
-        </thead>
-        <tbody className="tbody-space">
-          {sortedRisks?.map((risk, key) => (
-            <tr key={key} className={styles.slide}>
-              <th scope="row">{risk.id}</th>
-              <Link href={`risks/${risk.id}`} className={styles.link}>
-                <td className={styles.slideIndicator}>{risk.name}</td>
-              </Link>
-              <td className={styles.slideEvent}>{risk.event}</td>
-              <td className={styles.slideEvent}>
-                {userData &&
-                  userData.data &&
-                  (risk.userId
-                    ? userData.data
-                        .find((user: UserType) => user.id === risk.userId)
-                        ?.name.split(" ")
-                        .slice(0, 2)
-                        .join(" ")
-                    : "N/A")}
-              </td>
-              <td className={styles.slideEvent}>
-                {areaData &&
-                  areaData.data &&
-                  (risk.areaId
-                    ? areaData.data.find(
-                        (area: AreaType) => area.id === risk.areaId
-                      )?.name
-                    : "N/A")}
-              </td>
-              <td className={styles.slideEvent}>
-                {typesOriginData &&
-                  typesOriginData.data &&
-                  (risk.types_originId
-                    ? typesOriginData.data.find(
-                        (types_origin: TypesOriginType) =>
-                          types_origin.id === risk.types_originId
-                      )?.name
-                    : "N/A")}
-              </td>
-              <td className={styles.slideEvent}>
-                {risksOriginData &&
-                  risksOriginData.data &&
-                  (risk.risks_originId
-                    ? risksOriginData.data.find(
-                        (risks_origin: RisksOriginType) =>
-                          risks_origin.id === risk.risks_originId
-                      )?.name
-                    : "N/A")}
-              </td>
-              <td className={styles.slideEvent}>
-                {periodData &&
-                  periodData.data &&
-                  (risk.periodId
-                    ? periodData.data.find(
-                        (period: PeriodType) => period.id === risk.periodId
-                      )?.name
-                    : "N/A")}
-              </td>
-              <td className={styles.slideEvent}>
-                {categoryData &&
-                  categoryData.data &&
-                  (risk.category_id
-                    ? categoryData.data.find(
-                        (category: CategoryType) =>
-                          category.id === risk.category_id
-                      )?.name
-                    : "N/A")}
-              </td>
-              <td className={styles.slideEvent}>
-                {probabilityData &&
-                  probabilityData.data &&
-                  (risk.probability_id
-                    ? probabilityData.data.find(
-                        (probability: ProbabilityType) =>
-                          probability.id === risk.probability_id
-                      )?.name
-                    : "N/A")}
-              </td>
-              <td className={styles.slideEvent}>
-                {impactData &&
-                  impactData.data &&
-                  (risk.impact_id
-                    ? impactData.data.find(
-                        (impact: ImpactType) => impact.id === risk.impact_id
-                      )?.name
-                    : "N/A")}
-              </td>
-              <td>{renderPriority(risk.priority)}</td>
+    <>
+      <CreateRisk />
+      <div className={styles.table}>
+        <Table
+          responsive
+          bordered
+          className="noWrap"
+          style={{ color: "white", textAlign: "center" }}
+        >
+          <thead>
+            <tr className={styles.titles}>
+              <th onClick={() => handleSortByColumn("#")}>
+                # {sortIdOrder === "asc" ? <FaSortUp /> : <FaSortDown />}
+              </th>
+              <th onClick={() => handleSortByColumn("indicador")}>
+                Indicador {sortIcon("indicador")}
+              </th>
+              <th onClick={() => handleSortByColumn("event")}>
+                Evento {sortIcon("event")}
+              </th>
+              <th onClick={() => handleSortByColumn("user")}>
+                User {sortIcon("user")}
+              </th>
+              <th onClick={() => handleSortByColumn("area")}>
+                Area {sortIcon("area")}
+              </th>
+              <th onClick={() => handleSortByColumn("types_origin")}>
+                Tipo Origem {sortIcon("types_origin")}
+              </th>
+              <th onClick={() => handleSortByColumn("risks_origin")}>
+                Origem {sortIcon("risks_origin")}
+              </th>
+              <th onClick={() => handleSortByColumn("period")}>
+                Período {sortIcon("period")}
+              </th>
+              <th onClick={() => handleSortByColumn("category")}>
+                Categoria{sortIcon("category")}
+              </th>
+              <th onClick={() => handleSortByColumn("probability")}>
+                Probabilidade{sortIcon("probability")}
+              </th>
+              <th onClick={() => handleSortByColumn("impact")}>
+                Impacto{sortIcon("impact")}
+              </th>
+              <th onClick={() => handleSortByColumn("priority")}>
+                Prioridade{sortIcon("priority")}
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-    </div>
+          </thead>
+          <tbody className="tbody-space">
+            {sortedRisks?.map((risk, key) => (
+              <tr key={key} className={styles.slide}>
+                <th scope="row">{risk.id}</th>
+                <Link href={`risks/${risk.id}`} className={styles.link}>
+                  <td className={styles.slideIndicator}>{risk.name}</td>
+                </Link>
+                <td className={styles.slideEvent}>{risk.event}</td>
+                <td className={styles.slideEvent}>
+                  {userData &&
+                    userData.data &&
+                    (risk.userId
+                      ? userData.data
+                          .find((user: UserType) => user.id === risk.userId)
+                          ?.name.split(" ")
+                          .slice(0, 2)
+                          .join(" ")
+                      : "N/A")}
+                </td>
+                <td className={styles.slideEvent}>
+                  {areaData &&
+                    areaData.data &&
+                    (risk.areaId
+                      ? areaData.data.find(
+                          (area: AreaType) => area.id === risk.areaId
+                        )?.name
+                      : "N/A")}
+                </td>
+                <td className={styles.slideEvent}>
+                  {typesOriginData &&
+                    typesOriginData.data &&
+                    (risk.types_originId
+                      ? typesOriginData.data.find(
+                          (types_origin: TypesOriginType) =>
+                            types_origin.id === risk.types_originId
+                        )?.name
+                      : "N/A")}
+                </td>
+                <td className={styles.slideEvent}>
+                  {risksOriginData &&
+                    risksOriginData.data &&
+                    (risk.risks_originId
+                      ? risksOriginData.data.find(
+                          (risks_origin: RisksOriginType) =>
+                            risks_origin.id === risk.risks_originId
+                        )?.name
+                      : "N/A")}
+                </td>
+                <td className={styles.slideEvent}>
+                  {periodData &&
+                    periodData.data &&
+                    (risk.periodId
+                      ? periodData.data.find(
+                          (period: PeriodType) => period.id === risk.periodId
+                        )?.name
+                      : "N/A")}
+                </td>
+                <td className={styles.slideEvent}>
+                  {categoryData &&
+                    categoryData.data &&
+                    (risk.category_id
+                      ? categoryData.data.find(
+                          (category: CategoryType) =>
+                            category.id === risk.category_id
+                        )?.name
+                      : "N/A")}
+                </td>
+                <td className={styles.slideEvent}>
+                  {probabilityData &&
+                    probabilityData.data &&
+                    (risk.probability_id
+                      ? probabilityData.data.find(
+                          (probability: ProbabilityType) =>
+                            probability.id === risk.probability_id
+                        )?.name
+                      : "N/A")}
+                </td>
+                <td className={styles.slideEvent}>
+                  {impactData &&
+                    impactData.data &&
+                    (risk.impact_id
+                      ? impactData.data.find(
+                          (impact: ImpactType) => impact.id === risk.impact_id
+                        )?.name
+                      : "N/A")}
+                </td>
+                <td>{renderPriority(risk.priority)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    </>
   );
 };
 
