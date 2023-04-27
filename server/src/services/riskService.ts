@@ -8,6 +8,36 @@ export const riskService = {
     return risk;
   },
 
+  update: async (
+    id: number,
+    attributes: {
+      areaId: number;
+      userId: number;
+      types_originId: number;
+      risks_originId: number;
+      name: string;
+      periodId: number;
+      event: string;
+      cause: string;
+      consequence: string;
+      categoryId: number;
+      probabilityId: number;
+      impactId: number;
+      priority: boolean;
+    }
+  ) => {
+    const [affectedRows, updatedRisks] = await Risk.update(attributes, {
+      where: { id },
+      returning: true,
+    });
+
+    return updatedRisks[0];
+  },
+  findById: async (id: number) => {
+    const risk = await Risk.findByPk(id);
+    return risk;
+  },
+
   findByIdWithTreatments: async (id: string) => {
     const riskWithTreatments = await Risk.findByPk(id, {
       attributes: [

@@ -51,7 +51,6 @@ export type RiskType = {
   impact_id: number;
   priority: string;
   treatments?: TreatmentType[];
-  riskId?: number;
 };
 
 const riskService = {
@@ -115,6 +114,24 @@ const riskService = {
     });
 
     return res;
+  },
+  riskUpdate: async (id: number | string, params: Partial<RiskType>) => {
+    const token = sessionStorage.getItem("risks-token");
+
+    const res = await api
+      .put(`/risks/${id}`, params, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        if (error.response.status === 400 || error.response.status === 401) {
+          return error.response;
+        }
+        return error;
+      });
+
+    return res.status;
   },
   createTreat: async (params: CreateParamsTreatment) => {
     const res = await api.post("/treatment", params).catch((error) => {

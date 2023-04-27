@@ -317,6 +317,7 @@ const createRisk = function () {
                       value={name}
                       onChange={(event) => setName(event.target.value)}
                       className={styles.input}
+                      autocomplete="off"
                     />
                   </FormGroup>
                   <FormGroup>
@@ -332,6 +333,7 @@ const createRisk = function () {
                       value={event}
                       onChange={(event) => setEvent(event.target.value)}
                       className={styles.input}
+                      autocomplete="off"
                     />
                   </FormGroup>
                   <FormGroup>
@@ -347,6 +349,7 @@ const createRisk = function () {
                       value={cause}
                       onChange={(event) => setCause(event.target.value)}
                       className={styles.input}
+                      autocomplete="off"
                     />
                   </FormGroup>
                   <FormGroup>
@@ -362,6 +365,7 @@ const createRisk = function () {
                       value={consequence}
                       onChange={(event) => setConsequence(event.target.value)}
                       className={styles.input}
+                      autocomplete="off"
                     />
                   </FormGroup>
                   <Col md={6}>

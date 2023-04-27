@@ -5,14 +5,14 @@
   border: 1px solid $lightGray;
   margin-bottom: 20px;
   width: 550px;
-  height: 250px;
+  height: 300px;
   cursor: pointer;
   padding: 10px 14px;
   overflow: hidden;
   transition: 0.5s;
   &:hover {
     border-color: $lightBlue;
-    height: 300px;
+    height: 320px;
   }
 }
 .treatmentTitleDescription {

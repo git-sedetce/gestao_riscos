@@ -32,6 +32,7 @@ router.get("/risks/newest", ensureAuth, risksController.newest);
 router.get("/risks/search", ensureAuth, risksController.searchRisks);
 router.get("/risks/:id", ensureAuth, risksController.showId);
 router.post("/risk", risksController.register);
+router.put("/risks/:id", ensureAuth, risksController.update);
 
 router.get("/treatments", ensureAuth, treatmentsController.index);
 router.get("/treatments/:id", ensureAuth, treatmentsController.show);

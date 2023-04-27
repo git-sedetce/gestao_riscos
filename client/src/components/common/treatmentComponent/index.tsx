@@ -13,15 +13,13 @@ import CreateTreatment from "src/components/homeAuth/createTreatment";
 import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 import Link from "next/link";
 
+const baseUrl = `http://localhost:3000`;
+
 const TreatmentComponent = () => {
   const [treatments, setTreatments] = useState<TreatmentType[]>([]);
   const [risks, setRisks] = useState<RiskType[]>([]);
-  const [types_treatments, setTypesTreatments] = useState<TypesTreatmentType[]>(
-    []
-  );
-  const [status_treatments, setStatusTreatments] = useState<
-    StatusTreatmentType[]
-  >([]);
+  const [types, setTypes] = useState<TypesTreatmentType[]>([]);
+  const [statuses, setStatuses] = useState<StatusTreatmentType[]>([]);
   const [sortConfig, setSortConfig] = useState<{
     key: string;
     direction: string;
@@ -78,40 +76,28 @@ const TreatmentComponent = () => {
         setRisks(res.data);
       }
     };
-    const fetchTypesTreatments = async () => {
-      const res = await listService.getTypesTreatments();
+    const fetchData = async () => {
+      const treatmentResponse = await fetch(`${baseUrl}/treatments`);
+      const treatments = await treatmentResponse.json();
+      setTreatments(treatments);
 
-      if (res && res.data) {
-        setTypesTreatments(res.data);
-      }
-    };
-    const fetchStatusTreatments = async () => {
-      const res = await listService.getStatusTreatments();
+      const typesResponse = await fetch(`${baseUrl}/typestreatments`);
+      const types = await typesResponse.json();
+      setTypes(types);
 
-      if (res && res.data) {
-        setStatusTreatments(res.data);
-      }
+      const statusesResponse = await fetch(`${baseUrl}/statustreatments`);
+      const statuses = await statusesResponse.json();
+      setStatuses(statuses);
     };
 
     fetchTreatments();
     fetchRisks();
-    fetchTypesTreatments();
-    fetchStatusTreatments();
+    fetchData();
   }, [sortConfig]);
 
   const getRiskNameById = (id: number) => {
     const risk = risks.find((r) => r.id === id);
     return risk?.name || "";
-  };
-
-  const getTypeNameById = (id: number) => {
-    const types_treatment = types_treatments.find((r) => r.id === id);
-    return types_treatment?.name || "";
-  };
-
-  const getStatusNameById = (id: number) => {
-    const status_treatment = status_treatments.find((r) => r.id === id);
-    return status_treatment?.name || "";
   };
 
   function formatDeadline(deadline: string) {
@@ -148,6 +134,16 @@ const TreatmentComponent = () => {
     } else {
       return <FaSortDown />;
     }
+  };
+
+  const getTypeName = (typeId: number) => {
+    const type = types.find((type) => type.id === typeId);
+    return type ? type.name : "";
+  };
+
+  const getStatusName = (statusId: number) => {
+    const status = statuses.find((status) => status.id === statusId);
+    return status ? status.name : "";
   };
 
   return (
@@ -188,10 +184,8 @@ const TreatmentComponent = () => {
                   <td>{getRiskNameById(treatment.riskId)}</td>
                 </Link>
                 <td>{treatment.name}</td>
-                {/* <td>{treatment.types_treatmentId}</td>
-                <td>{treatment.status_treatmentId}</td> */}
-                <td>{getTypeNameById(treatment.types_treatmentId)}</td>
-                <td>{getStatusNameById(treatment.status_treatmentId)}</td>
+                <td>{getTypeName(treatment.types_treatmentId)}</td>
+                <td>{getStatusName(treatment.status_treatmentId)}</td>
                 <td>{formatDeadline(treatment.deadline)}</td>
                 <td>{treatment.notes}</td>
               </tr>
@@ -204,95 +198,3 @@ const TreatmentComponent = () => {
 };
 
 export default TreatmentComponent;
-
-// import React, { useEffect, useState } from "react";
-// import { Table } from "reactstrap";
-// import riskService, { RiskType, TreatmentType } from "src/services/riskService";
-
-// interface Props {
-//   treatment: TreatmentType;
-// }
-
-// const baseUrl = `http://localhost:3000`;
-
-// // const baseUrl = `https://api-gestaoderiscos.sedet.ce.gov.br`;
-
-// const TreatmentComponent = ({ treatment }: Props) => {
-//   const [treatments, setTreatments] = useState<TreatmentType[]>([]);
-//   const [risks, setRisks] = useState<RiskType[]>([]);
-//   const [typesTreatmentName, setTypesTreatmentName] = useState("");
-//   const [statusTreatmentName, setStatusTreatmentName] = useState("");
-
-//   useEffect(() => {
-//     const fetchTreatments = async () => {
-//       const res = await riskService.getTreatmentsAll();
-
-//       if (res && res.data) {
-//         setTreatments(res.data);
-//       }
-//     };
-//     const fetchRisks = async () => {
-//       const res = await riskService.getRisksAll();
-
-//       if (res && res.data) {
-//         setRisks(res.data);
-//       }
-//     };
-// const fetchTypesTreatments = async () => {
-//   if (treatment && treatment.types_treatmentId) {
-//     const res = await fetch(
-//       `${baseUrl}/typestreatments/${treatment.types_treatmentId}`
-//     );
-//     const data = await res.json();
-//     setTypesTreatmentName(data.name);
-//   }
-// };
-
-// const fetchStatusTreatments = async () => {
-//   if (treatment && treatment.status_treatmentId) {
-//     const res = await fetch(
-//       `${baseUrl}/statustreatments/${treatment.status_treatmentId}`
-//     );
-//     const data = await res.json();
-//     setStatusTreatmentName(data.name);
-//   }
-// };
-
-//     fetchTreatments();
-//     fetchRisks();
-//     fetchTypesTreatments();
-//     fetchStatusTreatments();
-//   }, [treatment]);
-
-//   const getRiskNameById = (id: number) => {
-//     const risk = risks.find((r) => r.id === id);
-//     return risk?.name || "";
-//   };
-
-//   return (
-//     <Table>
-//       <thead>
-//         <tr>
-//           <th>ID</th>
-//           <th>Riscos</th>
-//           <th>Tratamentos</th>
-//           <th>Tipos de Tratamentos</th>
-//           <th>Status do Tratamento</th>
-//         </tr>
-//       </thead>
-//       <tbody>
-//         {treatments.map((treatment) => (
-//           <tr key={treatment.id}>
-//             <td>{treatment.id}</td>
-//             <td>{getRiskNameById(treatment.riskId)}</td>
-//             <td>{treatment.name}</td>
-//             {typesTreatmentName && <td>{typesTreatmentName}</td>}
-//             {statusTreatmentName && <td>{statusTreatmentName}</td>}
-//           </tr>
-//         ))}
-//       </tbody>
-//     </Table>
-//   );
-// };
-
-// export default TreatmentComponent;

@@ -55,6 +55,18 @@
 .treatmentPadding {
   margin-top: -30px;
 }
+.formTitle {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 2.5rem;
+}
+.riskForm {
+  background-color: $mediumWhite;
+  width: 60rem;
+  padding: 3.125rem;
+  border: 1px solid $lightGray;
+  margin: 0 auto;
+}
 @media (max-width: 767px) {
   .riskTitle {
     font-size: 26px;
