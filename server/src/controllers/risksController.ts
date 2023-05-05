@@ -156,6 +156,7 @@ export const risksController = {
       }
     }
   },
+  
   update: async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     const {

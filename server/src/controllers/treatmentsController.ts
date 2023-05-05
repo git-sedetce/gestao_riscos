@@ -133,4 +133,40 @@ export const treatmentsController = {
       }
     }
   },
+
+  update: async (req: Request, res: Response) => {
+    const id = parseInt(req.params.id);
+    const {
+      riskId,
+      types_treatmentId,
+      name,
+      user,
+      deadline,
+      status_treatmentId,
+      notes,
+    } = req.body;
+
+    try {
+      const risk = await treatmentService.findByIdNumber(id);
+      if (!risk) {
+        return res.status(404).json({ message: "Treatment not found" });
+      }
+
+      const updatedRisk = await treatmentService.update(id, {
+        riskId,
+        types_treatmentId,
+        name,
+        user,
+        deadline,
+        status_treatmentId,
+        notes,
+      });
+
+      return res.status(200).json(updatedRisk);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
 };

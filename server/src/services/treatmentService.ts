@@ -8,6 +8,25 @@ export const treatmentService = {
     const treatment = await Treatment.create(attributes);
     return treatment;
   },
+  update: async (
+    id: number,
+    attributes: {
+      riskId: number;
+      types_treatmentId: number;
+      name: string;
+      user: string;
+      deadline: Date;
+      status_treatmentId: number;
+      notes: string;
+    }
+  ) => {
+    const [affectedRows, updatedRisks] = await Treatment.update(attributes, {
+      where: { id },
+      returning: true,
+    });
+
+    return updatedRisks[0];
+  },
   findByName: async (name: string) => {
     const treatment = await Treatment.findOne({
       where: { name },
@@ -28,6 +47,10 @@ export const treatmentService = {
       ],
     });
 
+    return treatment;
+  },
+  findByIdNumber: async (id: number) => {
+    const treatment = await Treatment.findByPk(id);
     return treatment;
   },
   findByTypesTreatmentId: async (id: string) => {
