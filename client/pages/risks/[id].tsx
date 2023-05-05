@@ -23,8 +23,7 @@ import Footer from "../../src/components/common/footer";
 import profileService from "src/services/profileService";
 
 const RiskPage = function () {
-  const [risk, setRisk] = useState<RiskType>();
-  const [selectedArea, setSelectedArea] = useState("");
+  const [risk, setRisk] = useState<RiskType | undefined>(undefined);
   const router = useRouter();
   const { id } = router.query;
 
@@ -98,7 +97,9 @@ const RiskPage = function () {
   };
 
   useEffect(() => {
-    getRisk();
+    if (typeof id === "string") {
+      getRisk();
+    }
   }, [id]);
 
   if (risk === undefined) return <PageSpinner />;
@@ -235,68 +236,98 @@ const RiskPage = function () {
                   id="name"
                   value={risk?.name}
                   onChange={(e) => setRisk({ ...risk, name: e.target.value })}
-                  autocomplete="off"
+                  autoComplete="off"
                 />
               </FormGroup>
               <FormGroup>
                 <Label for="areaId">Area ID</Label>
                 <Input
-                  type="text"
+                  type="select"
                   name="areaId"
                   id="areaId"
                   value={risk?.areaId}
                   onChange={(e) =>
                     setRisk({ ...risk, areaId: Number(e.target.value) })
                   }
-                />
+                >
+                  {areaData?.data.map((area: AreaType) => (
+                    <option key={area.id} value={area.id}>
+                      {area.name}
+                    </option>
+                  ))}
+                </Input>
               </FormGroup>
               <FormGroup>
                 <Label for="userId">User ID</Label>
                 <Input
-                  type="text"
+                  type="select"
                   name="userId"
                   id="userId"
                   value={risk?.userId}
                   onChange={(e) =>
                     setRisk({ ...risk, userId: Number(e.target.value) })
                   }
-                />
+                >
+                  {userData?.data.map((user: UserType) => (
+                    <option key={user.id} value={user.id}>
+                      {user.name}
+                    </option>
+                  ))}
+                </Input>
               </FormGroup>
               <FormGroup>
                 <Label for="types_originId">Types Origin ID</Label>
                 <Input
-                  type="text"
+                  type="select"
                   name="types_originId"
                   id="types_originId"
                   value={risk?.types_originId}
                   onChange={(e) =>
                     setRisk({ ...risk, types_originId: Number(e.target.value) })
                   }
-                />
+                >
+                  {typesOriginData?.data.map((typesOrigin: TypesOriginType) => (
+                    <option key={typesOrigin.id} value={typesOrigin.id}>
+                      {typesOrigin.name}
+                    </option>
+                  ))}
+                </Input>
               </FormGroup>
               <FormGroup>
                 <Label for="risks_originId">Risks Origin ID</Label>
                 <Input
-                  type="text"
+                  type="select"
                   name="risks_originId"
                   id="risks_originId"
                   value={risk?.risks_originId}
                   onChange={(e) =>
                     setRisk({ ...risk, risks_originId: Number(e.target.value) })
                   }
-                />
+                >
+                  {risksOriginData?.data.map((risksOrigin: RisksOriginType) => (
+                    <option key={risksOrigin.id} value={risksOrigin.id}>
+                      {risksOrigin.name}
+                    </option>
+                  ))}
+                </Input>
               </FormGroup>
               <FormGroup>
                 <Label for="periodId">Period ID</Label>
                 <Input
-                  type="text"
+                  type="select"
                   name="periodId"
                   id="periodId"
                   value={risk?.periodId}
                   onChange={(e) =>
                     setRisk({ ...risk, periodId: Number(e.target.value) })
                   }
-                />
+                >
+                  {periodData?.data.map((period: PeriodType) => (
+                    <option key={period.id} value={period.id}>
+                      {period.name}
+                    </option>
+                  ))}
+                </Input>
               </FormGroup>
               <FormGroup>
                 <Label for="event">Event</Label>
@@ -306,7 +337,7 @@ const RiskPage = function () {
                   id="event"
                   value={risk?.event}
                   onChange={(e) => setRisk({ ...risk, event: e.target.value })}
-                  autocomplete="off"
+                  autoComplete="off"
                 />
               </FormGroup>
               <FormGroup>
@@ -317,55 +348,75 @@ const RiskPage = function () {
                   id="cause"
                   value={risk?.cause}
                   onChange={(e) => setRisk({ ...risk, cause: e.target.value })}
-                  autocomplete="off"
+                  autoComplete="off"
                 />
               </FormGroup>
-              <Label for="consequence">Consequence</Label>
-              <Input
-                type="text"
-                name="consequence"
-                id="consequence"
-                value={risk?.consequence}
-                onChange={(e) =>
-                  setRisk({ ...risk, consequence: e.target.value })
-                }
-                autocomplete="off"
-              />
               <FormGroup>
-                <Label for="categoryId">Category</Label>
+                <Label for="consequence">Consequence</Label>
                 <Input
                   type="text"
-                  name="categoryId"
-                  id="categoryId"
+                  name="consequence"
+                  id="consequence"
+                  value={risk?.consequence}
+                  onChange={(e) =>
+                    setRisk({ ...risk, consequence: e.target.value })
+                  }
+                  autoComplete="off"
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label for="category_id">Category ID</Label>
+                <Input
+                  type="select"
+                  name="category_id"
+                  id="category_id"
                   value={risk?.category_id}
                   onChange={(e) =>
                     setRisk({ ...risk, category_id: Number(e.target.value) })
                   }
-                />
+                >
+                  {categoryData?.data.map((category: CategoryType) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </Input>
               </FormGroup>
               <FormGroup>
-                <Label for="probabilityId">Probability</Label>
+                <Label for="probability_id">Probability</Label>
                 <Input
-                  type="text"
-                  name="probabilityId"
-                  id="probabilityId"
+                  type="select"
+                  name="probability_id"
+                  id="probability_id"
                   value={risk?.probability_id}
                   onChange={(e) =>
                     setRisk({ ...risk, probability_id: Number(e.target.value) })
                   }
-                />
+                >
+                  {probabilityData?.data.map((probability: ProbabilityType) => (
+                    <option key={probability.id} value={probability.id}>
+                      {probability.name}
+                    </option>
+                  ))}
+                </Input>
               </FormGroup>
               <FormGroup>
-                <Label for="impactId">Impact</Label>
+                <Label for="impact_id">Impact</Label>
                 <Input
-                  type="text"
-                  name="impactId"
-                  id="impactId"
+                  type="select"
+                  name="impact_id"
+                  id="impact_id"
                   value={risk?.impact_id}
                   onChange={(e) =>
                     setRisk({ ...risk, impact_id: Number(e.target.value) })
                   }
-                />
+                >
+                  {impactData?.data.map((impact: ImpactType) => (
+                    <option key={impact.id} value={impact.id}>
+                      {impact.name}
+                    </option>
+                  ))}
+                </Input>
               </FormGroup>
               <Button color="primary" onClick={onUpdateButtonClick}>
                 Update

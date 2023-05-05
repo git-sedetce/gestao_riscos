@@ -6,7 +6,7 @@ import profileService from "../../../../src/services/profileService";
 import useSWR from "swr";
 import styles from "./styles.module.scss";
 
-const UserButton = () => {
+const AdminButton = () => {
   const { data: user } = useSWR<UserType>(
     "/api/user",
     profileService.fetchCurrent
@@ -16,12 +16,12 @@ const UserButton = () => {
     return (
       <>
         <Container className={styles.button}>
-          <Link href="/riskslist" className={styles.link}>
+          <Link href="/risks/list" className={styles.link}>
             <Button outline color="light" size="lg" className={styles.button}>
               RISCOS
             </Button>
           </Link>
-          <Link href="/treatmentslist" className={styles.link}>
+          <Link href="/treatments/list" className={styles.link}>
             <Button outline color="light" size="lg" className={styles.button}>
               TRATAMENTOS
             </Button>
@@ -44,4 +44,4 @@ const UserButton = () => {
   return null;
 };
 
-export default UserButton;
+export default AdminButton;

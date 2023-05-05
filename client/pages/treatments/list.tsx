@@ -1,9 +1,10 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import PageSpinner from "../src/components/common/spinner";
+import PageSpinner from "../../src/components/common/spinner";
 import HeaderAuth from "src/components/common/headerAuth";
 import TreatmentComponent from "src/components/common/treatmentComponent";
+import AdminButton from "src/components/common/button";
 
 const TreatmentsList = function () {
   const router = useRouter();
@@ -29,6 +30,7 @@ const TreatmentsList = function () {
       </Head>
       <main>
         <HeaderAuth />
+        <AdminButton />
         <TreatmentComponent />
       </main>
     </>

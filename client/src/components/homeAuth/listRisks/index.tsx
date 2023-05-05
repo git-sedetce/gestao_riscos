@@ -39,12 +39,6 @@ const ListRisks = function () {
               <HeaderAuth />
               <Container className="pt-4" color="danger" outline>
                 <p className={styles.title}>{risk.name}</p>
-                {/* {areaData &&
-                areaData.data.map((area: AreaType) => (
-                  <p className={styles.description} key={risk.areaId}>
-                    {area.name}
-                  </p>
-                ))} */}
                 <p className={styles.description} key={risk.id}>
                   {area ? area.name : "N/A"}
                 </p>

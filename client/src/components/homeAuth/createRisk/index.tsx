@@ -83,9 +83,9 @@ const createRisk = function () {
     const event = formData.get("event")!.toString();
     const cause = formData.get("cause")!.toString();
     const consequence = formData.get("consequence")!.toString();
-    const categoryId = Number(selectedCategory);
-    const probabilityId = Number(selectedProbability);
-    const impactId = Number(selectedImpact);
+    const category_id = Number(selectedCategory);
+    const probability_id = Number(selectedProbability);
+    const impact_id = Number(selectedImpact);
     const priority = Boolean(selectedPriority);
     const params = {
       areaId,
@@ -97,9 +97,9 @@ const createRisk = function () {
       event,
       cause,
       consequence,
-      categoryId,
-      probabilityId,
-      impactId,
+      category_id,
+      probability_id,
+      impact_id,
       priority,
     };
 
@@ -375,8 +375,8 @@ const createRisk = function () {
                       </Label>
                       <Input
                         type="select"
-                        name="categoryId"
-                        id="categoryId"
+                        name="category_id"
+                        id="category_id"
                         value={selectedCategory}
                         onChange={(event) =>
                           setSelectedCategory(String(event.target.value))
@@ -404,8 +404,8 @@ const createRisk = function () {
                       </Label>
                       <Input
                         type="select"
-                        name="probabilityId"
-                        id="probabilityId"
+                        name="probability_id"
+                        id="probability_id"
                         value={selectedProbability}
                         onChange={(event) =>
                           setSelectedProbability(String(event.target.value))
@@ -435,8 +435,8 @@ const createRisk = function () {
                       </Label>
                       <Input
                         type="select"
-                        name="impactId"
-                        id="impactId"
+                        name="impact_id"
+                        id="impact_id"
                         value={selectedImpact}
                         onChange={(event) =>
                           setSelectedImpact(String(event.target.value))

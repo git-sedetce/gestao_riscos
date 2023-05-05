@@ -8,9 +8,9 @@ interface CreateParams {
   event: string;
   cause: string;
   consequence: string;
-  categoryId: number;
-  probabilityId: number;
-  impactId: number;
+  category_id: number;
+  probability_id: number;
+  impact_id: number;
   priority: boolean;
 }
 interface CreateParamsTreatment {

@@ -7,7 +7,7 @@ import NewestCategory from "../src/components/homeAuth/newestCategory";
 import PageSpinner from "../src/components/common/spinner";
 import FeaturedCategory from "../src/components/homeAuth/featuredCategory";
 import FeaturedSection from "../src/components/homeAuth/featuredSection";
-import UserButton from "../src/components/common/button";
+import AdminButton from "../src/components/common/button";
 
 const HomeAuth = function () {
   const router = useRouter();
@@ -33,7 +33,7 @@ const HomeAuth = function () {
       </Head>
       <main>
         <FeaturedSection />
-        <UserButton />
+        <AdminButton />
         <NewestCategory />
         <FeaturedCategory />
         <CreateRisk />

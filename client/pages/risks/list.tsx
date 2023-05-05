@@ -1,11 +1,12 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import PageSpinner from "../src/components/common/spinner";
+import PageSpinner from "../../src/components/common/spinner";
 import HeaderAuth from "src/components/common/headerAuth";
 import riskService, { RiskType } from "src/services/riskService";
 import RiskComponent from "src/components/common/riskComponent";
 import useSWR from "swr";
+import AdminButton from "src/components/common/button";
 
 const RisksList = function () {
   const router = useRouter();
@@ -39,6 +40,7 @@ const RisksList = function () {
       </Head>
       <main>
         <HeaderAuth />
+        <AdminButton />
         <RiskComponent risk={risks} />
       </main>
     </>

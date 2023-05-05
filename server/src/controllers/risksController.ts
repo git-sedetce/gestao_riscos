@@ -106,9 +106,9 @@ export const risksController = {
       event,
       cause,
       consequence,
-      categoryId,
-      probabilityId,
-      impactId,
+      category_id,
+      probability_id,
+      impact_id,
       priority,
     } = req.body;
 
@@ -129,9 +129,9 @@ export const risksController = {
         event,
         cause,
         consequence,
-        categoryId,
-        probabilityId,
-        impactId,
+        category_id,
+        probability_id,
+        impact_id,
         priority,
       });
 
@@ -168,9 +168,9 @@ export const risksController = {
       event,
       cause,
       consequence,
-      categoryId,
-      probabilityId,
-      impactId,
+      category_id,
+      probability_id,
+      impact_id,
       priority,
     } = req.body;
 
@@ -190,9 +190,9 @@ export const risksController = {
         event,
         cause,
         consequence,
-        categoryId,
-        probabilityId,
-        impactId,
+        category_id,
+        probability_id,
+        impact_id,
         priority,
       });
 

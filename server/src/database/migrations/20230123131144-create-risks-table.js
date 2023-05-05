@@ -37,13 +37,6 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "RESTRICT",
       },
-      period_id: {
-        allowNull: false,
-        type: Sequelize.DataTypes.INTEGER,
-        references: { model: "periods", key: "id" },
-        onUpdate: "CASCADE",
-        onDelete: "RESTRICT",
-      },
       name: {
         allowNull: false,
         type: Sequelize.DataTypes.STRING,

@@ -20,9 +20,9 @@ export const riskService = {
       event: string;
       cause: string;
       consequence: string;
-      categoryId: number;
-      probabilityId: number;
-      impactId: number;
+      category_id: number;
+      probability_id: number;
+      impact_id: number;
       priority: boolean;
     }
   ) => {
@@ -33,6 +33,7 @@ export const riskService = {
 
     return updatedRisks[0];
   },
+
   findById: async (id: number) => {
     const risk = await Risk.findByPk(id);
     return risk;

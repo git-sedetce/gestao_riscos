@@ -12,9 +12,9 @@ export interface Risk {
   event: string;
   cause: string;
   consequence: string;
-  categoryId: number;
-  probabilityId: number;
-  impactId: number;
+  category_id: number;
+  probability_id: number;
+  impact_id: number;
   priority: boolean;
 }
 
@@ -83,21 +83,21 @@ export const Risk = sequelize.define<RiskInstance, Risk>("Risk", {
     allowNull: false,
     type: DataTypes.STRING,
   },
-  categoryId: {
+  category_id: {
     allowNull: false,
     type: DataTypes.INTEGER,
     references: { model: "categories", key: "id" },
     onUpdate: "CASCADE",
     onDelete: "RESTRICT",
   },
-  probabilityId: {
+  probability_id: {
     allowNull: false,
     type: DataTypes.INTEGER,
     references: { model: "probabilities", key: "id" },
     onUpdate: "CASCADE",
     onDelete: "RESTRICT",
   },
-  impactId: {
+  impact_id: {
     allowNull: false,
     type: DataTypes.INTEGER,
     references: { model: "impacts", key: "id" },
