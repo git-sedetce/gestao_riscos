@@ -4,7 +4,7 @@ import HeaderAuth from "../../src/components/common/headerAuth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import riskService, { RiskType } from "../../src/services/riskService";
-import { Container } from "reactstrap";
+import { Button, Container } from "reactstrap";
 import PageSpinner from "../../src/components/common/spinner";
 import TreatmentCard from "../../src/components/treatmentCard/index";
 import useSWR from "swr";
@@ -22,11 +22,13 @@ import CreateTreatment from "../../src/components/homeAuth/createTreatment";
 import Footer from "../../src/components/common/footer";
 import profileService from "src/services/profileService";
 import EditRisk from "src/components/homeAuth/editRisk";
+import EditTreatment from "src/components/homeAuth/editTreatment";
 
 const RiskPage = function () {
   const [risk, setRisk] = useState<RiskType | undefined>(undefined);
   const router = useRouter();
   const { id } = router.query;
+  const [showWarning, setShowWarning] = useState(false);
 
   const { data: areaData } = useSWR("/listAreas", listService.getAreas);
   const { data: userData } = useSWR("/listUsers", authService.getUsers);
@@ -53,21 +55,29 @@ const RiskPage = function () {
     profileService.fetchCurrent
   );
 
-  const getRisk = async function () {
-    if (typeof id !== "string") return;
+  useEffect(() => {
+    const getRisk = async function () {
+      if (typeof id !== "string") return;
 
-    const res = await riskService.getTreatments(id);
+      const res = await riskService.getTreatments(id);
 
-    if (res.status === 200) {
-      setRisk(res.data);
+      if (res.status === 200) {
+        setRisk(res.data);
+      }
+    };
+    getRisk();
+  }, [id]);
+
+  const handleDeleteRisk = async function () {
+    if (risk) {
+      setShowWarning(false); // hide the warning modal
+      setTimeout(async () => {
+        // set a timeout to wait for 10 seconds
+        const res = await riskService.deleteRisk(risk.id);
+        router.push("/home");
+      }, 500);
     }
   };
-
-  useEffect(() => {
-    if (typeof id === "string") {
-      getRisk();
-    }
-  }, [id]);
 
   if (risk === undefined) return <PageSpinner />;
 
@@ -190,6 +200,30 @@ const RiskPage = function () {
           <CreateTreatment riskId={Number(id)} />
         </Container>
         {user?.role === "admin" ? <EditRisk /> : <br />}
+        {risk?.treatments?.length === 0 && (
+          <Button
+            className={styles.button}
+            onClick={() => setShowWarning(true)}
+          >
+            Delete Risk
+          </Button>
+        )}
+        {showWarning && (
+          <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center">
+            <div className="bg-white p-4 rounded">
+              <h2>Atenção!</h2>
+              <p>Tem certeza de que deseja excluir este risco?</p>
+              <div className="d-flex justify-content-end">
+                <Button color="secondary" onClick={() => setShowWarning(false)}>
+                  Cancelar
+                </Button>
+                <Button color="danger" onClick={handleDeleteRisk}>
+                  Deletar
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
         <Footer />
       </main>
     </>

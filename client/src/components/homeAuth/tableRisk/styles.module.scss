@@ -63,8 +63,6 @@
 .titles {
   cursor: pointer;
 }
-@import "../../../../styles/colors.module.scss";
-
 .button {
   display: flex;
   justify-content: center;
@@ -79,15 +77,10 @@
   }
 }
 .link {
-  text-decoration: none;
-  color: $mediumGray;
+  color: black;
   transition: 0.3s;
   border-radius: 60px;
-  &:hover {
-    color: $lightGray;
-  }
 }
-
 @media (max-width: 575px) {
   .footer {
     padding: 26px 16px;

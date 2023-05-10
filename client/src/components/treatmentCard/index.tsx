@@ -1,6 +1,7 @@
 import styles from "./styles.module.scss";
 import { TreatmentType } from "../../services/riskService";
 import { useEffect, useState } from "react";
+import TreatmentForm from "../homeAuth/editTreatment";
 
 interface Props {
   treatment: TreatmentType;
@@ -70,6 +71,7 @@ const TreatmentCard = ({ treatment }: Props) => {
           </p>
         </div>
       </div>
+      <TreatmentForm treatment={treatment} />
     </>
   );
 };

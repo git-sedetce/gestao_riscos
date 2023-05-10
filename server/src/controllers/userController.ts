@@ -27,7 +27,18 @@ export const usersController = {
       }
     }
   },
-
+  showCurrentId: async (req: AuthenticatedRequest, res: Response) => {
+    const { id } = req.params;
+    try {
+      const currentUser = req.user;
+      const user = await userService.findByCurrentId(id, currentUser);
+      return res.json(user);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
   // PUT /users/current
   update: async (req: AuthenticatedRequest, res: Response) => {
     const { id } = req.user!;

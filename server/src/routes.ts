@@ -33,6 +33,7 @@ router.get("/risks/search", ensureAuth, risksController.searchRisks);
 router.get("/risks/:id", ensureAuth, risksController.showId);
 router.post("/risk", risksController.register);
 router.put("/risks/:id", ensureAuth, risksController.update);
+router.delete("/risks/:id", ensureAuth, risksController.delete);
 
 router.get("/treatments", ensureAuth, treatmentsController.index);
 router.get("/treatments/:id", ensureAuth, treatmentsController.show);
@@ -52,6 +53,7 @@ router.get("/typestreatments/:id", treatmentsController.showTypesTreatmentId);
 router.put("/treatments/:id", ensureAuth, treatmentsController.update);
 
 router.get("/users/current", ensureAuth, usersController.show);
+router.get("/users/current/:id", ensureAuth, usersController.showCurrentId);
 router.get("/users/:id", ensureAuth, usersController.showId);
 router.put("/users/current", ensureAuth, usersController.update);
 router.put(

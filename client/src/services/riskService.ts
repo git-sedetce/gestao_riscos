@@ -115,7 +115,7 @@ const riskService = {
 
     return res;
   },
-  riskUpdate: async (id: number | string, params: Partial<RiskType>) => {
+  updateRisk: async (id: number | string, params: Partial<RiskType>) => {
     const token = sessionStorage.getItem("risks-token");
 
     const res = await api
@@ -133,6 +133,30 @@ const riskService = {
 
     return res.status;
   },
+  deleteRisk: async (riskId: number) => {
+    const token = sessionStorage.getItem("risks-token");
+    const res = await api.delete(`/risks/${riskId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data;
+  },
+  getFavRisks: async (id: number | string) => {
+    const token = sessionStorage.getItem("risks-token");
+
+    const res = await api
+      .get(`favorites/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        return error.response;
+      });
+
+    return res;
+  },
   createTreat: async (params: CreateParamsTreatment) => {
     const res = await api.post("/treatment", params).catch((error) => {
       if (error.response.status === 400) {
@@ -143,6 +167,24 @@ const riskService = {
     });
 
     return res;
+  },
+  updateTreat: async (id: number | string, params: Partial<TreatmentType>) => {
+    const token = sessionStorage.getItem("risks-token");
+
+    const res = await api
+      .put(`/treatments/${id}`, params, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        if (error.response.status === 400 || error.response.status === 401) {
+          return error.response;
+        }
+        return error;
+      });
+
+    return res.status;
   },
   getSearch: async (name: string) => {
     const token = sessionStorage.getItem("risks-token");

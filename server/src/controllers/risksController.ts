@@ -156,7 +156,6 @@ export const risksController = {
       }
     }
   },
-  
   update: async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     const {
@@ -198,6 +197,24 @@ export const risksController = {
       });
 
       return res.status(200).json(updatedRisk);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
+  delete: async (req: Request, res: Response) => {
+    const riskId = parseInt(req.params.id);
+
+    try {
+      const risk = await Risk.findByPk(riskId);
+      if (!risk) {
+        return res.status(404).json({ message: "Risk not found" });
+      }
+
+      await risk.destroy();
+
+      return res.json({ message: "Risk deleted successfully" });
     } catch (err) {
       if (err instanceof Error) {
         return res.status(400).json({ message: err.message });
