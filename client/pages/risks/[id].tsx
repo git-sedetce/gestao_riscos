@@ -189,6 +189,7 @@ const RiskPage = function () {
             {risk?.treatments?.length === 0 && (
               <Button
                 className={styles.button}
+                color="danger"
                 onClick={() => setShowWarning(true)}
               >
                 Deletar Risco

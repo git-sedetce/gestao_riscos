@@ -1,7 +1,11 @@
 import styles from "./styles.module.scss";
-import { TreatmentType } from "../../services/riskService";
+import riskService, { TreatmentType } from "../../services/riskService";
 import { useEffect, useState } from "react";
 import EditTreatment from "../homeAuth/editTreatment";
+import { Button } from "reactstrap";
+import useSWR from "swr";
+import { UserType } from "src/services/authService";
+import profileService from "src/services/profileService";
 
 interface Props {
   treatment: TreatmentType;
@@ -14,6 +18,11 @@ const baseUrl = `https://api-gestaoderiscos.sedet.ce.gov.br`;
 const TreatmentCard = ({ treatment }: Props) => {
   const [statusTreatmentName, setStatusTreatmentName] = useState("");
   const [typesTreatmentName, setTypesTreatmentName] = useState("");
+
+  const { data: user } = useSWR<UserType>(
+    "/api/user",
+    profileService.fetchCurrent
+  );
 
   useEffect(() => {
     const getStatusTreatmentName = async () => {
@@ -40,6 +49,15 @@ const TreatmentCard = ({ treatment }: Props) => {
     const date = new Date(deadline);
     return date.toLocaleDateString();
   }
+
+  const handleDeleteTreatment = async (treatmentId: number) => {
+    try {
+      await riskService.deleteTreatment(treatmentId);
+      // Handle successful deletion, such as updating the state or displaying a success message
+    } catch (error) {
+      // Handle error, such as displaying an error message
+    }
+  };
 
   return (
     <>
@@ -69,7 +87,21 @@ const TreatmentCard = ({ treatment }: Props) => {
           </p>
         </div>
       </div>
-      <EditTreatment treatment={treatment} />
+      {user?.role === "admin" ? (
+        <EditTreatment treatment={treatment} />
+      ) : (
+        <br />
+      )}
+      {user?.role === "admin" ? (
+        <Button
+          color="danger"
+          onClick={() => handleDeleteTreatment(treatment.id)}
+        >
+          Deletar Tratamento
+        </Button>
+      ) : (
+        <br />
+      )}
     </>
   );
 };
