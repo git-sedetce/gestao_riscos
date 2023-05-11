@@ -35,10 +35,10 @@ const HomeAuth = function () {
       <main>
         <FeaturedSection />
         <AdminButton />
-        <NewestCategory />
-        <UserRisks />
-        <FeaturedCategory />
         <CreateRisk />
+        <UserRisks />
+        <NewestCategory />
+        <FeaturedCategory />
         <Footer />
       </main>
     </>

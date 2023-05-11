@@ -142,6 +142,15 @@ const riskService = {
     });
     return res.data;
   },
+  deleteTreatment: async (treatmentId: number) => {
+    const token = sessionStorage.getItem("risks-token");
+    const res = await api.delete(`/treatments/${treatmentId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data;
+  },
   getFavRisks: async (id: number | string) => {
     const token = sessionStorage.getItem("risks-token");
 

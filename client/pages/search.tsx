@@ -57,7 +57,6 @@ const Search = function () {
             <p className={styles.noSearchText}>Nenhum resultado encontrado!</p>
           </div>
         )}
-        <Footer />
       </main>
     </>
   );

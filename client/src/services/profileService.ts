@@ -1,4 +1,6 @@
 import api from "./api";
+import authService, { UserType } from "./authService";
+import { RiskType } from "./riskService";
 
 interface UserParams {
   name: string;
@@ -26,6 +28,11 @@ const profileService = {
       });
     console.log(res.data);
     return res.data;
+  },
+  getCurrentUserRisks: async (): Promise<RiskType[]> => {
+    const currentUser = await profileService.fetchCurrent();
+    const risks = await authService.getUsersRisks(currentUser.id);
+    return risks.data.risks;
   },
   userUpdate: async (params: UserParams) => {
     const token = sessionStorage.getItem("risks-token");

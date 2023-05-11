@@ -51,6 +51,7 @@ router.get(
 router.get("/statustreatments/:id", treatmentsController.showStatusTreatmentId);
 router.get("/typestreatments/:id", treatmentsController.showTypesTreatmentId);
 router.put("/treatments/:id", ensureAuth, treatmentsController.update);
+router.delete("/treatments/:id", ensureAuth, risksController.deleteTreatment);
 
 router.get("/users/current", ensureAuth, usersController.show);
 router.get("/users/current/:id", ensureAuth, usersController.showCurrentId);

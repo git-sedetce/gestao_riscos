@@ -168,6 +168,7 @@ const TableTreatment = () => {
               <th onClick={() => handleSort("riskId")}>
                 Riscos {getSortIcon("riskId")}
               </th>
+              <th> Responsáveis da medida</th>
               <th>Tipos de Tratamento</th>
               <th>Status de Tratamento</th>
               <th onClick={() => handleSort("deadline")}>
@@ -187,6 +188,7 @@ const TableTreatment = () => {
                 >
                   <td>{getRiskNameById(treatment.riskId)}</td>
                 </Link>
+                <td>{treatment.user}</td>
                 <td>{treatment.types_treatmentId}</td>
                 <td>{treatment.status_treatmentId}</td>
                 {/* <td>{getTypeNameById(treatment.types_treatmentId)}</td>

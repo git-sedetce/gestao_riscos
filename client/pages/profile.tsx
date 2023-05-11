@@ -64,7 +64,6 @@ const UserInfo = function () {
             </Col>
           </Row>
         </Container>
-        <Footer />
       </main>
     </>
   );

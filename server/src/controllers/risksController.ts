@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Risk } from "../models";
+import { Risk, Treatment } from "../models";
 import { getPaginationParams } from "../helpers/getPaginationParams";
 import { riskService } from "../services/riskService";
 
@@ -215,6 +215,24 @@ export const risksController = {
       await risk.destroy();
 
       return res.json({ message: "Risk deleted successfully" });
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
+  deleteTreatment: async (req: Request, res: Response) => {
+    const treatmentId = parseInt(req.params.id);
+
+    try {
+      const treatment = await Treatment.findByPk(treatmentId);
+      if (!treatment) {
+        return res.status(404).json({ message: "Treatment not found" });
+      }
+
+      await treatment.destroy();
+
+      return res.json({ message: "Treatment deleted successfully" });
     } catch (err) {
       if (err instanceof Error) {
         return res.status(400).json({ message: err.message });

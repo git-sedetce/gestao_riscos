@@ -6,11 +6,7 @@ const Footer = () => {
   return (
     <>
       <Container className={styles.footer}>
-        <img
-          src="/footer.svg"
-          alt="logo Footer"
-          className={styles.footerLogo}
-        />
+      <p>SDE - Secretaria Municipal do Desenvolvimento Econômico</p>
       </Container>
     </>
   );

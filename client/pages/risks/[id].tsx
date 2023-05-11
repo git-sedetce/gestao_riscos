@@ -184,8 +184,43 @@ const RiskPage = function () {
             </p>
           )}
         </Container>
+        {user?.role === "admin" ? (
+          <Container className={styles.riskInfo}>
+            {risk?.treatments?.length === 0 && (
+              <Button
+                className={styles.button}
+                onClick={() => setShowWarning(true)}
+              >
+                Deletar Risco
+              </Button>
+            )}
+            {showWarning && (
+              <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center">
+                <div className="bg-white p-4 rounded">
+                  <h2>Atenção!</h2>
+                  <p>Tem certeza de que deseja excluir este risco?</p>
+                  <div className="d-flex justify-content-end">
+                    <Button
+                      color="secondary"
+                      onClick={() => setShowWarning(false)}
+                    >
+                      Cancelar
+                    </Button>
+                    <Button color="danger" onClick={handleDeleteRisk}>
+                      Deletar
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </Container>
+        ) : (
+          <br />
+        )}
+        {user?.role === "admin" ? <EditRisk /> : <br />}
+        <CreateTreatment riskId={Number(id)} />
         <Container className={styles.treatmentInfo}>
-          <p className={styles.treatmentDivision}>TRATAMENTO</p>
+          <p className={styles.treatmentDivision}>TRATAMENTOS</p>
           {risk?.treatments?.length === 0 ? (
             <div>
               <p className={styles.treatmentRegister}>
@@ -197,33 +232,7 @@ const RiskPage = function () {
               <TreatmentCard key={treatment.id} treatment={treatment} />
             ))
           )}
-          <CreateTreatment riskId={Number(id)} />
         </Container>
-        {user?.role === "admin" ? <EditRisk /> : <br />}
-        {risk?.treatments?.length === 0 && (
-          <Button
-            className={styles.button}
-            onClick={() => setShowWarning(true)}
-          >
-            Delete Risk
-          </Button>
-        )}
-        {showWarning && (
-          <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center">
-            <div className="bg-white p-4 rounded">
-              <h2>Atenção!</h2>
-              <p>Tem certeza de que deseja excluir este risco?</p>
-              <div className="d-flex justify-content-end">
-                <Button color="secondary" onClick={() => setShowWarning(false)}>
-                  Cancelar
-                </Button>
-                <Button color="danger" onClick={handleDeleteRisk}>
-                  Deletar
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
         <Footer />
       </main>
     </>

@@ -1,8 +1,10 @@
 @import "../../../../styles/colors.module.scss";
 
 .footer {
-  width: 100%;
-  bottom: 0;
+  background-color: $mediumBlue;
+  color: white;
+  padding: 20px;
+  text-align: center;
 }
 .footerLogo {
   width: 100%;

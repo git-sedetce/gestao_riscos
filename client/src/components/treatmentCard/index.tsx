@@ -1,7 +1,7 @@
 import styles from "./styles.module.scss";
 import { TreatmentType } from "../../services/riskService";
 import { useEffect, useState } from "react";
-import TreatmentForm from "../homeAuth/editTreatment";
+import EditTreatment from "../homeAuth/editTreatment";
 
 interface Props {
   treatment: TreatmentType;
@@ -52,8 +52,7 @@ const TreatmentCard = ({ treatment }: Props) => {
             </p>
           )}
           <p className={styles.treatmentDescription}>
-            <b>Responsável pela medida:</b>
-            <br />
+            <b>Responsável pela medida: </b>
             {treatment.user}
           </p>
           <p className={styles.treatmentDescription}>
@@ -66,12 +65,11 @@ const TreatmentCard = ({ treatment }: Props) => {
           )}
           <p className={styles.treatmentDescription}>
             <b>Notas:</b>
-            <br />
             {treatment.notes}
           </p>
         </div>
       </div>
-      <TreatmentForm treatment={treatment} />
+      <EditTreatment treatment={treatment} />
     </>
   );
 };

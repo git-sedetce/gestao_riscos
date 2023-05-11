@@ -17,7 +17,7 @@ interface Props {
   treatment: TreatmentType;
 }
 
-const TreatmentForm = ({ treatment }: Props) => {
+const editTreatment = ({ treatment }: Props) => {
   const [name, setName] = useState(treatment.name);
   const [risk, setRisk] = useState(treatment.riskId ?? "");
   const [user, setUser] = useState(treatment.user);
@@ -145,4 +145,4 @@ const TreatmentForm = ({ treatment }: Props) => {
   );
 };
 
-export default TreatmentForm;
+export default editTreatment;
