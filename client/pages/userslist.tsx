@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import PageSpinner from "../src/components/common/spinner";
 import ListUsers from "src/components/homeAuth/listUsers";
 import HeaderAuth from "src/components/common/headerAuth";
+import AdminButton from "src/components/common/button";
 
 const UsersList = function () {
   const router = useRouter();
@@ -29,6 +30,7 @@ const UsersList = function () {
       </Head>
       <main>
         <HeaderAuth />
+        <AdminButton />
         <ListUsers />
       </main>
     </>

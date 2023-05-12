@@ -20,13 +20,22 @@
   margin: 10px 0px;
 }
 .treatmentTitle {
-  color:$mediumWhite;
+  color: $mediumWhite;
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 .treatmentDescription {
   color: black;
+}
+.deadlineRed {
+  background-color: #f87171;
+}
+.deadlineYellow {
+  background-color: #facc15;
+}
+.deadlineBlue {
+  background-color: #22d3ee;
 }
 
 @media (max-width: 570px) {

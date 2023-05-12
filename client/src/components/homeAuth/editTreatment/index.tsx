@@ -11,7 +11,9 @@ import {
   ModalBody,
   Form,
 } from "reactstrap";
+import listService, { TypesTreatmentType } from "src/services/listService";
 import riskService, { TreatmentType } from "src/services/riskService";
+import useSWR from "swr";
 
 interface Props {
   treatment: TreatmentType;
@@ -33,6 +35,15 @@ const editTreatment = ({ treatment }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const toggleModal = () => setModalOpen(!modalOpen);
+
+  const { data: typesTreatmentData } = useSWR(
+    "/listTypesTreatments",
+    listService.getTypesTreatments
+  );
+  const { data: statusTreatmentData } = useSWR(
+    "/listStatusTreatments",
+    listService.getStatusTreatments
+  );
 
   useEffect(() => {
     setRisk(treatment.riskId);
@@ -93,14 +104,22 @@ const editTreatment = ({ treatment }: Props) => {
               <FormGroup>
                 <Label for="types_treatmentId">Tipos de tratamento:</Label>
                 <Input
-                  type="text"
+                  type="select"
                   name="types_treatmentId"
                   id="types_treatmentId"
                   value={typesTreatmentId}
                   onChange={(e) =>
                     setTypesTreatmentId(parseInt(e.target.value))
                   }
-                />
+                >
+                  {typesTreatmentData?.data.map(
+                    (typesTreatment: TypesTreatmentType) => (
+                      <option key={typesTreatment.id} value={typesTreatment.id}>
+                        {typesTreatment.name}
+                      </option>
+                    )
+                  )}
+                </Input>
               </FormGroup>
               <FormGroup>
                 <Label for="deadline">Deadline:</Label>

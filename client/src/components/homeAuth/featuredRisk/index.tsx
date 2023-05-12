@@ -4,7 +4,7 @@ import riskService from "../../../services/riskService";
 import SlideComponent from "../../common/slideComponent";
 import PageSpinner from "../../common/spinner";
 
-const FeaturedCategory = function () {
+const FeaturedRisk = function () {
   const { data, error } = useSWR("/featured", riskService.getFeaturedRisks);
 
   if (error) return error;
@@ -21,4 +21,4 @@ const FeaturedCategory = function () {
   );
 };
 
-export default FeaturedCategory;
+export default FeaturedRisk;

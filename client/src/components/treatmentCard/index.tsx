@@ -59,9 +59,26 @@ const TreatmentCard = ({ treatment }: Props) => {
     }
   };
 
+  function getDeadlineColor() {
+    const deadline = new Date(treatment.deadline).getTime();
+    const now = new Date().getTime();
+    const timeDifference = deadline - now;
+    const weeksDifference = Math.floor(
+      timeDifference / (1000 * 60 * 60 * 24 * 7)
+    );
+
+    if (weeksDifference <= 0) {
+      return styles.deadlineRed;
+    } else if (weeksDifference <= 2) {
+      return styles.deadlineYellow;
+    } else {
+      return styles.deadlineBlue;
+    }
+  }
+
   return (
     <>
-      <div className={styles.treatmentCard}>
+      <div className={`${styles.treatmentCard} ${getDeadlineColor()}`}>
         <div className={styles.treatmentTitleDescription}>
           <p className={styles.treatmentTitle}>{treatment.name}</p>
           {typesTreatmentName && (

@@ -169,8 +169,12 @@ const TableTreatment = () => {
                 Riscos {getSortIcon("riskId")}
               </th>
               <th> Responsáveis da medida</th>
-              <th>Tipos de Tratamento</th>
-              <th>Status de Tratamento</th>
+              <th onClick={() => handleSort("types_treatmentId")}>
+                Tipos de tratamento {getSortIcon("types_treatmentId")}
+              </th>
+              <th onClick={() => handleSort("status_treatmentId")}>
+                Status de tratamento {getSortIcon("status_treatmentId")}
+              </th>
               <th onClick={() => handleSort("deadline")}>
                 Prazo {getSortIcon("deadline")}
               </th>

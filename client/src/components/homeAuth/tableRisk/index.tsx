@@ -401,11 +401,11 @@ const TableRisk = function ({ risk }: props) {
         >
           <thead>
             <tr className={styles.titles}>
-              <th onClick={() => handleSortByColumn("#")}>
+              {/* <th onClick={() => handleSortByColumn("#")}>
                 # {sortIdOrder === "asc" ? <FaSortUp /> : <FaSortDown />}
-              </th>
+              </th> */}
               <th onClick={() => handleSortByColumn("indicador")}>
-                Indicador {sortIcon("indicador")}
+                Indicador / Descrição {sortIcon("indicador")}
               </th>
               <th onClick={() => handleSortByColumn("event")}>
                 Evento {sortIcon("event")}
@@ -442,9 +442,9 @@ const TableRisk = function ({ risk }: props) {
           <tbody className="tbody-space">
             {sortedRisks?.map((risk, key) => (
               <tr key={key} className={styles.slide}>
-                <th scope="row" className={styles.slideEvent}>
+                {/* <th scope="row" className={styles.slideEvent}>
                   {risk.id}
-                </th>
+                </th> */}
                 <Link href={`${risk.id}`} className={styles.link}>
                   <td className={styles.slideIndicator}>{risk.name}</td>
                 </Link>

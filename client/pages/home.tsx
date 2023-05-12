@@ -5,10 +5,10 @@ import Footer from "src/components/common/footer";
 import CreateRisk from "src/components/homeAuth/createRisk";
 import NewestCategory from "../src/components/homeAuth/newestCategory";
 import PageSpinner from "../src/components/common/spinner";
-import FeaturedCategory from "../src/components/homeAuth/featuredCategory";
 import FeaturedSection from "../src/components/homeAuth/featuredSection";
 import AdminButton from "../src/components/common/button";
 import UserRisks from "src/components/homeAuth/userRisks";
+import FeaturedRisk from "../src/components/homeAuth/featuredRisk";
 
 const HomeAuth = function () {
   const router = useRouter();
@@ -38,7 +38,7 @@ const HomeAuth = function () {
         <CreateRisk />
         <UserRisks />
         <NewestCategory />
-        <FeaturedCategory />
+        <FeaturedRisk />
         <Footer />
       </main>
     </>

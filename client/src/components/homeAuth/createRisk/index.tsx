@@ -306,7 +306,7 @@ const createRisk = function () {
                   </Col>
                   <FormGroup>
                     <Label for="name" className={styles.label}>
-                      INDICADOR
+                      INDICADOR / DESCRIÇÃO
                     </Label>
                     <Input
                       id="name"
