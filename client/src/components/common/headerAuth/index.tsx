@@ -27,10 +27,15 @@ const HeaderAuth = function () {
   };
 
   useEffect(() => {
-    profileService.fetchCurrent().then((user) => {
-      const nameInitial = user.name.slice(0, 2);
-      setInitials(nameInitial);
-    });
+    const fetchInitials = async () => {
+      const response = await profileService.fetchCurrent();
+      const nameParts = response.name.split(" ");
+      const firstInitial = nameParts[0]?.charAt(0) || "";
+      const lastInitial = nameParts[1]?.charAt(1) || "";
+      setInitials(`${firstInitial}${lastInitial}`);
+    };
+
+    fetchInitials();
   }, []);
 
   const handleOpenModal = () => {

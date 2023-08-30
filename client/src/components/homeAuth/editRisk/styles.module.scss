@@ -1,5 +1,13 @@
 @import "../../../../styles/colors.module.scss";
 
+.editRisk {
+  font-weight: bold;
+  padding: 0.625rem 2.188rem;
+  &:hover {
+    background-color: transparent;
+    color: $lightGray;
+  }
+}
 .formTitle {
   font-size: 40px;
   font-weight: bold;
@@ -11,18 +19,6 @@
   padding: 3.125rem;
   border: 1px solid $lightGray;
   margin: 0 auto;
-}
-.button {
-  display: block;
-  margin: 20px auto 0 auto;
-  color: white;
-  background-color: $mediumBlue;
-  padding: 15px 32px;
-  &:hover {
-    color: $lightGray;
-    background-color: $darkBlue;
-    border-color: $darkBlue;
-  }
 }
 .modalBody {
   display: flex;

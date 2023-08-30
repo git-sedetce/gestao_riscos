@@ -1,7 +1,5 @@
 import { Category } from "../models";
 
-interface Area {}
-
 export const categoryService = {
   findAllCategoriesPaginated: async (page: number, perPage: number) => {
     const offset = (page - 1) * perPage;

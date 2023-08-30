@@ -1,8 +1,5 @@
 @import "../styles/colors.module.scss";
 
-// .riskInfo {
-//   margin-top: -60px;
-// }
 .riskTitle {
   font-size: 40px;
   font-weight: bold;
@@ -65,19 +62,15 @@
   border: 1px solid $lightGray;
   margin: 0 auto;
 }
-.button {
+.adminButton {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.938rem;
-  font-weight: bold;
-  padding: 0.625rem 2.188rem;
-
-  &:hover {
-    background-color: transparent;
-    color: $lightGray;
-  }
+  justify-content: center; // Optional: adjust the alignment of the buttons horizontally
+  align-items: center; // Optional: adjust the alignment of the buttons vertically
 }
+.adminButton > * {
+  margin-right: 5rem;
+}
+
 @media (max-width: 767px) {
   .riskTitle {
     font-size: 26px;
