@@ -10,9 +10,7 @@ import authService, { UserType } from "../../../../src/services/authService";
 import listService, {
   AreaType,
   CategoryType,
-  ImpactType,
   PeriodType,
-  ProbabilityType,
   RisksOriginType,
   TypesOriginType,
 } from "../../../../src/services/listService";
@@ -36,11 +34,6 @@ const TableRisk = function ({ risk }: props) {
     "/listCategories",
     listService.getCategories
   );
-  const { data: probabilityData } = useSWR(
-    "/listProbabilities",
-    listService.getProbabilities
-  );
-  const { data: impactData } = useSWR("/listImpacts", listService.getImpacts);
 
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [sortIdOrder, setSortIdOrder] = useState<"asc" | "desc">("asc");
@@ -55,9 +48,6 @@ const TableRisk = function ({ risk }: props) {
     | "risks_origin"
     | "period"
     | "category"
-    | "probability"
-    | "impact"
-    | "priority"
   >("indicador");
 
   const handleSortByColumn = (
@@ -71,9 +61,6 @@ const TableRisk = function ({ risk }: props) {
       | "risks_origin"
       | "period"
       | "category"
-      | "probability"
-      | "impact"
-      | "priority"
   ) => {
     if (sortColumn === column) {
       if (column === "#") {
@@ -287,74 +274,6 @@ const TableRisk = function ({ risk }: props) {
             ""
         );
       }
-    } else if (sortColumn === "probability") {
-      if (sortOrder === "asc") {
-        return (
-          (up.probability_id &&
-            probabilityData?.data.find(
-              (probability: ImpactType) => probability.id === up.probability_id
-            )?.name) ||
-          ""
-        ).localeCompare(
-          (down.probability_id &&
-            probabilityData?.data.find(
-              (probability: ImpactType) =>
-                probability.id === down.probability_id
-            )?.name) ||
-            ""
-        );
-      } else {
-        return (
-          (down.probability_id &&
-            probabilityData?.data.find(
-              (probability: ImpactType) =>
-                probability.id === down.probability_id
-            )?.name) ||
-          ""
-        ).localeCompare(
-          (up.probability_id &&
-            probabilityData?.data.find(
-              (probability: ImpactType) => probability.id === up.probability_id
-            )?.name) ||
-            ""
-        );
-      }
-    } else if (sortColumn === "impact") {
-      if (sortOrder === "asc") {
-        return (
-          (up.impact_id &&
-            impactData?.data.find(
-              (impact: ProbabilityType) => impact.id === up.impact_id
-            )?.name) ||
-          ""
-        ).localeCompare(
-          (down.impact_id &&
-            impactData?.data.find(
-              (impact: ProbabilityType) => impact.id === down.impact_id
-            )?.name) ||
-            ""
-        );
-      } else {
-        return (
-          (down.impact_id &&
-            impactData?.data.find(
-              (impact: ProbabilityType) => impact.id === down.impact_id
-            )?.name) ||
-          ""
-        ).localeCompare(
-          (up.impact_id &&
-            impactData?.data.find(
-              (impact: ProbabilityType) => impact.id === up.impact_id
-            )?.name) ||
-            ""
-        );
-      }
-    } else if (sortColumn === "priority") {
-      if (sortOrder === "asc") {
-        return up.priority === down.priority ? 0 : up.priority ? -1 : 1;
-      } else {
-        return up.priority === down.priority ? 0 : up.priority ? 1 : -1;
-      }
     }
   });
 
@@ -383,10 +302,6 @@ const TableRisk = function ({ risk }: props) {
     }
   };
 
-  const renderPriority = (priority: string | undefined) => {
-    return priority ? "Sim" : "Não";
-  };
-
   return (
     <>
       <div
@@ -401,9 +316,6 @@ const TableRisk = function ({ risk }: props) {
         >
           <thead>
             <tr className={styles.titles}>
-              {/* <th onClick={() => handleSortByColumn("#")}>
-                # {sortIdOrder === "asc" ? <FaSortUp /> : <FaSortDown />}
-              </th> */}
               <th onClick={() => handleSortByColumn("indicador")}>
                 Indicador / Descrição {sortIcon("indicador")}
               </th>
@@ -428,23 +340,11 @@ const TableRisk = function ({ risk }: props) {
               <th onClick={() => handleSortByColumn("category")}>
                 Categoria{sortIcon("category")}
               </th>
-              <th onClick={() => handleSortByColumn("probability")}>
-                Probabilidade{sortIcon("probability")}
-              </th>
-              <th onClick={() => handleSortByColumn("impact")}>
-                Impacto{sortIcon("impact")}
-              </th>
-              <th onClick={() => handleSortByColumn("priority")}>
-                Prioridade{sortIcon("priority")}
-              </th>
             </tr>
           </thead>
           <tbody className="tbody-space">
             {sortedRisks?.map((risk, key) => (
               <tr key={key} className={styles.slide}>
-                {/* <th scope="row" className={styles.slideEvent}>
-                  {risk.id}
-                </th> */}
                 <Link href={`${risk.id}`} className={styles.link}>
                   <td className={styles.slideIndicator}>{risk.name}</td>
                 </Link>
@@ -507,28 +407,6 @@ const TableRisk = function ({ risk }: props) {
                             category.id === risk.category_id
                         )?.name
                       : "N/A")}
-                </td>
-                <td className={styles.slideEvent}>
-                  {probabilityData &&
-                    probabilityData.data &&
-                    (risk.probability_id
-                      ? probabilityData.data.find(
-                          (probability: ProbabilityType) =>
-                            probability.id === risk.probability_id
-                        )?.name
-                      : "N/A")}
-                </td>
-                <td className={styles.slideEvent}>
-                  {impactData &&
-                    impactData.data &&
-                    (risk.impact_id
-                      ? impactData.data.find(
-                          (impact: ImpactType) => impact.id === risk.impact_id
-                        )?.name
-                      : "N/A")}
-                </td>
-                <td className={styles.slideEvent}>
-                  {renderPriority(risk.priority)}
                 </td>
               </tr>
             ))}

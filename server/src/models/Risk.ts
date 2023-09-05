@@ -13,13 +13,15 @@ export interface Risk {
   cause: string;
   consequence: string;
   category_id: number;
-  probability_id: number;
-  impact_id: number;
-  priority: boolean;
+  probabilityId: number;
+  impactId: number;
+  inherent: number | null;
+  identification: string;
+  control_evaluationId: number;
+  residual_risk: number | null;
 }
 
-export interface RiskCreationAttributes
-  extends Optional<Risk, "id" | "priority"> {}
+export interface RiskCreationAttributes extends Optional<Risk, "id"> {}
 
 export interface RiskInstance
   extends Model<Risk, RiskCreationAttributes>,
@@ -90,22 +92,37 @@ export const Risk = sequelize.define<RiskInstance, Risk>("Risk", {
     onUpdate: "CASCADE",
     onDelete: "RESTRICT",
   },
-  probability_id: {
+  probabilityId: {
     allowNull: false,
     type: DataTypes.INTEGER,
     references: { model: "probabilities", key: "id" },
     onUpdate: "CASCADE",
     onDelete: "RESTRICT",
   },
-  impact_id: {
+  impactId: {
     allowNull: false,
     type: DataTypes.INTEGER,
     references: { model: "impacts", key: "id" },
     onUpdate: "CASCADE",
     onDelete: "RESTRICT",
   },
-  priority: {
-    defaultValue: false,
-    type: DataTypes.BOOLEAN,
+  inherent: {
+    allowNull: true,
+    type: DataTypes.INTEGER,
+  },
+  identification: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  control_evaluationId: {
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    references: { model: "control_evaluations", key: "id" },
+    onUpdate: "CASCADE",
+    onDelete: "RESTRICT",
+  },
+  residual_risk: {
+    allowNull: true,
+    type: DataTypes.FLOAT,
   },
 });

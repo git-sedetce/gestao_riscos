@@ -9,9 +9,6 @@ interface CreateParams {
   cause: string;
   consequence: string;
   category_id: number;
-  probability_id: number;
-  impact_id: number;
-  priority: boolean;
 }
 interface CreateParamsTreatment {
   riskId: number;
@@ -47,9 +44,6 @@ export type RiskType = {
   cause: string;
   consequence: string;
   category_id: number;
-  probability_id: number;
-  impact_id: number;
-  priority: string;
   treatments?: TreatmentType[];
 };
 

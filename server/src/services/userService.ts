@@ -33,9 +33,6 @@ export const userService = {
           "cause",
           "consequence",
           "category_id",
-          "probability_id",
-          "impact_id",
-          "priority",
         ],
       },
     });
@@ -65,9 +62,6 @@ export const userService = {
           "cause",
           "consequence",
           "category_id",
-          "probability_id",
-          "impact_id",
-          "priority",
         ],
       },
     });

@@ -36,9 +36,6 @@ export const categoryService = {
           "cause",
           "consequence",
           "category_id",
-          "probability_id",
-          "impact_id",
-          "priority",
         ],
       },
     });

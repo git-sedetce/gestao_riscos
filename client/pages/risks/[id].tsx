@@ -162,27 +162,6 @@ const RiskPage = function () {
                 : "N/A"}
             </p>
           )}
-          {probabilityData && probabilityData.data && (
-            <p className={styles.riskDescription}>
-              <b>Probabilidade:</b>{" "}
-              {risk.probability_id
-                ? probabilityData.data.find(
-                    (probability: ProbabilityType) =>
-                      probability.id === risk.probability_id
-                  )?.name
-                : "N/A"}
-            </p>
-          )}
-          {impactData && impactData.data && (
-            <p className={styles.riskDescription}>
-              <b>Impacto:</b>{" "}
-              {risk.impact_id
-                ? impactData.data.find(
-                    (impact: ImpactType) => impact.id === risk.impact_id
-                  )?.name
-                : "N/A"}
-            </p>
-          )}
         </Container>
         {user?.role === "admin" ? (
           <Container className={styles.riskInfo}>

@@ -62,11 +62,11 @@ const createRisk = function () {
     "/listCategories",
     listService.getCategories
   );
-  const { data: probabilityData } = useSWR(
-    "/listProbabilities",
-    listService.getProbabilities
-  );
-  const { data: impactData } = useSWR("/listImpacts", listService.getImpacts);
+  // const { data: probabilityData } = useSWR(
+  //   "/listProbabilities",
+  //   listService.getProbabilities
+  // );
+  // const { data: impactData } = useSWR("/listImpacts", listService.getImpacts);
 
   const toggleModal = () => setModalOpen(!modalOpen);
 
@@ -84,9 +84,6 @@ const createRisk = function () {
     const cause = formData.get("cause")!.toString();
     const consequence = formData.get("consequence")!.toString();
     const category_id = Number(selectedCategory);
-    const probability_id = Number(selectedProbability);
-    const impact_id = Number(selectedImpact);
-    const priority = Boolean(selectedPriority);
     const params = {
       areaId,
       userId,
@@ -98,9 +95,6 @@ const createRisk = function () {
       cause,
       consequence,
       category_id,
-      probability_id,
-      impact_id,
-      priority,
     };
 
     const { data, status } = await riskService.create(params);
@@ -131,9 +125,9 @@ const createRisk = function () {
     setCause("");
     setConsequence("");
     setSelectedCategory("");
-    setSelectedProbability("");
-    setSelectedImpact("");
-    setSelectedPriority(false);
+    // setSelectedProbability("");
+    // setSelectedImpact("");
+    // setSelectedPriority(false);
     setModalOpen(false);
   };
 
@@ -395,83 +389,6 @@ const createRisk = function () {
                             </option>
                           ))}
                       </Input>
-                    </FormGroup>
-                  </Col>
-                  <Col md={6}>
-                    <FormGroup>
-                      <Label for="probability" className={styles.label}>
-                        PROBABILIDADE
-                      </Label>
-                      <Input
-                        type="select"
-                        name="probability_id"
-                        id="probability_id"
-                        value={selectedProbability}
-                        onChange={(event) =>
-                          setSelectedProbability(String(event.target.value))
-                        }
-                        className={styles.input}
-                      >
-                        <option value="">Selecione a probabilidade</option>
-                        {probabilityData &&
-                          probabilityData.data.map(
-                            (probability: ProbabilityType) => (
-                              <option
-                                key={probability.id}
-                                value={probability.id}
-                                className={styles.inputOption}
-                              >
-                                {probability.name}
-                              </option>
-                            )
-                          )}
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                  <Col md={6}>
-                    <FormGroup>
-                      <Label for="impact" className={styles.label}>
-                        IMPACTO
-                      </Label>
-                      <Input
-                        type="select"
-                        name="impact_id"
-                        id="impact_id"
-                        value={selectedImpact}
-                        onChange={(event) =>
-                          setSelectedImpact(String(event.target.value))
-                        }
-                        className={styles.input}
-                      >
-                        <option value="">Selecione o impacto</option>
-                        {impactData &&
-                          impactData.data.map((impact: ImpactType) => (
-                            <option
-                              key={impact.id}
-                              value={impact.id}
-                              className={styles.inputOption}
-                            >
-                              {impact.name}
-                            </option>
-                          ))}
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                  <Col md={6}>
-                    <FormGroup>
-                      <Label for="priority" className={styles.label}>
-                        PRIORIDADE
-                      </Label>
-                      <br />
-                      <Input
-                        id="priority"
-                        name="priority"
-                        type="checkbox"
-                        checked={selectedPriority}
-                        onChange={(event) =>
-                          setSelectedPriority(event.target.checked)
-                        }
-                      />
                     </FormGroup>
                   </Col>
                 </Row>

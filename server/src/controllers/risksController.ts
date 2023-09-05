@@ -38,9 +38,12 @@ export const risksController = {
           "cause",
           "consequence",
           "category_id",
-          "probability_id",
-          "impact_id",
-          "priority",
+          "probabilityId",
+          "impactId",
+          "inherent",
+          "identification",
+          "control_evaluationId",
+          "residual_risk",
         ],
         order: [["name", "ASC"]],
       });
@@ -107,9 +110,12 @@ export const risksController = {
       cause,
       consequence,
       category_id,
-      probability_id,
-      impact_id,
-      priority,
+      probabilityId,
+      impactId,
+      inherent,
+      identification,
+      control_evaluationId,
+      residual_risk,
     } = req.body;
 
     try {
@@ -130,9 +136,12 @@ export const risksController = {
         cause,
         consequence,
         category_id,
-        probability_id,
-        impact_id,
-        priority,
+        probabilityId,
+        impactId,
+        inherent,
+        identification,
+        control_evaluationId,
+        residual_risk,
       });
 
       return res.status(201).json(risk);
@@ -169,9 +178,10 @@ export const risksController = {
       cause,
       consequence,
       category_id,
-      probability_id,
-      impact_id,
-      priority,
+      probabilityId,
+      impactId,
+      identification,
+      control_evaluationId,
     } = req.body;
 
     try {
@@ -191,9 +201,10 @@ export const risksController = {
         cause,
         consequence,
         category_id,
-        probability_id,
-        impact_id,
-        priority,
+        probabilityId,
+        impactId,
+        identification,
+        control_evaluationId,
       });
 
       return res.status(200).json(updatedRisk);

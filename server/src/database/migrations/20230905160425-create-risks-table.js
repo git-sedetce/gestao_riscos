@@ -81,9 +81,24 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "RESTRICT",
       },
-      priority: {
-        defaultValue: false,
-        type: Sequelize.DataTypes.BOOLEAN,
+      inherent: {
+        allowNull: true,
+        type: Sequelize.DataTypes.INTEGER,
+      },
+      identification: {
+        allowNull: false,
+        type: Sequelize.DataTypes.STRING,
+      },
+      control_evaluation_id: {
+        allowNull: false,
+        type: Sequelize.DataTypes.INTEGER,
+        references: { model: "control_evaluations", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "RESTRICT",
+      },
+      residual_risk: {
+        allowNull: true,
+        type: Sequelize.DataTypes.FLOAT,
       },
       created_at: {
         allowNull: false,
@@ -94,6 +109,25 @@ module.exports = {
         type: Sequelize.DataTypes.DATE,
       },
     });
+
+    await queryInterface.sequelize.query(`
+      UPDATE risks AS r
+      SET inherent = (
+        SELECT p.algorithm * i.algorithm
+        FROM probabilities AS p
+        INNER JOIN impacts AS i ON r.impact_id = i.id
+        WHERE r.probability_id = p.id
+      );
+    `);
+
+    await queryInterface.sequelize.query(`
+      UPDATE risks AS r
+      SET residual_risk = (
+        SELECT r.inherent * c.algorithm
+        FROM control_evaluations AS c
+        WHERE r.control_evaluation_id = c.id
+      );
+    `);
   },
 
   async down(queryInterface, Sequelize) {

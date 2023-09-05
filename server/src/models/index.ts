@@ -11,15 +11,17 @@ import { Treatment } from "./Treatment";
 import { TypesOrigin } from "./TypesOrigin";
 import { TypesTreatment } from "./TypesTreatment";
 import { User } from "./User";
+import { ControlEvaluation } from "./ControlEvaluation";
 
 Area.hasMany(Risk);
 Category.hasMany(Risk, { as: "risks" });
-Impact.hasMany(Risk);
 Period.hasMany(Risk);
-Probability.hasMany(Risk);
 RisksOrigin.hasMany(Risk);
 TypesOrigin.hasMany(Risk);
 User.hasMany(Risk, { as: "risks" });
+Probability.hasMany(Risk);
+Impact.hasMany(Risk);
+ControlEvaluation.hasMany(Risk);
 
 Entity.hasMany(User);
 
@@ -29,12 +31,13 @@ TypesTreatment.hasMany(Treatment);
 
 Risk.belongsTo(Area);
 Risk.belongsTo(Category);
-Risk.belongsTo(Impact);
 Risk.belongsTo(Period);
-Risk.belongsTo(Probability);
 Risk.belongsTo(RisksOrigin);
 Risk.belongsTo(TypesOrigin);
 Risk.belongsTo(User);
+Risk.belongsTo(Probability);
+Risk.belongsTo(Impact);
+Risk.belongsTo(ControlEvaluation);
 
 User.belongsTo(Entity);
 
@@ -54,4 +57,5 @@ export {
   TypesOrigin,
   TypesTreatment,
   User,
+  ControlEvaluation,
 };

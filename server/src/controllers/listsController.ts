@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   Area,
   Category,
+  ControlEvaluation,
   Entity,
   Impact,
   Period,
@@ -90,6 +91,20 @@ export const listController = {
       });
 
       return res.json(probabilities);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
+  showControlEvaluations: async (req: Request, res: Response) => {
+    try {
+      const control_evaluations = await ControlEvaluation.findAll({
+        attributes: ["id", "name", "position"],
+        order: [["name", "ASC"]],
+      });
+
+      return res.json(control_evaluations);
     } catch (err) {
       if (err instanceof Error) {
         return res.status(400).json({ message: err.message });

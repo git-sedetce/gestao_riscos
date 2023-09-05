@@ -84,9 +84,6 @@ const EditRisk = function () {
       cause: risk.cause,
       consequence: risk.consequence,
       category_id: risk.category_id,
-      probability_id: risk.probability_id,
-      impact_id: risk.impact_id,
-      priority: risk.priority,
     });
 
     if (res === 200) {
@@ -291,47 +288,6 @@ const EditRisk = function () {
                     {categoryData?.data.map((category: CategoryType) => (
                       <option key={category.id} value={category.id}>
                         {category.name}
-                      </option>
-                    ))}
-                  </Input>
-                </FormGroup>
-                <FormGroup>
-                  <Label for="probability_id">Probability</Label>
-                  <Input
-                    type="select"
-                    name="probability_id"
-                    id="probability_id"
-                    value={risk?.probability_id}
-                    onChange={(e) =>
-                      setRisk({
-                        ...risk,
-                        probability_id: Number(e.target.value),
-                      })
-                    }
-                  >
-                    {probabilityData?.data.map(
-                      (probability: ProbabilityType) => (
-                        <option key={probability.id} value={probability.id}>
-                          {probability.name}
-                        </option>
-                      )
-                    )}
-                  </Input>
-                </FormGroup>
-                <FormGroup>
-                  <Label for="impact_id">Impact</Label>
-                  <Input
-                    type="select"
-                    name="impact_id"
-                    id="impact_id"
-                    value={risk?.impact_id}
-                    onChange={(e) =>
-                      setRisk({ ...risk, impact_id: Number(e.target.value) })
-                    }
-                  >
-                    {impactData?.data.map((impact: ImpactType) => (
-                      <option key={impact.id} value={impact.id}>
-                        {impact.name}
                       </option>
                     ))}
                   </Input>

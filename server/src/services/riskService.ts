@@ -1,11 +1,33 @@
-import { Risk } from "../models";
 import { RiskCreationAttributes } from "src/models/Risk";
+import { ControlEvaluation, Impact, Probability, Risk } from "../models";
 import { Op } from "sequelize";
 
 export const riskService = {
   create: async (attributes: RiskCreationAttributes) => {
-    const risk = await Risk.create(attributes);
-    return risk;
+    const { probabilityId, impactId, control_evaluationId } = attributes;
+
+    const probability = await Probability.findByPk(probabilityId);
+    const impact = await Impact.findByPk(impactId);
+    const control_evaluation = await ControlEvaluation.findByPk(
+      control_evaluationId
+    );
+
+    if (!probability || !impact || !control_evaluation) {
+      throw new Error("Probability or impact not found");
+    }
+
+    const inherentValue = probability.algorithm * impact.algorithm;
+
+    const residualValue =
+      probability.algorithm * impact.algorithm * control_evaluation.algorithm;
+
+    const result = await Risk.create({
+      ...attributes,
+      inherent: inherentValue,
+      residual_risk: residualValue,
+    });
+
+    return result;
   },
 
   update: async (
@@ -21,9 +43,10 @@ export const riskService = {
       cause: string;
       consequence: string;
       category_id: number;
-      probability_id: number;
-      impact_id: number;
-      priority: boolean;
+      probabilityId: number;
+      impactId: number;
+      identification: string;
+      control_evaluationId: number;
     }
   ) => {
     const [affectedRows, updatedRisks] = await Risk.update(attributes, {
@@ -55,7 +78,10 @@ export const riskService = {
         "category_id",
         "probability_id",
         "impact_id",
-        "priority",
+        "inherent",
+        "identification",
+        "control_evaluationId",
+        "residual_risk",
       ],
       include: {
         association: "treatments",
@@ -94,7 +120,10 @@ export const riskService = {
         "category_id",
         "probability_id",
         "impact_id",
-        "priority",
+        "inherent",
+        "identification",
+        "control_evaluationId",
+        "residual_risk",
       ],
       order: [["name", "ASC"]],
       limit: perPage,
@@ -125,11 +154,11 @@ export const riskService = {
         "category_id",
         "probability_id",
         "impact_id",
-        "priority",
+        "inherent",
+        "identification",
+        "control_evaluationId",
+        "residual_risk",
       ],
-      where: {
-        priority: true,
-      },
     });
 
     const randomFeaturedRisks = featuredRisks.sort(() => 0.5 - Math.random());
@@ -171,7 +200,10 @@ export const riskService = {
         "category_id",
         "probability_id",
         "impact_id",
-        "priority",
+        "inherent",
+        "identification",
+        "control_evaluationId",
+        "residual_risk",
       ],
       where: {
         name: {

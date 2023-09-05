@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DataTypes.STRING,
       },
-      name: {
+      correction: {
         allowNull: false,
         type: Sequelize.DataTypes.STRING,
       },
@@ -21,7 +21,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DataTypes.STRING,
       },
-      deadline: {
+      start_date: {
+        allowNull: true,
+        type: Sequelize.DataTypes.DATE,
+      },
+      end_date: {
         allowNull: true,
         type: Sequelize.DataTypes.DATE,
       },
