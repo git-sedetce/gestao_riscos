@@ -47,6 +47,13 @@ export type ImpactType = {
   position: number;
 };
 
+export type ControlEvaluationType = {
+  id: number;
+  name: string;
+  algorithm: number;
+  position: number;
+};
+
 export type StatusTreatmentType = {
   id: number;
   name: string;
@@ -81,24 +88,7 @@ const listService = {
     const token = sessionStorage.getItem("risks-token");
 
     const res = await api
-      .get("/typesorigin", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .catch((error) => {
-        console.log(error.response.data.message);
-
-        return error.response;
-      });
-
-    return res;
-  },
-  getRisksOrigins: async () => {
-    const token = sessionStorage.getItem("risks-token");
-
-    const res = await api
-      .get("/risksorigin", {
+      .get("/types_origin", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -145,23 +135,6 @@ const listService = {
 
     return res;
   },
-  getProbabilities: async () => {
-    const token = sessionStorage.getItem("risks-token");
-
-    const res = await api
-      .get("/probabilities", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .catch((error) => {
-        console.log(error.response.data.message);
-
-        return error.response;
-      });
-
-    return res;
-  },
   getImpacts: async () => {
     const token = sessionStorage.getItem("risks-token");
 
@@ -179,11 +152,45 @@ const listService = {
 
     return res;
   },
+  getProbabilities: async () => {
+    const token = sessionStorage.getItem("risks-token");
+
+    const res = await api
+      .get("/probabilities", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+
+        return error.response;
+      });
+
+    return res;
+  },
+  getControlEvaluations: async () => {
+    const token = sessionStorage.getItem("risks-token");
+
+    const res = await api
+      .get("/control_evaluations", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+
+        return error.response;
+      });
+
+    return res;
+  },
   getStatusTreatments: async () => {
     const token = sessionStorage.getItem("risks-token");
 
     const res = await api
-      .get("/statustreatments", {
+      .get("/status_treatments", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -200,7 +207,7 @@ const listService = {
     const token = sessionStorage.getItem("risks-token");
 
     const res = await api
-      .get("/typestreatments", {
+      .get("/types_treatments", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

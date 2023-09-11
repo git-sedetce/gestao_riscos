@@ -16,57 +16,52 @@ import {
 import { FormEvent, useState } from "react";
 import riskService from "../../../services/riskService";
 import listService, {
-  AreaType,
   CategoryType,
   ImpactType,
-  PeriodType,
   ProbabilityType,
-  RisksOriginType,
   TypesOriginType,
+  ControlEvaluationType,
 } from "../../../services/listService";
 import ToastComponent from "../../../components/common/toast";
 import authService, { UserType } from "../../../services/authService";
 
 const createRisk = function () {
-  const [selectedArea, setSelectedArea] = useState("");
-  const [selectedUser, setSelectedUser] = useState("");
   const [selectedTypesOrigin, setSelectedTypesOrigin] = useState("");
-  const [selectedRisksOrigin, setSelectedRisksOrigin] = useState("");
-  const [selectedPeriod, setSelectedPeriod] = useState("");
   const [name, setName] = useState("");
   const [event, setEvent] = useState("");
   const [cause, setCause] = useState("");
   const [consequence, setConsequence] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedProbability, setSelectedProbability] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
   const [selectedImpact, setSelectedImpact] = useState("");
-  const [selectedPriority, setSelectedPriority] = useState(false);
+  const [selectedProbability, setSelectedProbability] = useState("");
+  const [control_identification, setControlIdentification] = useState("");
+  const [selectedControlEvaluation, setSelectedControlEvaluation] =
+    useState("");
   const [modalOpen, setModalOpen] = useState(false);
 
   const [toastColor, setToastColor] = useState("");
   const [toastIsOpen, setToastIsOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
-  const { data: areaData } = useSWR("/listAreas", listService.getAreas);
   const { data: userData } = useSWR("/listUsers", authService.getUsers);
   const { data: typesOriginData } = useSWR(
     "/listTypesOrigins",
     listService.getTypesOrigins
   );
-  const { data: risksOriginData } = useSWR(
-    "/listRisksOrigins",
-    listService.getRisksOrigins
-  );
-  const { data: periodData } = useSWR("/listPeriods", listService.getPeriods);
   const { data: categoryData } = useSWR(
     "/listCategories",
     listService.getCategories
   );
-  // const { data: probabilityData } = useSWR(
-  //   "/listProbabilities",
-  //   listService.getProbabilities
-  // );
-  // const { data: impactData } = useSWR("/listImpacts", listService.getImpacts);
+  const { data: impactData } = useSWR("/listImpacts", listService.getImpacts);
+  const { data: probabilityData } = useSWR(
+    "/listProbabilities",
+    listService.getProbabilities
+  );
+  const { data: controlEvaluationData } = useSWR(
+    "/listControlEvaluations",
+    listService.getControlEvaluations
+  );
 
   const toggleModal = () => setModalOpen(!modalOpen);
 
@@ -74,27 +69,32 @@ const createRisk = function () {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const areaId = Number(selectedArea);
-    const userId = Number(selectedUser);
     const types_originId = Number(selectedTypesOrigin);
-    const risks_originId = Number(selectedRisksOrigin);
-    const periodId = Number(selectedPeriod);
     const name = formData.get("name")!.toString();
     const event = formData.get("event")!.toString();
     const cause = formData.get("cause")!.toString();
     const consequence = formData.get("consequence")!.toString();
     const category_id = Number(selectedCategory);
+    const userId = Number(selectedUser);
+    const impactId = Number(selectedImpact);
+    const probabilityId = Number(selectedProbability);
+    const control_identification = formData
+      .get("control_identification")!
+      .toString();
+    const control_evaluationId = Number(selectedControlEvaluation);
+
     const params = {
-      areaId,
-      userId,
       types_originId,
-      risks_originId,
-      periodId,
       name,
       event,
       cause,
       consequence,
       category_id,
+      userId,
+      impactId,
+      probabilityId,
+      control_identification,
+      control_evaluationId,
     };
 
     const { data, status } = await riskService.create(params);
@@ -115,19 +115,17 @@ const createRisk = function () {
       setToastMessage(data.message);
     }
 
-    setSelectedArea("");
-    setSelectedUser("");
     setSelectedTypesOrigin("");
-    setSelectedRisksOrigin("");
-    setSelectedPeriod("");
     setName("");
     setEvent("");
     setCause("");
     setConsequence("");
     setSelectedCategory("");
-    // setSelectedProbability("");
-    // setSelectedImpact("");
-    // setSelectedPriority(false);
+    setSelectedUser("");
+    setSelectedImpact("");
+    setSelectedProbability("");
+    setControlIdentification("");
+    setSelectedControlEvaluation("");
     setModalOpen(false);
   };
 
@@ -151,65 +149,7 @@ const createRisk = function () {
                 <Row form>
                   <Col md={6}>
                     <FormGroup>
-                      <Label for="area" className={styles.label}>
-                        ÁREA
-                      </Label>
-                      <Input
-                        type="select"
-                        name="areaId"
-                        id="areaId"
-                        value={selectedArea}
-                        onChange={(event) =>
-                          setSelectedArea(String(event.target.value))
-                        }
-                        className={styles.input}
-                      >
-                        <option value="">Selecione a área</option>
-                        {areaData &&
-                          areaData.data.map((area: AreaType) => (
-                            <option
-                              key={area.id}
-                              value={area.id}
-                              className={styles.inputOption}
-                            >
-                              {area.name}
-                            </option>
-                          ))}
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                  <Col md={6}>
-                    <FormGroup>
-                      <Label for="user" className={styles.label}>
-                        USUÁRIO
-                      </Label>
-                      <Input
-                        type="select"
-                        name="userId"
-                        id="userId"
-                        value={selectedUser}
-                        onChange={(event) =>
-                          setSelectedUser(String(event.target.value))
-                        }
-                        className={styles.input}
-                      >
-                        <option value="">Selecione o usuário</option>
-                        {userData &&
-                          userData.data.map((user: UserType) => (
-                            <option
-                              key={user.id}
-                              value={user.id}
-                              className={styles.inputOption}
-                            >
-                              {user.name.split(" ").slice(0, 2).join(" ")}
-                            </option>
-                          ))}
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                  <Col md={6}>
-                    <FormGroup>
-                      <Label for="typesorigin" className={styles.label}>
+                      <Label for="types_origin" className={styles.label}>
                         TIPO DE ORIGEM
                       </Label>
                       <Input
@@ -238,75 +178,15 @@ const createRisk = function () {
                       </Input>
                     </FormGroup>
                   </Col>
-                  <Col md={6}>
-                    <FormGroup>
-                      <Label for="risksorigin" className={styles.label}>
-                        ORIGEM DO RISCO
-                      </Label>
-                      <Input
-                        type="select"
-                        name="risks_originId"
-                        id="risks_originId"
-                        value={selectedRisksOrigin}
-                        onChange={(event) =>
-                          setSelectedRisksOrigin(String(event.target.value))
-                        }
-                        className={styles.input}
-                      >
-                        <option value="">Selecione a origem</option>
-                        {risksOriginData &&
-                          risksOriginData.data.map(
-                            (risksOrigin: RisksOriginType) => (
-                              <option
-                                key={risksOrigin.id}
-                                value={risksOrigin.id}
-                                className={styles.inputOption}
-                              >
-                                {risksOrigin.name}
-                              </option>
-                            )
-                          )}
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                  <Col md={6}>
-                    <FormGroup>
-                      <Label for="period" className={styles.label}>
-                        PERÍODO
-                      </Label>
-                      <Input
-                        type="select"
-                        name="periodId"
-                        id="periodId"
-                        value={selectedPeriod}
-                        onChange={(event) =>
-                          setSelectedPeriod(String(event.target.value))
-                        }
-                        className={styles.input}
-                      >
-                        <option value="">Selecione o período</option>
-                        {periodData &&
-                          periodData.data.map((period: PeriodType) => (
-                            <option
-                              key={period.id}
-                              value={period.id}
-                              className={styles.inputOption}
-                            >
-                              {period.name}
-                            </option>
-                          ))}
-                      </Input>
-                    </FormGroup>
-                  </Col>
                   <FormGroup>
                     <Label for="name" className={styles.label}>
-                      INDICADOR / DESCRIÇÃO
+                      IDENTIFICAÇÃO DA ORIGEM
                     </Label>
                     <Input
                       id="name"
                       name="name"
                       type="text"
-                      placeholder="Qual a indicação da origem"
+                      placeholder="Qual a identificação da origem"
                       required
                       value={name}
                       onChange={(event) => setName(event.target.value)}
@@ -388,6 +268,151 @@ const createRisk = function () {
                               {category.name}
                             </option>
                           ))}
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                  <Col md={6}>
+                    <FormGroup>
+                      <Label for="user" className={styles.label}>
+                        USUÁRIO
+                      </Label>
+                      <Input
+                        type="select"
+                        name="userId"
+                        id="userId"
+                        value={selectedUser}
+                        onChange={(event) =>
+                          setSelectedUser(String(event.target.value))
+                        }
+                        className={styles.input}
+                      >
+                        <option value="">Selecione o usuário</option>
+                        {userData &&
+                          userData.data.map((user: UserType) => (
+                            <option
+                              key={user.id}
+                              value={user.id}
+                              className={styles.inputOption}
+                            >
+                              {user.name.split(" ").slice(0, 2).join(" ")}
+                            </option>
+                          ))}
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                  <Col md={6}>
+                    <FormGroup>
+                      <Label for="impact" className={styles.label}>
+                        IMPACTO
+                      </Label>
+                      <Input
+                        type="select"
+                        name="impactId"
+                        id="impactId"
+                        value={selectedImpact}
+                        onChange={(event) =>
+                          setSelectedImpact(String(event.target.value))
+                        }
+                        className={styles.input}
+                      >
+                        <option value="">Selecione o impacto</option>
+                        {impactData &&
+                          impactData.data.map((impact: ImpactType) => (
+                            <option
+                              key={impact.id}
+                              value={impact.id}
+                              className={styles.inputOption}
+                            >
+                              {impact.name}
+                            </option>
+                          ))}
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                  <Col md={6}>
+                    <FormGroup>
+                      <Label for="probability" className={styles.label}>
+                        PROBABILIDADE
+                      </Label>
+                      <Input
+                        type="select"
+                        name="probabilityId"
+                        id="probabilityId"
+                        value={selectedProbability}
+                        onChange={(event) =>
+                          setSelectedProbability(String(event.target.value))
+                        }
+                        className={styles.input}
+                      >
+                        <option value="">Selecione a probabilidade</option>
+                        {probabilityData &&
+                          probabilityData.data.map(
+                            (probability: ProbabilityType) => (
+                              <option
+                                key={probability.id}
+                                value={probability.id}
+                                className={styles.inputOption}
+                              >
+                                {probability.name}
+                              </option>
+                            )
+                          )}
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                  <FormGroup>
+                    <Label
+                      for="control_identification"
+                      className={styles.label}
+                    >
+                      IDENTIFICAÇÃO DOS CONTROLES
+                    </Label>
+                    <Input
+                      id="control_identification"
+                      name="control_identification"
+                      type="text"
+                      placeholder="Qual a identificação do controle"
+                      required
+                      value={control_identification}
+                      onChange={(event) =>
+                        setControlIdentification(event.target.value)
+                      }
+                      className={styles.input}
+                      autocomplete="off"
+                    />
+                  </FormGroup>
+                  <Col md={6}>
+                    <FormGroup>
+                      <Label for="control_evaluation" className={styles.label}>
+                        AVALIAÇÃO DOS CONTROLES
+                      </Label>
+                      <Input
+                        type="select"
+                        name="control_evaluationId"
+                        id="control_evaluationId"
+                        value={selectedControlEvaluation}
+                        onChange={(event) =>
+                          setSelectedControlEvaluation(
+                            String(event.target.value)
+                          )
+                        }
+                        className={styles.input}
+                      >
+                        <option value="">
+                          Selecione a avaliação de controle
+                        </option>
+                        {controlEvaluationData &&
+                          controlEvaluationData.data.map(
+                            (control_evaluation: ControlEvaluationType) => (
+                              <option
+                                key={control_evaluation.id}
+                                value={control_evaluation.id}
+                                className={styles.inputOption}
+                              >
+                                {control_evaluation.name}
+                              </option>
+                            )
+                          )}
                       </Input>
                     </FormGroup>
                   </Col>

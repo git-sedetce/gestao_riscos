@@ -13,7 +13,7 @@ const categoriesService = {
     const token = sessionStorage.getItem("risks-token");
 
     const res = await api
-      .get("/categoriespagination", {
+      .get("/categories_pagination", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

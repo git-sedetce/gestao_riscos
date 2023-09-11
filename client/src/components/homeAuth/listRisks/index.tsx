@@ -9,8 +9,6 @@ import Link from "next/link";
 import PageSpinner from "../../common/spinner";
 
 const ListRisks = function () {
-  const { data: areaData } = useSWR("/listAreas", listService.getAreas);
-
   const { data: userData } = useSWR("/listUsers", authService.getUsers);
 
   const { data: riskData, error: riskError } = useSWR(
@@ -28,9 +26,6 @@ const ListRisks = function () {
     <>
       {
         riskData.data.risks?.map((risk: RiskType) => {
-          const area = areaData.data.find(
-            (area: AreaType) => area.id === risk.areaId
-          );
           const user = userData.data.find(
             (user: UserType) => user.id === risk.userId
           );
@@ -39,9 +34,6 @@ const ListRisks = function () {
               <HeaderAuth />
               <Container className="pt-4" color="danger" outline>
                 <p className={styles.title}>{risk.name}</p>
-                <p className={styles.description} key={risk.id}>
-                  {area ? area.name : "N/A"}
-                </p>
                 <p className={styles.description} key={risk.id}>
                   {user ? user.name : "N/A"}
                 </p>

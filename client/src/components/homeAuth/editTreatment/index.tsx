@@ -11,7 +11,10 @@ import {
   ModalBody,
   Form,
 } from "reactstrap";
-import listService, { TypesTreatmentType } from "src/services/listService";
+import listService, {
+  StatusTreatmentType,
+  TypesTreatmentType,
+} from "src/services/listService";
 import riskService, { TreatmentType } from "src/services/riskService";
 import useSWR from "swr";
 
@@ -26,7 +29,8 @@ const editTreatment = ({ treatment }: Props) => {
   const [typesTreatmentId, setTypesTreatmentId] = useState(
     treatment.types_treatmentId
   );
-  const [deadline, setDeadline] = useState(treatment.deadline);
+  const [start_date, setStartDate] = useState(treatment.start_date);
+  const [end_date, setEndDate] = useState(treatment.end_date);
   const [statusTreatmentId, setStatusTreatmentId] = useState(
     treatment.status_treatmentId
   );
@@ -55,7 +59,8 @@ const editTreatment = ({ treatment }: Props) => {
       name,
       types_treatmentId: typesTreatmentId,
       user,
-      deadline,
+      start_date,
+      end_date,
       status_treatmentId: statusTreatmentId,
       notes,
     });
@@ -122,13 +127,23 @@ const editTreatment = ({ treatment }: Props) => {
                 </Input>
               </FormGroup>
               <FormGroup>
-                <Label for="deadline">Deadline:</Label>
+                <Label for="start_date">Data de início:</Label>
                 <Input
                   type="date"
-                  name="deadline"
-                  id="deadline"
-                  value={deadline}
-                  onChange={(e) => setDeadline(e.target.value)}
+                  name="start_date"
+                  id="start_date"
+                  value={start_date}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label for="end_date">Data de término:</Label>
+                <Input
+                  type="date"
+                  name="end_date"
+                  id="end_date"
+                  value={end_date}
+                  onChange={(e) => setEndDate(e.target.value)}
                 />
               </FormGroup>
               <FormGroup>
@@ -141,7 +156,19 @@ const editTreatment = ({ treatment }: Props) => {
                   onChange={(e) =>
                     setStatusTreatmentId(parseInt(e.target.value))
                   }
-                />
+                >
+                  {statusTreatmentData?.data.map(
+                    (statusTreatment: StatusTreatmentType) => (
+                      <option
+                        key={statusTreatment.id}
+                        value={statusTreatment.id}
+                      >
+                        {statusTreatment.name}
+                      </option>
+                    )
+                  )}
+                </Input>
+                <Input />
               </FormGroup>
               <FormGroup>
                 <Label for="notes">Observações:</Label>

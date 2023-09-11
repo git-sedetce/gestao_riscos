@@ -10,49 +10,44 @@ import TreatmentCard from "../../src/components/treatmentCard/index";
 import useSWR from "swr";
 import authService, { UserType } from "../../src/services/authService";
 import listService, {
-  AreaType,
   CategoryType,
+  ControlEvaluationType,
   ImpactType,
-  PeriodType,
   ProbabilityType,
-  RisksOriginType,
   TypesOriginType,
 } from "../../src/services/listService";
 import CreateTreatment from "../../src/components/homeAuth/createTreatment";
 import Footer from "../../src/components/common/footer";
 import profileService from "src/services/profileService";
 import EditRisk from "src/components/homeAuth/editRisk";
-import EditTreatment from "src/components/homeAuth/editTreatment";
 
 const RiskPage = function () {
   const [risk, setRisk] = useState<RiskType | undefined>(undefined);
   const router = useRouter();
   const { id } = router.query;
   const [showWarning, setShowWarning] = useState(false);
-
-  const { data: areaData } = useSWR("/listAreas", listService.getAreas);
   const { data: userData } = useSWR("/listUsers", authService.getUsers);
   const { data: typesOriginData } = useSWR(
     "/listTypesOrigins",
     listService.getTypesOrigins
   );
-  const { data: risksOriginData } = useSWR(
-    "/listRisksOrigins",
-    listService.getRisksOrigins
-  );
-  const { data: periodData } = useSWR("/listPeriods", listService.getPeriods);
+
   const { data: categoryData } = useSWR(
     "/listCategories",
     listService.getCategories
   );
+  const { data: user } = useSWR<UserType>(
+    "/api/user",
+    profileService.fetchCurrent
+  );
+  const { data: impactData } = useSWR("/listImpacts", listService.getImpacts);
   const { data: probabilityData } = useSWR(
     "/listProbabilities",
     listService.getProbabilities
   );
-  const { data: impactData } = useSWR("/listImpacts", listService.getImpacts);
-  const { data: user } = useSWR<UserType>(
-    "/api/user",
-    profileService.fetchCurrent
+  const { data: controlEvaluationData } = useSWR(
+    "/listControlEvaluations",
+    listService.getControlEvaluations
   );
 
   useEffect(() => {
@@ -70,9 +65,8 @@ const RiskPage = function () {
 
   const handleDeleteRisk = async function () {
     if (risk) {
-      setShowWarning(false); // hide the warning modal
+      setShowWarning(false);
       setTimeout(async () => {
-        // set a timeout to wait for 10 seconds
         const res = await riskService.deleteRisk(risk.id);
         router.push("/home");
       }, 500);
@@ -91,26 +85,6 @@ const RiskPage = function () {
         <HeaderAuth />
         <Container className={styles.riskInfo}>
           <p className={styles.riskTitle}>{risk?.name}</p>
-          {areaData && areaData.data && (
-            <p className={styles.riskDescription}>
-              <b>Área:</b>{" "}
-              {risk.areaId
-                ? areaData.data.find(
-                    (area: AreaType) => area.id === risk.areaId
-                  )?.name
-                : "N/A"}
-            </p>
-          )}
-          {userData && userData.data && (
-            <p className={styles.riskDescription}>
-              <b>Usuário:</b>{" "}
-              {risk.userId
-                ? userData.data.find(
-                    (user: UserType) => user.id === risk.userId
-                  )?.name
-                : "N/A"}
-            </p>
-          )}
           {typesOriginData && typesOriginData.data && (
             <p className={styles.riskDescription}>
               <b>Tipo Origem:</b>{" "}
@@ -118,27 +92,6 @@ const RiskPage = function () {
                 ? typesOriginData.data.find(
                     (typesOrigin: TypesOriginType) =>
                       typesOrigin.id === risk.types_originId
-                  )?.name
-                : "N/A"}
-            </p>
-          )}
-          {risksOriginData && risksOriginData.data && (
-            <p className={styles.riskDescription}>
-              <b>Origem:</b>{" "}
-              {risk.risks_originId
-                ? risksOriginData.data.find(
-                    (risksOrigin: RisksOriginType) =>
-                      risksOrigin.id === risk.risks_originId
-                  )?.name
-                : "N/A"}
-            </p>
-          )}
-          {periodData && periodData.data && (
-            <p className={styles.riskDescription}>
-              <b>Período:</b>{" "}
-              {risk.periodId
-                ? periodData.data.find(
-                    (period: PeriodType) => period.id === risk.periodId
                   )?.name
                 : "N/A"}
             </p>
@@ -160,6 +113,67 @@ const RiskPage = function () {
                     (category: CategoryType) => category.id === risk.category_id
                   )?.name
                 : "N/A"}
+            </p>
+          )}
+          {userData && userData.data && (
+            <p className={styles.riskDescription}>
+              <b>Usuário:</b>{" "}
+              {risk.userId
+                ? userData.data.find(
+                    (user: UserType) => user.id === risk.userId
+                  )?.name
+                : "N/A"}
+            </p>
+          )}
+          {impactData && impactData.data && (
+            <p className={styles.riskDescription}>
+              <b>Impacto:</b>{" "}
+              {risk.impactId
+                ? impactData.data.find(
+                    (impact: ImpactType) => impact.id === risk.impactId
+                  )?.name
+                : "N/A"}
+            </p>
+          )}
+          {probabilityData && probabilityData.data && (
+            <p className={styles.riskDescription}>
+              <b>Probabilidade:</b>{" "}
+              {risk.probabilityId
+                ? probabilityData.data.find(
+                    (probability: ProbabilityType) =>
+                      probability.id === risk.probabilityId
+                  )?.name
+                : "N/A"}
+            </p>
+          )}
+          <p className={styles.riskDescription}>
+            <b>Nível de Risco Inerente:</b> {risk?.inherent}
+          </p>
+          <p className={styles.riskDescription}>
+            <b>Identificação do controle: </b> {risk?.control_identification}
+          </p>
+          {controlEvaluationData && controlEvaluationData.data && (
+            <p className={styles.riskDescription}>
+              <b>Avaliação do controle:</b>{" "}
+              {risk.control_evaluationId
+                ? controlEvaluationData.data.find(
+                    (control_evaluation: ControlEvaluationType) =>
+                      control_evaluation.id === risk.control_evaluationId
+                  )?.name
+                : "N/A"}
+            </p>
+          )}
+          <p className={styles.riskDescription}>
+            <b>Nível de Risco Residual: </b> {risk?.residual_risk}
+          </p>
+          {risk?.residual_risk && (
+            <p className={styles.riskDescription}>
+              <b>Matrix:</b>{" "}
+              {risk.residual_risk >= 1.0 && risk.residual_risk <= 10.0
+                ? "Risco Baixo"
+                : risk.residual_risk >= 10.1 && risk.residual_risk <= 20.0
+                ? "Risco Alto"
+                : "Risco Critico"}
             </p>
           )}
         </Container>

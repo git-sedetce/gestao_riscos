@@ -10,8 +10,6 @@ import authService, { UserType } from "../../../../src/services/authService";
 import listService, {
   AreaType,
   CategoryType,
-  PeriodType,
-  RisksOriginType,
   TypesOriginType,
 } from "../../../../src/services/listService";
 interface props {
@@ -120,32 +118,6 @@ const TableRisk = function ({ risk }: props) {
             ""
         );
       }
-    } else if (sortColumn === "area") {
-      if (sortOrder === "asc") {
-        return (
-          (up.areaId &&
-            areaData?.data.find((area: AreaType) => area.id === up.areaId)
-              ?.name) ||
-          ""
-        ).localeCompare(
-          (down.areaId &&
-            areaData?.data.find((area: UserType) => area.id === down.areaId)
-              ?.name) ||
-            ""
-        );
-      } else {
-        return (
-          (down.areaId &&
-            areaData?.data.find((area: AreaType) => area.id === down.areaId)
-              ?.name) ||
-          ""
-        ).localeCompare(
-          (up.areaId &&
-            areaData?.data.find((area: AreaType) => area.id === up.areaId)
-              ?.name) ||
-            ""
-        );
-      }
     } else if (sortColumn === "types_origin") {
       if (sortOrder === "asc") {
         return (
@@ -176,70 +148,6 @@ const TableRisk = function ({ risk }: props) {
             typesOriginData?.data.find(
               (types_origin: TypesOriginType) =>
                 types_origin.id === up.types_originId
-            )?.name) ||
-            ""
-        );
-      }
-    } else if (sortColumn === "risks_origin") {
-      if (sortOrder === "asc") {
-        return (
-          (up.risks_originId &&
-            risksOriginData?.data.find(
-              (risks_origin: RisksOriginType) =>
-                risks_origin.id === up.risks_originId
-            )?.name) ||
-          ""
-        ).localeCompare(
-          (down.risks_originId &&
-            risksOriginData?.data.find(
-              (risks_origin: RisksOriginType) =>
-                risks_origin.id === down.risks_originId
-            )?.name) ||
-            ""
-        );
-      } else {
-        return (
-          (down.risks_originId &&
-            risksOriginData?.data.find(
-              (risks_origin: RisksOriginType) =>
-                risks_origin.id === down.risks_originId
-            )?.name) ||
-          ""
-        ).localeCompare(
-          (up.risks_originId &&
-            risksOriginData?.data.find(
-              (risks_origin: RisksOriginType) =>
-                risks_origin.id === up.risks_originId
-            )?.name) ||
-            ""
-        );
-      }
-    } else if (sortColumn === "period") {
-      if (sortOrder === "asc") {
-        return (
-          (up.periodId &&
-            periodData?.data.find(
-              (period: PeriodType) => period.id === up.periodId
-            )?.name) ||
-          ""
-        ).localeCompare(
-          (down.periodId &&
-            periodData?.data.find(
-              (period: PeriodType) => period.id === down.periodId
-            )?.name) ||
-            ""
-        );
-      } else {
-        return (
-          (down.periodId &&
-            periodData?.data.find(
-              (period: PeriodType) => period.id === down.periodId
-            )?.name) ||
-          ""
-        ).localeCompare(
-          (up.periodId &&
-            periodData?.data.find(
-              (period: PeriodType) => period.id === up.periodId
             )?.name) ||
             ""
         );
@@ -361,15 +269,6 @@ const TableRisk = function ({ risk }: props) {
                       : "N/A")}
                 </td>
                 <td className={styles.slideEvent}>
-                  {areaData &&
-                    areaData.data &&
-                    (risk.areaId
-                      ? areaData.data.find(
-                          (area: AreaType) => area.id === risk.areaId
-                        )?.name
-                      : "N/A")}
-                </td>
-                <td className={styles.slideEvent}>
                   {typesOriginData &&
                     typesOriginData.data &&
                     (risk.types_originId
@@ -379,25 +278,7 @@ const TableRisk = function ({ risk }: props) {
                         )?.name
                       : "N/A")}
                 </td>
-                <td className={styles.slideEvent}>
-                  {risksOriginData &&
-                    risksOriginData.data &&
-                    (risk.risks_originId
-                      ? risksOriginData.data.find(
-                          (risks_origin: RisksOriginType) =>
-                            risks_origin.id === risk.risks_originId
-                        )?.name
-                      : "N/A")}
-                </td>
-                <td className={styles.slideEvent}>
-                  {periodData &&
-                    periodData.data &&
-                    (risk.periodId
-                      ? periodData.data.find(
-                          (period: PeriodType) => period.id === risk.periodId
-                        )?.name
-                      : "N/A")}
-                </td>
+
                 <td className={styles.slideEvent}>
                   {categoryData &&
                     categoryData.data &&

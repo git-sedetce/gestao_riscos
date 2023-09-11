@@ -9,20 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.DataTypes.INTEGER,
       },
-      area_id: {
-        allowNull: false,
-        type: Sequelize.DataTypes.INTEGER,
-        references: { model: "areas", key: "id" },
-        onUpdate: "CASCADE",
-        onDelete: "RESTRICT",
-      },
-      user_id: {
-        allowNull: false,
-        type: Sequelize.DataTypes.INTEGER,
-        references: { model: "users", key: "id" },
-        onUpdate: "CASCADE",
-        onDelete: "RESTRICT",
-      },
       types_origin_id: {
         allowNull: false,
         type: Sequelize.DataTypes.INTEGER,
@@ -30,23 +16,9 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "RESTRICT",
       },
-      risks_origin_id: {
-        allowNull: false,
-        type: Sequelize.DataTypes.INTEGER,
-        references: { model: "risks_origins", key: "id" },
-        onUpdate: "CASCADE",
-        onDelete: "RESTRICT",
-      },
       name: {
         allowNull: false,
         type: Sequelize.DataTypes.STRING,
-      },
-      period_id: {
-        allowNull: false,
-        type: Sequelize.DataTypes.INTEGER,
-        references: { model: "periods", key: "id" },
-        onUpdate: "CASCADE",
-        onDelete: "RESTRICT",
       },
       event: {
         allowNull: false,
@@ -67,10 +39,10 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "RESTRICT",
       },
-      probability_id: {
+      user_id: {
         allowNull: false,
         type: Sequelize.DataTypes.INTEGER,
-        references: { model: "probabilities", key: "id" },
+        references: { model: "users", key: "id" },
         onUpdate: "CASCADE",
         onDelete: "RESTRICT",
       },
@@ -81,11 +53,18 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "RESTRICT",
       },
+      probability_id: {
+        allowNull: false,
+        type: Sequelize.DataTypes.INTEGER,
+        references: { model: "probabilities", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "RESTRICT",
+      },
       inherent: {
         allowNull: true,
         type: Sequelize.DataTypes.INTEGER,
       },
-      identification: {
+      control_identification: {
         allowNull: false,
         type: Sequelize.DataTypes.STRING,
       },

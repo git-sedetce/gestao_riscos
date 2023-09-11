@@ -4,10 +4,9 @@ import {
   Category,
   ControlEvaluation,
   Entity,
-  Impact,
   Period,
+  Impact,
   Probability,
-  RisksOrigin,
   TypesOrigin,
   User,
 } from "../models";
@@ -59,7 +58,7 @@ export const listController = {
     try {
       const impacts = await Impact.findAll({
         attributes: ["id", "name", "position"],
-        order: [["name", "ASC"]],
+        order: [["id", "ASC"]],
       });
 
       return res.json(impacts);
@@ -73,7 +72,7 @@ export const listController = {
     try {
       const periods = await Period.findAll({
         attributes: ["id", "name", "year", "sequence"],
-        order: [["name", "ASC"]],
+        order: [["id", "ASC"]],
       });
 
       return res.json(periods);
@@ -87,7 +86,7 @@ export const listController = {
     try {
       const probabilities = await Probability.findAll({
         attributes: ["id", "name", "position"],
-        order: [["name", "ASC"]],
+        order: [["id", "ASC"]],
       });
 
       return res.json(probabilities);
@@ -101,24 +100,10 @@ export const listController = {
     try {
       const control_evaluations = await ControlEvaluation.findAll({
         attributes: ["id", "name", "position"],
-        order: [["name", "ASC"]],
+        order: [["id", "ASC"]],
       });
 
       return res.json(control_evaluations);
-    } catch (err) {
-      if (err instanceof Error) {
-        return res.status(400).json({ message: err.message });
-      }
-    }
-  },
-  showRisksOrigin: async (req: Request, res: Response) => {
-    try {
-      const risks_origin = await RisksOrigin.findAll({
-        attributes: ["id", "name", "description", "position"],
-        order: [["name", "ASC"]],
-      });
-
-      return res.json(risks_origin);
     } catch (err) {
       if (err instanceof Error) {
         return res.status(400).json({ message: err.message });
@@ -129,7 +114,7 @@ export const listController = {
     try {
       const types_origin = await TypesOrigin.findAll({
         attributes: ["id", "name", "position"],
-        order: [["name", "ASC"]],
+        order: [["id", "ASC"]],
       });
 
       return res.json(types_origin);

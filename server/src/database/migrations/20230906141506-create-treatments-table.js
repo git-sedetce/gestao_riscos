@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DataTypes.STRING,
       },
-      correction: {
+      name: {
         allowNull: false,
         type: Sequelize.DataTypes.STRING,
       },

@@ -4,22 +4,21 @@ import { Op } from "sequelize";
 
 export const riskService = {
   create: async (attributes: RiskCreationAttributes) => {
-    const { probabilityId, impactId, control_evaluationId } = attributes;
+    const { impactId, probabilityId, control_evaluationId } = attributes;
 
-    const probability = await Probability.findByPk(probabilityId);
     const impact = await Impact.findByPk(impactId);
+    const probability = await Probability.findByPk(probabilityId);
     const control_evaluation = await ControlEvaluation.findByPk(
       control_evaluationId
     );
 
-    if (!probability || !impact || !control_evaluation) {
+    if (!impact || !probability || !control_evaluation) {
       throw new Error("Probability or impact not found");
     }
 
-    const inherentValue = probability.algorithm * impact.algorithm;
+    const inherentValue = impact.algorithm * probability.algorithm;
 
-    const residualValue =
-      probability.algorithm * impact.algorithm * control_evaluation.algorithm;
+    const residualValue = inherentValue * control_evaluation.algorithm;
 
     const result = await Risk.create({
       ...attributes,
@@ -33,28 +32,50 @@ export const riskService = {
   update: async (
     id: number,
     attributes: {
-      areaId: number;
-      userId: number;
       types_originId: number;
-      risks_originId: number;
       name: string;
-      periodId: number;
       event: string;
       cause: string;
       consequence: string;
       category_id: number;
-      probabilityId: number;
+      userId: number;
       impactId: number;
-      identification: string;
+      probabilityId: number;
+      control_identification: string;
       control_evaluationId: number;
     }
   ) => {
-    const [affectedRows, updatedRisks] = await Risk.update(attributes, {
-      where: { id },
-      returning: true,
-    });
+    const oldRisk = await Risk.findByPk(id);
+    if (!oldRisk) {
+      throw new Error("Risk not found");
+    }
 
-    return updatedRisks[0];
+    // Calculate the new inherentValue and residualValue based on the new values
+    const impact = await Impact.findByPk(attributes.impactId);
+    const probability = await Probability.findByPk(attributes.probabilityId);
+    const control_evaluation = await ControlEvaluation.findByPk(
+      attributes.control_evaluationId
+    );
+
+    if (!impact || !probability || !control_evaluation) {
+      throw new Error("Probability or impact not found");
+    }
+
+    const inherentValue = impact.algorithm * probability.algorithm;
+    const residualValue = inherentValue * control_evaluation.algorithm;
+
+    const [affectedRows, [updatedRisk]] = await Risk.update(
+      {
+        ...attributes,
+        inherent: inherentValue,
+        residual_risk: residualValue,
+      },
+      {
+        where: { id },
+        returning: true,
+      }
+    );
+    return updatedRisk;
   },
 
   findById: async (id: number) => {
@@ -66,20 +87,17 @@ export const riskService = {
     const riskWithTreatments = await Risk.findByPk(id, {
       attributes: [
         "id",
-        "areaId",
-        "userId",
         "types_originId",
-        "risks_originId",
         "name",
-        "periodId",
         "event",
         "cause",
         "consequence",
         "category_id",
-        "probability_id",
-        "impact_id",
+        "userId",
+        "impactId",
+        "probabilityId",
         "inherent",
-        "identification",
+        "control_identification",
         "control_evaluationId",
         "residual_risk",
       ],
@@ -90,7 +108,8 @@ export const riskService = {
           "types_treatmentId",
           "name",
           "user",
-          "deadline",
+          "start_date",
+          "end_date",
           "status_treatmentId",
           "notes",
         ],
@@ -108,20 +127,17 @@ export const riskService = {
     const { count, rows } = await Risk.findAndCountAll({
       attributes: [
         "id",
-        "areaId",
-        "userId",
         "types_originId",
-        "risks_originId",
         "name",
-        "periodId",
         "event",
         "cause",
         "consequence",
         "category_id",
-        "probability_id",
-        "impact_id",
+        "userId",
+        "impactId",
+        "probabilityId",
         "inherent",
-        "identification",
+        "control_identification",
         "control_evaluationId",
         "residual_risk",
       ],
@@ -142,20 +158,17 @@ export const riskService = {
     const featuredRisks = await Risk.findAll({
       attributes: [
         "id",
-        "areaId",
-        "userId",
         "types_originId",
-        "risks_originId",
         "name",
-        "periodId",
         "event",
         "cause",
         "consequence",
         "category_id",
-        "probability_id",
-        "impact_id",
+        "userId",
+        "impactId",
+        "probabilityId",
         "inherent",
-        "identification",
+        "control_identification",
         "control_evaluationId",
         "residual_risk",
       ],
@@ -188,20 +201,17 @@ export const riskService = {
     const { count, rows } = await Risk.findAndCountAll({
       attributes: [
         "id",
-        "areaId",
-        "userId",
         "types_originId",
-        "risks_originId",
         "name",
-        "periodId",
         "event",
         "cause",
         "consequence",
         "category_id",
-        "probability_id",
-        "impact_id",
+        "userId",
+        "impactId",
+        "probabilityId",
         "inherent",
-        "identification",
+        "control_identification",
         "control_evaluationId",
         "residual_risk",
       ],

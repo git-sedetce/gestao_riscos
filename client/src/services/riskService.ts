@@ -1,21 +1,24 @@
 import api from "./api";
-interface CreateParams {
-  areaId: number;
-  userId: number;
+interface CreateParamsRisks {
   types_originId: number;
-  risks_originId: number;
   name: string;
   event: string;
   cause: string;
   consequence: string;
   category_id: number;
+  userId: number;
+  impactId: number;
+  probabilityId: number;
+  control_identification: string;
+  control_evaluationId: number;
 }
 interface CreateParamsTreatment {
   riskId: number;
   types_treatmentId: number;
   name: string;
   user: string;
-  deadline: string;
+  start_date: string;
+  end_date: string;
   status_treatmentId: number;
   notes: string;
 }
@@ -26,7 +29,8 @@ export type TreatmentType = {
   types_treatmentId: number;
   name: string;
   user: string;
-  deadline: string;
+  start_date: string;
+  end_date: string;
   status_treatmentId: number;
   notes: string;
   [key: string]: any;
@@ -34,16 +38,19 @@ export type TreatmentType = {
 
 export type RiskType = {
   id: number;
-  areaId: number;
-  userId: number;
   types_originId: number;
-  risks_originId: number;
   name: string;
-  periodId: number;
   event: string;
   cause: string;
   consequence: string;
   category_id: number;
+  userId: number;
+  impactId: number;
+  probabilityId: number;
+  inherent: number | null;
+  control_identification: string;
+  control_evaluationId: number;
+  residual_risk: number | null;
   treatments?: TreatmentType[];
 };
 
@@ -85,7 +92,7 @@ const riskService = {
     const token = sessionStorage.getItem("risks-token");
 
     const res = await api
-      .get("/risksall", {
+      .get("/risks_all", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -98,7 +105,7 @@ const riskService = {
 
     return res;
   },
-  create: async (params: CreateParams) => {
+  create: async (params: CreateParamsRisks) => {
     const res = await api.post("/risk", params).catch((error) => {
       if (error.response.status === 400) {
         return error.response;
@@ -236,12 +243,11 @@ const riskService = {
 
     return res;
   },
-
   getStatusTreatmentsId: async (id: number | string) => {
     const token = sessionStorage.getItem("risks-token");
 
     const res = await api
-      .get(`statustreatments/${id}`, {
+      .get(`status_treatments/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -256,7 +262,7 @@ const riskService = {
     const token = sessionStorage.getItem("risks-token");
 
     const res = await api
-      .get(`typestreatments/${id}`, {
+      .get(`types_treatments/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -282,56 +288,6 @@ const riskService = {
 
     return res;
   },
-  //   addToFav: async (riskId: number | string) => {
-  //     const token = sessionStorage.getItem("risks-token");
-
-  //     const res = await api
-  //       .post(
-  //         "/favorites",
-  //         { riskId },
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         }
-  //       )
-  //       .catch((error) => {
-  //         return error.response;
-  //       });
-
-  //     return res;
-  //   },
-  //   removeFav: async (riskId: number | string) => {
-  //     const token = sessionStorage.getItem("risks-token");
-
-  //     const res = await api
-  //       .delete("/favorites", {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         data: { riskId },
-  //       })
-  //       .catch((error) => {
-  //         return error.response;
-  //       });
-
-  //     return res;
-  //   },
-  //   getFavRisks: async () => {
-  //     const token = sessionStorage.getItem("risks-token");
-
-  //     const res = await api
-  //       .get("/favorites", {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       })
-  //       .catch((error) => {
-  //         return error.response;
-  //       });
-
-  //     return res;
-  //   },
 };
 
 export default riskService;

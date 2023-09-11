@@ -12,7 +12,7 @@ const router = express.Router();
 router.post("/auth/register", authController.register);
 router.post("/auth/login", authController.login);
 
-router.get("/categoriespagination", ensureAuth, categoriesController.index);
+router.get("/categories_pagination", ensureAuth, categoriesController.index);
 router.get("/categories/:id", ensureAuth, categoriesController.show);
 
 router.get("/areas", ensureAuth, listController.showAreas);
@@ -21,12 +21,16 @@ router.get("/entities", listController.showEntities);
 router.get("/impacts", ensureAuth, listController.showImpacts);
 router.get("/periods", ensureAuth, listController.showPeriods);
 router.get("/probabilities", ensureAuth, listController.showProbabilities);
-router.get("/risksorigin", ensureAuth, listController.showRisksOrigin);
-router.get("/typesorigin", ensureAuth, listController.showTypesOrigin);
+router.get("/types_origin", ensureAuth, listController.showTypesOrigin);
 router.get("/users", ensureAuth, listController.showUsers);
+router.get(
+  "/control_evaluations",
+  ensureAuth,
+  listController.showControlEvaluations
+);
 
 router.get("/risks", ensureAuth, risksController.index);
-router.get("/risksall", ensureAuth, risksController.showRisks);
+router.get("/risks_all", ensureAuth, risksController.showRisks);
 router.get("/risks/featured", ensureAuth, risksController.featured);
 router.get("/risks/newest", ensureAuth, risksController.newest);
 router.get("/risks/search", ensureAuth, risksController.searchRisks);
@@ -39,17 +43,20 @@ router.get("/treatments", ensureAuth, treatmentsController.index);
 router.get("/treatments/:id", ensureAuth, treatmentsController.show);
 router.post("/treatment", treatmentsController.register);
 router.get(
-  "/statustreatments",
+  "/status_treatments",
   ensureAuth,
   treatmentsController.showStatusTreatment
 );
 router.get(
-  "/typestreatments",
+  "/types_treatments",
   ensureAuth,
   treatmentsController.showTypesTreatment
 );
-router.get("/statustreatments/:id", treatmentsController.showStatusTreatmentId);
-router.get("/typestreatments/:id", treatmentsController.showTypesTreatmentId);
+router.get(
+  "/status_treatments/:id",
+  treatmentsController.showStatusTreatmentId
+);
+router.get("/types_treatments/:id", treatmentsController.showTypesTreatmentId);
 router.put("/treatments/:id", ensureAuth, treatmentsController.update);
 router.delete("/treatments/:id", ensureAuth, risksController.deleteTreatment);
 

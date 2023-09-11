@@ -45,8 +45,13 @@ const TreatmentCard = ({ treatment }: Props) => {
     getTypesTreatmentName();
   }, [treatment]);
 
-  function formatDeadline(deadline: string) {
-    const date = new Date(deadline);
+  function formatStartDate(start_date: string) {
+    const date = new Date(start_date);
+    return date.toLocaleDateString();
+  }
+
+  function formatEndDate(end_date: string) {
+    const date = new Date(end_date);
     return date.toLocaleDateString();
   }
 
@@ -59,26 +64,9 @@ const TreatmentCard = ({ treatment }: Props) => {
     }
   };
 
-  function getDeadlineColor() {
-    const deadline = new Date(treatment.deadline).getTime();
-    const now = new Date().getTime();
-    const timeDifference = deadline - now;
-    const weeksDifference = Math.floor(
-      timeDifference / (1000 * 60 * 60 * 24 * 7)
-    );
-
-    if (weeksDifference <= 0) {
-      return styles.deadlineRed;
-    } else if (weeksDifference <= 2) {
-      return styles.deadlineYellow;
-    } else {
-      return styles.deadlineBlue;
-    }
-  }
-
   return (
     <>
-      <div className={`${styles.treatmentCard} ${getDeadlineColor()}`}>
+      <div className={styles.treatmentCard}>
         <div className={styles.treatmentTitleDescription}>
           <p className={styles.treatmentTitle}>{treatment.name}</p>
           {typesTreatmentName && (
@@ -91,7 +79,10 @@ const TreatmentCard = ({ treatment }: Props) => {
             {treatment.user}
           </p>
           <p className={styles.treatmentDescription}>
-            <b>Prazo:</b> {formatDeadline(treatment.deadline)}
+            <b>Data de Início:</b> {formatStartDate(treatment.start_date)}
+          </p>
+          <p className={styles.treatmentDescription}>
+            <b>Data de Término:</b> {formatEndDate(treatment.end_date)}
           </p>
           {statusTreatmentName && (
             <p className={styles.treatmentDescription}>
@@ -124,73 +115,3 @@ const TreatmentCard = ({ treatment }: Props) => {
 };
 
 export default TreatmentCard;
-
-// const baseUrl = `http://localhost:3000`;
-
-// const TreatmentCard = ({ treatment }: Props) => {
-//   const [statusTreatmentName, setStatusTreatmentName] = useState("");
-//   const [typesTreatmentName, setTypesTreatmentName] = useState("");
-
-//   useEffect(() => {
-//     const getStatusTreatmentName = async () => {
-//       const res = await fetch(
-//         `${baseUrl}/statustreatments/${treatment.status_treatmentId}`
-//       );
-//       const data = await res.json();
-//       setStatusTreatmentName(data.name);
-//     };
-
-//     const getTypesTreatmentName = async () => {
-//       const res = await fetch(
-//         `${baseUrl}/typestreatments/${treatment.types_treatmentId}`
-//       );
-//       const data = await res.json();
-//       setTypesTreatmentName(data.name);
-//     };
-
-//     getStatusTreatmentName();
-//     getTypesTreatmentName();
-//   }, [treatment]);
-
-//   function formatDeadline(deadline: string) {
-//     const date = new Date(deadline);
-//     return date.toLocaleDateString();
-//   }
-
-//   return (
-//     <>
-//       <div className={styles.treatmentCard}>
-//         <div className={styles.treatmentTitleDescription}>
-//           <p className={styles.treatmentTitle}>{treatment.name}</p>
-//           {typesTreatmentName && (
-//             <p className={styles.treatmentDescription}>
-//               <b>Tipo de tratamento:</b> {typesTreatmentName}
-//             </p>
-//           )}
-//           <p className={styles.treatmentDescription}>
-//             <b>Responsável pela medida:</b>
-//             <br />
-//             {treatment.user}
-//           </p>
-//           <p className={styles.treatmentDescription}>
-//             <b>Prazo:</b> {formatDeadline(treatment.deadline)}
-//           </p>
-//           {statusTreatmentName && (
-//             <p className={styles.treatmentDescription}>
-//               <b>Status de tratamento:</b> {statusTreatmentName}
-//             </p>
-//           )}
-//           <p className={styles.treatmentDescription}>
-//             <b>Notas:</b>
-//             <br />
-//             {treatment.notes}
-//           </p>
-//           {console.log(`types_treatmentId: ${treatment.types_treatmentId}`)}
-//           {console.log(`status_treatmentId: ${treatment.status_treatmentId}`)}
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default TreatmentCard;

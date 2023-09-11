@@ -15,7 +15,8 @@ export const treatmentService = {
       types_treatmentId: number;
       name: string;
       user: string;
-      deadline: Date;
+      start_date: Date;
+      end_date: Date;
       status_treatmentId: number;
       notes: string;
     }
@@ -41,7 +42,8 @@ export const treatmentService = {
         "types_treatmentId",
         "name",
         "user",
-        "deadline",
+        "start_date",
+        "end_date",
         "status_treatmentId",
         "notes",
       ],

@@ -57,7 +57,8 @@ const createTreatment = function ({ riskId }: CreateTreatmentProps) {
     const types_treatmentId = Number(selectedType);
     const name = formData.get("name")!.toString();
     const user = formData.get("user")!.toString();
-    const deadline = formData.get("deadline")!.toString();
+    const start_date = formData.get("start_date")!.toString();
+    const end_date = formData.get("end_date")!.toString();
     const status_treatmentId = Number(selectedStatus);
     const notes = formData.get("notes")!.toString();
     const params = {
@@ -65,7 +66,8 @@ const createTreatment = function ({ riskId }: CreateTreatmentProps) {
       types_treatmentId,
       name,
       user,
-      deadline,
+      start_date,
+      end_date,
       status_treatmentId,
       notes,
     };
@@ -200,12 +202,26 @@ const createTreatment = function ({ riskId }: CreateTreatmentProps) {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="deadline" className={styles.label}>
-                    PRAZO DE ENTREGA
+                  <Label for="start_date" className={styles.label}>
+                    DATA DE INÍCIO
                   </Label>
                   <Input
-                    id="deadline"
-                    name="deadline"
+                    id="start_date"
+                    name="start_date"
+                    type="date"
+                    min="2020-01-01"
+                    max="2050-12-31"
+                    required
+                    className={styles.input}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="end_date" className={styles.label}>
+                    DATA DE TÉRMINO
+                  </Label>
+                  <Input
+                    id="end_date"
+                    name="end_date"
                     type="date"
                     min="2020-01-01"
                     max="2050-12-31"

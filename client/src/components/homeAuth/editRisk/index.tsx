@@ -18,6 +18,7 @@ import authService, { UserType } from "../../../../src/services/authService";
 import listService, {
   AreaType,
   CategoryType,
+  ControlEvaluationType,
   ImpactType,
   PeriodType,
   ProbabilityType,
@@ -32,26 +33,25 @@ const EditRisk = function () {
   const { id } = router.query;
   const [modalOpen, setModalOpen] = useState(false);
 
-  const { data: areaData } = useSWR("/listAreas", listService.getAreas);
-  const { data: userData } = useSWR("/listUsers", authService.getUsers);
   const { data: typesOriginData } = useSWR(
     "/listTypesOrigins",
     listService.getTypesOrigins
   );
-  const { data: risksOriginData } = useSWR(
-    "/listRisksOrigins",
-    listService.getRisksOrigins
-  );
-  const { data: periodData } = useSWR("/listPeriods", listService.getPeriods);
   const { data: categoryData } = useSWR(
     "/listCategories",
     listService.getCategories
   );
+  const { data: userData } = useSWR("/listUsers", authService.getUsers);
+  const { data: impactData } = useSWR("/listImpacts", listService.getImpacts);
   const { data: probabilityData } = useSWR(
     "/listProbabilities",
     listService.getProbabilities
   );
-  const { data: impactData } = useSWR("/listImpacts", listService.getImpacts);
+  const { data: controlEvaluationData } = useSWR(
+    "/listControlEvaluations",
+    listService.getControlEvaluations
+  );
+
   const { data: user } = useSWR<UserType>(
     "/api/user",
     profileService.fetchCurrent
@@ -74,16 +74,17 @@ const EditRisk = function () {
     if (typeof id !== "string" || !risk) return;
 
     const res = await riskService.updateRisk(id, {
-      areaId: risk.areaId,
-      userId: risk.userId,
       types_originId: risk.types_originId,
-      risks_originId: risk.risks_originId,
       name: risk.name,
-      periodId: risk.periodId,
       event: risk.event,
       cause: risk.cause,
       consequence: risk.consequence,
       category_id: risk.category_id,
+      userId: risk.userId,
+      impactId: risk.impactId,
+      probabilityId: risk.probabilityId,
+      control_identification: risk.control_identification,
+      control_evaluationId: risk.control_evaluationId,
     });
 
     if (res === 200) {
@@ -136,42 +137,6 @@ const EditRisk = function () {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="areaId">Area ID</Label>
-                  <Input
-                    type="select"
-                    name="areaId"
-                    id="areaId"
-                    value={risk?.areaId}
-                    onChange={(e) =>
-                      setRisk({ ...risk, areaId: Number(e.target.value) })
-                    }
-                  >
-                    {areaData?.data.map((area: AreaType) => (
-                      <option key={area.id} value={area.id}>
-                        {area.name}
-                      </option>
-                    ))}
-                  </Input>
-                </FormGroup>
-                <FormGroup>
-                  <Label for="userId">User ID</Label>
-                  <Input
-                    type="select"
-                    name="userId"
-                    id="userId"
-                    value={risk?.userId}
-                    onChange={(e) =>
-                      setRisk({ ...risk, userId: Number(e.target.value) })
-                    }
-                  >
-                    {userData?.data.map((user: UserType) => (
-                      <option key={user.id} value={user.id}>
-                        {user.name}
-                      </option>
-                    ))}
-                  </Input>
-                </FormGroup>
-                <FormGroup>
                   <Label for="types_originId">Types Origin ID</Label>
                   <Input
                     type="select"
@@ -192,47 +157,6 @@ const EditRisk = function () {
                         </option>
                       )
                     )}
-                  </Input>
-                </FormGroup>
-                <FormGroup>
-                  <Label for="risks_originId">Risks Origin ID</Label>
-                  <Input
-                    type="select"
-                    name="risks_originId"
-                    id="risks_originId"
-                    value={risk?.risks_originId}
-                    onChange={(e) =>
-                      setRisk({
-                        ...risk,
-                        risks_originId: Number(e.target.value),
-                      })
-                    }
-                  >
-                    {risksOriginData?.data.map(
-                      (risksOrigin: RisksOriginType) => (
-                        <option key={risksOrigin.id} value={risksOrigin.id}>
-                          {risksOrigin.name}
-                        </option>
-                      )
-                    )}
-                  </Input>
-                </FormGroup>
-                <FormGroup>
-                  <Label for="periodId">Period ID</Label>
-                  <Input
-                    type="select"
-                    name="periodId"
-                    id="periodId"
-                    value={risk?.periodId}
-                    onChange={(e) =>
-                      setRisk({ ...risk, periodId: Number(e.target.value) })
-                    }
-                  >
-                    {periodData?.data.map((period: PeriodType) => (
-                      <option key={period.id} value={period.id}>
-                        {period.name}
-                      </option>
-                    ))}
                   </Input>
                 </FormGroup>
                 <FormGroup>
@@ -290,6 +214,109 @@ const EditRisk = function () {
                         {category.name}
                       </option>
                     ))}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="userId">User ID</Label>
+                  <Input
+                    type="select"
+                    name="userId"
+                    id="userId"
+                    value={risk?.userId}
+                    onChange={(e) =>
+                      setRisk({ ...risk, userId: Number(e.target.value) })
+                    }
+                  >
+                    {userData?.data.map((user: UserType) => (
+                      <option key={user.id} value={user.id}>
+                        {user.name}
+                      </option>
+                    ))}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="impact">Impact</Label>
+                  <Input
+                    type="select"
+                    name="impactId"
+                    id="impactId"
+                    value={risk?.impactId}
+                    onChange={(e) =>
+                      setRisk({ ...risk, impactId: Number(e.target.value) })
+                    }
+                  >
+                    {impactData?.data.map((impact: ImpactType) => (
+                      <option key={impact.id} value={impact.id}>
+                        {impact.name}
+                      </option>
+                    ))}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="probability">Probability</Label>
+                  <Input
+                    type="select"
+                    name="probabilityId"
+                    id="probabilityId"
+                    value={risk?.probabilityId}
+                    onChange={(e) =>
+                      setRisk({
+                        ...risk,
+                        probabilityId: Number(e.target.value),
+                      })
+                    }
+                  >
+                    {probabilityData?.data.map(
+                      (probability: ProbabilityType) => (
+                        <option key={probability.id} value={probability.id}>
+                          {probability.name}
+                        </option>
+                      )
+                    )}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="control_identification">
+                    Identificação do controle
+                  </Label>
+                  <Input
+                    type="text"
+                    name="control_identification"
+                    id="control_identification"
+                    value={risk?.control_identification}
+                    onChange={(e) =>
+                      setRisk({
+                        ...risk,
+                        control_identification: e.target.value,
+                      })
+                    }
+                    autoComplete="off"
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="control_evaluation">Avaliação do controle</Label>
+                  <Input
+                    type="select"
+                    name="control_evaluationId"
+                    id="control_evaluationId"
+                    value={risk?.control_evaluationId}
+                    onChange={(e) =>
+                      setRisk({
+                        ...risk,
+                        control_evaluationId: Number(e.target.value),
+                      })
+                    }
+                  >
+                    {controlEvaluationData?.data.map(
+                      (control_evaluation: ControlEvaluationType) => (
+                        <option
+                          key={control_evaluation.id}
+                          value={control_evaluation.id}
+                        >
+                          {control_evaluation.name}
+                        </option>
+                      )
+                    )}
                   </Input>
                 </FormGroup>
                 <Button color="primary" onClick={onUpdateButtonClick}>

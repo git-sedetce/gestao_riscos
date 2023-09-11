@@ -28,20 +28,17 @@ export const risksController = {
       const risks = await Risk.findAll({
         attributes: [
           "id",
-          "areaId",
-          "userId",
           "types_originId",
-          "risks_originId",
           "name",
-          "periodId",
           "event",
           "cause",
           "consequence",
           "category_id",
-          "probabilityId",
+          "userId",
           "impactId",
+          "probabilityId",
           "inherent",
-          "identification",
+          "control_identification",
           "control_evaluationId",
           "residual_risk",
         ],
@@ -82,13 +79,13 @@ export const risksController = {
 
   // GET /risks/search?name=
   searchRisks: async (req: Request, res: Response) => {
-    const { name } = req.query;
+    const { origin } = req.query;
     const [page, perPage] = getPaginationParams(req.query);
 
     try {
-      if (typeof name !== "string")
-        throw new Error("name param must be of type string");
-      const risks = await riskService.findByNameAll(name, page, perPage);
+      if (typeof origin !== "string")
+        throw new Error("origin param must be of type string");
+      const risks = await riskService.findByNameAll(origin, page, perPage);
       return res.json(risks);
     } catch (err) {
       if (err instanceof Error) {
@@ -100,20 +97,17 @@ export const risksController = {
   // POST /risk
   register: async (req: Request, res: Response) => {
     const {
-      areaId,
-      userId,
       types_originId,
-      risks_originId,
       name,
-      periodId,
       event,
       cause,
       consequence,
       category_id,
-      probabilityId,
+      userId,
       impactId,
+      probabilityId,
       inherent,
-      identification,
+      control_identification,
       control_evaluationId,
       residual_risk,
     } = req.body;
@@ -126,20 +120,17 @@ export const risksController = {
       }
 
       const risk = await riskService.create({
-        areaId,
-        userId,
         types_originId,
-        risks_originId,
         name,
-        periodId,
         event,
         cause,
         consequence,
         category_id,
-        probabilityId,
+        userId,
         impactId,
+        probabilityId,
         inherent,
-        identification,
+        control_identification,
         control_evaluationId,
         residual_risk,
       });
@@ -168,19 +159,16 @@ export const risksController = {
   update: async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     const {
-      areaId,
-      userId,
       types_originId,
-      risks_originId,
       name,
-      periodId,
       event,
       cause,
       consequence,
       category_id,
-      probabilityId,
+      userId,
       impactId,
-      identification,
+      probabilityId,
+      control_identification,
       control_evaluationId,
     } = req.body;
 
@@ -191,19 +179,16 @@ export const risksController = {
       }
 
       const updatedRisk = await riskService.update(id, {
-        areaId,
-        userId,
         types_originId,
-        risks_originId,
         name,
-        periodId,
         event,
         cause,
         consequence,
         category_id,
-        probabilityId,
+        userId,
         impactId,
-        identification,
+        probabilityId,
+        control_identification,
         control_evaluationId,
       });
 

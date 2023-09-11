@@ -47,9 +47,9 @@ const TableTreatment = () => {
               return sortConfig.direction === "ascending" ? 1 : -1;
             }
             return 0;
-          } else if (sortConfig.key === "deadline") {
-            const dateA = new Date(a.deadline);
-            const dateB = new Date(b.deadline);
+          } else if (sortConfig.key === "start_date") {
+            const dateA = new Date(a.start_date);
+            const dateB = new Date(b.start_date);
             if (dateA < dateB) {
               return sortConfig.direction === "ascending" ? -1 : 1;
             }
@@ -114,8 +114,13 @@ const TableTreatment = () => {
     return status_treatment?.name || "";
   };
 
-  function formatDeadline(deadline: string) {
-    const date = new Date(deadline);
+  function formatStartDate(start_date: string) {
+    const date = new Date(start_date);
+    return date.toLocaleDateString();
+  }
+
+  function formatEndDate(end_date: string) {
+    const date = new Date(end_date);
     return date.toLocaleDateString();
   }
 
@@ -161,7 +166,6 @@ const TableTreatment = () => {
         >
           <thead>
             <tr>
-              {/* <th onClick={() => handleSort("id")}>ID {getSortIcon("id")}</th> */}
               <th onClick={() => handleSort("name")}>
                 Tratamentos {getSortIcon("name")}
               </th>
@@ -175,8 +179,11 @@ const TableTreatment = () => {
               <th onClick={() => handleSort("status_treatmentId")}>
                 Status de tratamento {getSortIcon("status_treatmentId")}
               </th>
-              <th onClick={() => handleSort("deadline")}>
-                Prazo {getSortIcon("deadline")}
+              <th onClick={() => handleSort("start_date")}>
+                Data de Início {getSortIcon("start_date")}
+              </th>
+              <th onClick={() => handleSort("end_date")}>
+                Data de término {getSortIcon("end_date")}
               </th>
               <th>Observações</th>
             </tr>
@@ -195,9 +202,10 @@ const TableTreatment = () => {
                 <td>{treatment.user}</td>
                 <td>{treatment.types_treatmentId}</td>
                 <td>{treatment.status_treatmentId}</td>
-                {/* <td>{getTypeNameById(treatment.types_treatmentId)}</td>
-                <td>{getStatusNameById(treatment.status_treatmentId)}</td> */}
-                <td>{formatDeadline(treatment.deadline)}</td>
+                <td>{getTypeNameById(treatment.types_treatmentId)}</td>
+                <td>{getStatusNameById(treatment.status_treatmentId)}</td>
+                <td>{formatStartDate(treatment.start_date)}</td>
+                <td>{formatEndDate(treatment.end_date)}</td>
                 <td>{treatment.notes}</td>
               </tr>
             ))}
