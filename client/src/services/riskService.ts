@@ -16,7 +16,7 @@ interface CreateParamsTreatment {
   riskId: number;
   types_treatmentId: number;
   name: string;
-  user: string;
+  userId: number;
   start_date: string;
   end_date: string;
   status_treatmentId: number;
@@ -28,7 +28,7 @@ export type TreatmentType = {
   riskId: number;
   types_treatmentId: number;
   name: string;
-  user: string;
+  userId: number;
   start_date: string;
   end_date: string;
   status_treatmentId: number;

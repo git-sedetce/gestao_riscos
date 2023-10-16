@@ -19,6 +19,7 @@ import listService, {
   TypesTreatmentType,
 } from "../../../../src/services/listService";
 import router from "next/router";
+import authService, { UserType } from "../../../services/authService";
 
 type CreateTreatmentProps = {
   riskId: number;
@@ -28,7 +29,7 @@ const createTreatment = function ({ riskId }: CreateTreatmentProps) {
   const [selectedRisk, setSelectedRisk] = useState(riskId.toString());
   const [selectedType, setSelectedType] = useState("");
   const [name, setName] = useState("");
-  const [user, setUser] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
   const [notes, setNotes] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -42,6 +43,7 @@ const createTreatment = function ({ riskId }: CreateTreatmentProps) {
     "/listTypesTreatments",
     listService.getTypesTreatments
   );
+  const { data: userData } = useSWR("/listUsers", authService.getUsers);
   const { data: statusTreatmentData } = useSWR(
     "/listStatusTreatments",
     listService.getStatusTreatments
@@ -56,7 +58,7 @@ const createTreatment = function ({ riskId }: CreateTreatmentProps) {
     const riskId = Number(selectedRisk);
     const types_treatmentId = Number(selectedType);
     const name = formData.get("name")!.toString();
-    const user = formData.get("user")!.toString();
+    const userId = Number(selectedUser);
     const start_date = formData.get("start_date")!.toString();
     const end_date = formData.get("end_date")!.toString();
     const status_treatmentId = Number(selectedStatus);
@@ -65,7 +67,7 @@ const createTreatment = function ({ riskId }: CreateTreatmentProps) {
       riskId,
       types_treatmentId,
       name,
-      user,
+      userId,
       start_date,
       end_date,
       status_treatmentId,
@@ -75,7 +77,7 @@ const createTreatment = function ({ riskId }: CreateTreatmentProps) {
     const { data, status } = await riskService.createTreat(params);
 
     if (status === 201) {
-      router.push("/home");
+      router.push(`/risks/${riskId}`);
       setToastColor("bg-success");
       setToastIsOpen(true);
       setTimeout(() => {
@@ -94,7 +96,7 @@ const createTreatment = function ({ riskId }: CreateTreatmentProps) {
     setSelectedRisk("");
     setSelectedType("");
     setName("");
-    setUser("");
+    setSelectedUser("");
     setSelectedStatus("");
     setNotes("");
   };
@@ -190,16 +192,27 @@ const createTreatment = function ({ riskId }: CreateTreatmentProps) {
                     RESPONSÁVEL PELA MEDIDA
                   </Label>
                   <Input
-                    id="user"
-                    name="user"
-                    type="text"
-                    placeholder="Qual o responsável"
-                    required
-                    value={user}
-                    onChange={(event) => setUser(event.target.value)}
+                    type="select"
+                    name="userId"
+                    id="userId"
+                    value={selectedUser}
+                    onChange={(event) =>
+                      setSelectedUser(String(event.target.value))
+                    }
                     className={styles.input}
-                    autocomplete="off"
-                  />
+                  >
+                    <option value="">Selecione o usuário</option>
+                    {userData &&
+                      userData.data.map((user: UserType) => (
+                        <option
+                          key={user.id}
+                          value={user.id}
+                          className={styles.inputOption}
+                        >
+                          {user.name}
+                        </option>
+                      ))}
+                  </Input>
                 </FormGroup>
                 <FormGroup>
                   <Label for="start_date" className={styles.label}>

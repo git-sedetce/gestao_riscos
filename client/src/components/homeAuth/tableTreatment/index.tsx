@@ -9,7 +9,6 @@ import riskService, {
   RiskType,
   TreatmentType,
 } from ".././../../../src/services/riskService";
-import CreateTreatment from "src/components/homeAuth/createTreatment";
 import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 import Link from "next/link";
 
@@ -85,6 +84,7 @@ const TableTreatment = () => {
         setTypesTreatments(res.data);
       }
     };
+
     const fetchStatusTreatments = async () => {
       const res = await listService.getStatusTreatments();
 
@@ -104,14 +104,20 @@ const TableTreatment = () => {
     return risk?.name || "";
   };
 
-  const getTypeNameById = (id: number) => {
-    const types_treatment = types_treatments.find((r) => r.id === id);
-    return types_treatment?.name || "";
+  const getTypeNameById = (
+    id: number,
+    typesTreatments: TypesTreatmentType[]
+  ) => {
+    const typesTreatment = typesTreatments.find((tt) => tt.id === id);
+    return typesTreatment?.name || "";
   };
 
-  const getStatusNameById = (id: number) => {
-    const status_treatment = status_treatments.find((r) => r.id === id);
-    return status_treatment?.name || "";
+  const getStatusNameById = (
+    id: number,
+    statusTreatments: StatusTreatmentType[]
+  ) => {
+    const statusTreatment = statusTreatments.find((st) => st.id === id);
+    return statusTreatment?.name || "";
   };
 
   function formatStartDate(start_date: string) {
@@ -161,52 +167,55 @@ const TableTreatment = () => {
         <Table
           responsive
           bordered
-          className="noWrap"
+          className={`table ${styles.customTable}`}
           style={{ color: "black", textAlign: "center" }}
         >
           <thead>
             <tr>
               <th onClick={() => handleSort("name")}>
-                Tratamentos {getSortIcon("name")}
+                Ações Corretivas {getSortIcon("name")}
               </th>
               <th onClick={() => handleSort("riskId")}>
                 Riscos {getSortIcon("riskId")}
               </th>
-              <th> Responsáveis da medida</th>
+              <th> Responsável</th>
               <th onClick={() => handleSort("types_treatmentId")}>
-                Tipos de tratamento {getSortIcon("types_treatmentId")}
+                Respostas aos Riscos {getSortIcon("types_treatmentId")}
               </th>
               <th onClick={() => handleSort("status_treatmentId")}>
-                Status de tratamento {getSortIcon("status_treatmentId")}
+                Monitoramento {getSortIcon("status_treatmentId")}
               </th>
               <th onClick={() => handleSort("start_date")}>
                 Data de Início {getSortIcon("start_date")}
               </th>
               <th onClick={() => handleSort("end_date")}>
-                Data de término {getSortIcon("end_date")}
+                Data de Término {getSortIcon("end_date")}
               </th>
               <th>Observações</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className={styles.tbody}>
             {sortedTreatments.map((treatment) => (
-              <tr key={treatment.id}>
-                {/* <td>{treatment.id}</td> */}
-                <td>{treatment.name}</td>
-                <Link
-                  href={`/risks/${treatment.riskId}`}
-                  className={styles.link}
-                >
-                  <td>{getRiskNameById(treatment.riskId)}</td>
-                </Link>
-                <td>{treatment.user}</td>
-                <td>{treatment.types_treatmentId}</td>
-                <td>{treatment.status_treatmentId}</td>
-                <td>{getTypeNameById(treatment.types_treatmentId)}</td>
-                <td>{getStatusNameById(treatment.status_treatmentId)}</td>
-                <td>{formatStartDate(treatment.start_date)}</td>
-                <td>{formatEndDate(treatment.end_date)}</td>
-                <td>{treatment.notes}</td>
+              <tr key={treatment.id} className={styles.row}>
+                <td className={styles.cell}>{treatment.name}</td>
+                <td className={styles.cell}>
+                  <Link
+                    href={`/risks/${treatment.riskId}`}
+                    className={styles.link}
+                  >
+                    {getRiskNameById(treatment.riskId)}
+                  </Link>
+                </td>
+                <td className={styles.cell}>{treatment.user}</td>
+                <td className={styles.cell}>{treatment.types_treatmentId}</td>
+                <td className={styles.cell}>{treatment.status_treatmentId}</td>
+                <td className={styles.cell}>
+                  {formatStartDate(treatment.start_date)}
+                </td>
+                <td className={styles.cell}>
+                  {formatEndDate(treatment.end_date)}
+                </td>
+                <td className={styles.cell}>{treatment.notes}</td>
               </tr>
             ))}
           </tbody>

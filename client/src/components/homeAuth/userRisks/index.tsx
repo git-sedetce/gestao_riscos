@@ -9,7 +9,10 @@ import { RiskType } from "src/services/riskService";
 import useSWR from "swr";
 
 const CurrentUserRisks: React.FC = () => {
-  const { data, error } = useSWR("/currentuser", profileService.getCurrentUserRisks);
+  const { data, error } = useSWR(
+    "/currentuser",
+    profileService.getCurrentUserRisks
+  );
 
   if (error) {
     return <div>Error loading risks</div>;
@@ -20,17 +23,21 @@ const CurrentUserRisks: React.FC = () => {
   }
 
   if (data.length === 0) {
-    return <div>
-      <p className="h5 text-center pt-3">
-          <strong>Você não tem nenhum risco na lista</strong>
+    return (
+      <div>
+        <p className="h5 text-center pt-3">
+          <p className={styles.titleCategory}>MEUS RISCOS</p>
+          <br />
+          <strong>Você não tem nenhum risco registrado em seu nome</strong>
         </p>
-    </div>;
+      </div>
+    );
   }
 
   return (
     <>
       <p className={styles.titleCategory}>MEUS RISCOS</p>
-      <SlideComponent risk={data} /> 
+      <SlideComponent risk={data} />
     </>
   );
 };

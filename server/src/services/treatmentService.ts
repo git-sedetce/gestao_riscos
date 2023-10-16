@@ -14,7 +14,7 @@ export const treatmentService = {
       riskId: number;
       types_treatmentId: number;
       name: string;
-      user: string;
+      userId: number;
       start_date: Date;
       end_date: Date;
       status_treatmentId: number;
@@ -41,7 +41,7 @@ export const treatmentService = {
         "riskId",
         "types_treatmentId",
         "name",
-        "user",
+        "userId",
         "start_date",
         "end_date",
         "status_treatmentId",

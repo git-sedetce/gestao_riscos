@@ -15,15 +15,6 @@
     font-weight: 400;
     width: 1%;
   }
-  // td:nth-child(2) {
-  //   width: 20%;
-  // }
-  // td:nth-child(n + 3) {
-  //   width: 20%;
-  // }
-  // td:nth-child(3) {
-  //   width: 45%;
-  // }
   td:nth-child(2) {
     width: 5%;
   }
@@ -85,16 +76,5 @@
   border-radius: 60px;
   &:hover {
     color: $lightGray;
-  }
-}
-
-@media (max-width: 575px) {
-  .footer {
-    padding: 26px 16px;
-  }
-}
-@media (max-width: 410px) {
-  .footer {
-    justify-content: center;
   }
 }

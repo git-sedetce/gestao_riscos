@@ -11,6 +11,7 @@ import {
   ModalBody,
   Form,
 } from "reactstrap";
+import authService, { UserType } from "src/services/authService";
 import listService, {
   StatusTreatmentType,
   TypesTreatmentType,
@@ -25,10 +26,10 @@ interface Props {
 const editTreatment = ({ treatment }: Props) => {
   const [name, setName] = useState(treatment.name);
   const [risk, setRisk] = useState(treatment.riskId ?? "");
-  const [user, setUser] = useState(treatment.user);
   const [typesTreatmentId, setTypesTreatmentId] = useState(
     treatment.types_treatmentId
   );
+  const [userId, setUserId] = useState(treatment.userId);
   const [start_date, setStartDate] = useState(treatment.start_date);
   const [end_date, setEndDate] = useState(treatment.end_date);
   const [statusTreatmentId, setStatusTreatmentId] = useState(
@@ -44,13 +45,20 @@ const editTreatment = ({ treatment }: Props) => {
     "/listTypesTreatments",
     listService.getTypesTreatments
   );
+  const { data: userData } = useSWR("/listUsers", authService.getUsers);
   const { data: statusTreatmentData } = useSWR(
     "/listStatusTreatments",
     listService.getStatusTreatments
   );
 
+  const extractDate = (isoDate: string) => {
+    return isoDate.slice(0, 10);
+  };
+
   useEffect(() => {
     setRisk(treatment.riskId);
+    setStartDate(extractDate(treatment.start_date));
+    setEndDate(extractDate(treatment.end_date));
   }, [treatment]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -58,7 +66,7 @@ const editTreatment = ({ treatment }: Props) => {
     const res = await riskService.updateTreat(treatment.id, {
       name,
       types_treatmentId: typesTreatmentId,
-      user,
+      userId: userId,
       start_date,
       end_date,
       status_treatmentId: statusTreatmentId,
@@ -67,7 +75,7 @@ const editTreatment = ({ treatment }: Props) => {
     if (res === 200) {
       setModalOpen(false);
       setTimeout(async () => {
-        router.push(`/risks/${risk}`);
+        router.push(`/home/`);
       }, 400);
     } else {
       alert("Failed to update treatment");
@@ -97,16 +105,6 @@ const editTreatment = ({ treatment }: Props) => {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="user">Responsável:</Label>
-                <Input
-                  type="text"
-                  name="user"
-                  id="user"
-                  value={user}
-                  onChange={(e) => setUser(e.target.value)}
-                />
-              </FormGroup>
-              <FormGroup>
                 <Label for="types_treatmentId">Tipos de tratamento:</Label>
                 <Input
                   type="select"
@@ -124,6 +122,22 @@ const editTreatment = ({ treatment }: Props) => {
                       </option>
                     )
                   )}
+                </Input>
+              </FormGroup>
+              <FormGroup>
+                <Label for="userId">Responsável:</Label>
+                <Input
+                  type="select"
+                  name="userId"
+                  id="userId"
+                  value={userId}
+                  onChange={(e) => setUserId(parseInt(e.target.value))}
+                >
+                  {userData?.data.map((user: UserType) => (
+                    <option key={user.id} value={user.id}>
+                      {user.name}
+                    </option>
+                  ))}
                 </Input>
               </FormGroup>
               <FormGroup>
@@ -149,7 +163,7 @@ const editTreatment = ({ treatment }: Props) => {
               <FormGroup>
                 <Label for="status_treatmentId">Status:</Label>
                 <Input
-                  type="text"
+                  type="select"
                   name="status_treatmentId"
                   id="status_treatmentId"
                   value={statusTreatmentId}
@@ -168,7 +182,6 @@ const editTreatment = ({ treatment }: Props) => {
                     )
                   )}
                 </Input>
-                <Input />
               </FormGroup>
               <FormGroup>
                 <Label for="notes">Observações:</Label>

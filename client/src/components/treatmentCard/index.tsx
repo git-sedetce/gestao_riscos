@@ -4,20 +4,22 @@ import { useEffect, useState } from "react";
 import EditTreatment from "../homeAuth/editTreatment";
 import { Button } from "reactstrap";
 import useSWR from "swr";
-import { UserType } from "src/services/authService";
+import authService, { UserType } from "src/services/authService";
 import profileService from "src/services/profileService";
 
 interface Props {
   treatment: TreatmentType;
 }
 
-// const baseUrl = `http://localhost:3000`;
+const baseUrl = `http://localhost:3000`;
 
-const baseUrl = `https://api-gestaoderiscos.sedet.ce.gov.br`;
+// const baseUrl = `https://api-gestaoderiscos.sedet.ce.gov.br`;
 
 const TreatmentCard = ({ treatment }: Props) => {
   const [statusTreatmentName, setStatusTreatmentName] = useState("");
   const [typesTreatmentName, setTypesTreatmentName] = useState("");
+
+  const { data: userData } = useSWR("/listUsers", authService.getUsers);
 
   const { data: user } = useSWR<UserType>(
     "/api/user",
@@ -27,7 +29,7 @@ const TreatmentCard = ({ treatment }: Props) => {
   useEffect(() => {
     const getStatusTreatmentName = async () => {
       const res = await fetch(
-        `${baseUrl}/statustreatments/${treatment.status_treatmentId}`
+        `${baseUrl}/status_treatments/${treatment.status_treatmentId}`
       );
       const data = await res.json();
       setStatusTreatmentName(data.name);
@@ -35,7 +37,7 @@ const TreatmentCard = ({ treatment }: Props) => {
 
     const getTypesTreatmentName = async () => {
       const res = await fetch(
-        `${baseUrl}/typestreatments/${treatment.types_treatmentId}`
+        `${baseUrl}/types_treatments/${treatment.types_treatmentId}`
       );
       const data = await res.json();
       setTypesTreatmentName(data.name);
@@ -71,13 +73,19 @@ const TreatmentCard = ({ treatment }: Props) => {
           <p className={styles.treatmentTitle}>{treatment.name}</p>
           {typesTreatmentName && (
             <p className={styles.treatmentDescription}>
-              <b>Tipo de tratamento:</b> {typesTreatmentName}
+              <b>Resposta ao Risco:</b> {typesTreatmentName}
             </p>
           )}
-          <p className={styles.treatmentDescription}>
-            <b>Responsável pela medida: </b>
-            {treatment.user}
-          </p>
+          {userData && userData.data && (
+            <p className={styles.treatmentDescription}>
+              <b>Usuário:</b>{" "}
+              {treatment.userId
+                ? userData.data.find(
+                    (user: UserType) => user.id === treatment.userId
+                  )?.name
+                : "N/A"}
+            </p>
+          )}
           <p className={styles.treatmentDescription}>
             <b>Data de Início:</b> {formatStartDate(treatment.start_date)}
           </p>
@@ -86,12 +94,11 @@ const TreatmentCard = ({ treatment }: Props) => {
           </p>
           {statusTreatmentName && (
             <p className={styles.treatmentDescription}>
-              <b>Status de tratamento:</b> {statusTreatmentName}
+              <b>Monitoramento:</b> {statusTreatmentName}
             </p>
           )}
           <p className={styles.treatmentDescription}>
-            <b>Notas:</b>
-            {treatment.notes}
+            <b>Notas:</b> {treatment.notes}
           </p>
         </div>
       </div>

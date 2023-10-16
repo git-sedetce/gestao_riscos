@@ -24,6 +24,7 @@ import listService, {
 } from "../../../services/listService";
 import ToastComponent from "../../../components/common/toast";
 import authService, { UserType } from "../../../services/authService";
+import router from "next/router";
 
 const createRisk = function () {
   const [selectedTypesOrigin, setSelectedTypesOrigin] = useState("");
@@ -100,6 +101,7 @@ const createRisk = function () {
     const { data, status } = await riskService.create(params);
 
     if (status === 201) {
+      router.push(`/risks/${data.id}`);
       setToastColor("bg-success");
       setToastIsOpen(true);
       setTimeout(() => {
@@ -136,7 +138,7 @@ const createRisk = function () {
   return (
     <>
       <main className={styles.main}>
-        <Container className="py-5">
+        <Container className="py-4">
           <Button className={styles.button} onClick={toggleModal}>
             CRIAR RISCO
           </Button>

@@ -2,46 +2,41 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("treatments", {
+    await queryInterface.createTable("contexts", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.DataTypes.INTEGER,
       },
-      types_treatment_id: {
-        allowNull: false,
-        type: Sequelize.DataTypes.STRING,
-      },
       name: {
         allowNull: false,
         type: Sequelize.DataTypes.STRING,
       },
-      user: {
-        allowNull: false,
-        type: Sequelize.DataTypes.STRING,
-      },
-      start_date: {
-        allowNull: true,
-        type: Sequelize.DataTypes.DATE,
-      },
-      end_date: {
-        allowNull: true,
-        type: Sequelize.DataTypes.DATE,
-      },
-      status_treatment_id: {
-        allowNull: false,
-        type: Sequelize.DataTypes.STRING,
-      },
-      risk_id: {
+      area_id: {
         allowNull: false,
         type: Sequelize.DataTypes.INTEGER,
-        references: { model: "risks", key: "id" },
+        references: { model: "areas", key: "id" },
         onUpdate: "CASCADE",
         onDelete: "RESTRICT",
       },
-      notes: {
-        allowNull: true,
+      critical_process: {
+        allowNull: false,
+        type: Sequelize.DataTypes.STRING,
+      },
+      priority: {
+        allowNull: false,
+        type: Sequelize.DataTypes.INTEGER,
+      },
+      user_id: {
+        allowNull: false,
+        type: Sequelize.DataTypes.INTEGER,
+        references: { model: "users", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "RESTRICT",
+      },
+      critical_identification: {
+        allowNull: false,
         type: Sequelize.DataTypes.STRING,
       },
       created_at: {
@@ -56,6 +51,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("treatments");
+    await queryInterface.dropTable("contexts");
   },
 };

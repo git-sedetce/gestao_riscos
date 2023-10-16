@@ -22,7 +22,7 @@ export const risksController = {
     }
   },
 
-  // GET /risksall
+  // GET /risk_all
   showRisks: async (req: Request, res: Response) => {
     try {
       const risks = await Risk.findAll({
@@ -79,13 +79,13 @@ export const risksController = {
 
   // GET /risks/search?name=
   searchRisks: async (req: Request, res: Response) => {
-    const { origin } = req.query;
+    const { name } = req.query;
     const [page, perPage] = getPaginationParams(req.query);
 
     try {
-      if (typeof origin !== "string")
-        throw new Error("origin param must be of type string");
-      const risks = await riskService.findByNameAll(origin, page, perPage);
+      if (typeof name !== "string")
+        throw new Error("name param must be of type string");
+      const risks = await riskService.findByNameAll(name, page, perPage);
       return res.json(risks);
     } catch (err) {
       if (err instanceof Error) {
@@ -113,11 +113,11 @@ export const risksController = {
     } = req.body;
 
     try {
-      const riskAlreadyExists = await riskService.findByName(name);
+      // const riskAlreadyExists = await riskService.findByName(name);
 
-      if (riskAlreadyExists) {
-        throw new Error("O Indicador de risco já está cadastrado.");
-      }
+      // if (riskAlreadyExists) {
+      //   throw new Error("O risco já está cadastrado.");
+      // }
 
       const risk = await riskService.create({
         types_originId,

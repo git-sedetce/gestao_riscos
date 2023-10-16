@@ -50,7 +50,6 @@ export const riskService = {
       throw new Error("Risk not found");
     }
 
-    // Calculate the new inherentValue and residualValue based on the new values
     const impact = await Impact.findByPk(attributes.impactId);
     const probability = await Probability.findByPk(attributes.probabilityId);
     const control_evaluation = await ControlEvaluation.findByPk(
@@ -107,13 +106,13 @@ export const riskService = {
           "id",
           "types_treatmentId",
           "name",
-          "user",
+          "userId",
           "start_date",
           "end_date",
           "status_treatmentId",
           "notes",
         ],
-        order: [["user", "ASC"]],
+        order: [["userId", "ASC"]],
         separate: true,
       },
     });
@@ -172,6 +171,9 @@ export const riskService = {
         "control_evaluationId",
         "residual_risk",
       ],
+      // where: {
+      //   featured: true,
+      // },
     });
 
     const randomFeaturedRisks = featuredRisks.sort(() => 0.5 - Math.random());
@@ -181,6 +183,22 @@ export const riskService = {
 
   getNewestRisks: async () => {
     const risks = await Risk.findAll({
+      attributes: [
+        "id",
+        "types_originId",
+        "name",
+        "event",
+        "cause",
+        "consequence",
+        "category_id",
+        "userId",
+        "impactId",
+        "probabilityId",
+        "inherent",
+        "control_identification",
+        "control_evaluationId",
+        "residual_risk",
+      ],
       limit: 10,
       order: [["created_at", "DESC"]],
     });

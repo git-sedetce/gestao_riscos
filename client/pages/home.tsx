@@ -39,7 +39,6 @@ const HomeAuth = function () {
         <UserRisks />
         <NewestCategory />
         <FeaturedRisk />
-        <Footer />
       </main>
     </>
   );

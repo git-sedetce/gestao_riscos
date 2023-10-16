@@ -6,6 +6,8 @@ import { risksController } from "./controllers/risksController";
 import { treatmentsController } from "./controllers/treatmentsController";
 import { usersController } from "./controllers/userController";
 import { ensureAuth } from "./middlewares/auth";
+import { contextsController } from "./controllers/contextsController";
+import { criticalitiesController } from "./controllers/criticalitiesController";
 
 const router = express.Router();
 
@@ -69,5 +71,11 @@ router.put(
   ensureAuth,
   usersController.updatePassword
 );
+
+router.get("/contexts", ensureAuth, contextsController.index);
+router.get("/contexts/:id", ensureAuth, contextsController.showId);
+router.post("/context", contextsController.register);
+
+router.post("/criticality", criticalitiesController.register);
 
 export { router };

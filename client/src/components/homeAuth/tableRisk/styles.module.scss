@@ -1,11 +1,18 @@
 @import "../../../../styles/colors.module.scss";
 
-.table {
-  background-color: $mediumWhite;
-  margin-top: 10px;
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
-.slide {
+.customTable {
+  background-color: $mediumWhite;
+  margin-top: 10px;
+  min-width: 1200px;
+}
+
+.row {
   display: table-row;
   th:first-child,
   td:first-child {
@@ -13,81 +20,40 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-weight: 400;
-    width: 1%;
-  }
-  // td:nth-child(2) {
-  //   width: 20%;
-  // }
-  // td:nth-child(n + 3) {
-  //   width: 20%;
-  // }
-  // td:nth-child(3) {
-  //   width: 45%;
-  // }
-  td:nth-child(2) {
-    width: 5%;
-  }
-  td:nth-child(3) {
-    width: 5%;
   }
 }
+
 .titles {
   font-weight: 400;
-  color: black;
+  color: $table-header-color;
 }
-// .link {
-//   text-decoration: none;
-// }
-.slideIndicator {
-  color: black;
-  padding-top: 4px;
-  padding-right: 4px;
-  font-weight: bold;
-  cursor: pointer;
+
+.cell {
+  padding: 10px;
+}
+
+.link {
+  color: $light-font-color;
+  text-decoration: none;
   &:hover {
     text-decoration: underline;
   }
 }
 
-.slideEvent {
-  font-size: 14px;
-  color: black;
+.table th {
+  cursor: pointer;
+}
+
+.table th,
+.table td {
+  border: none;
   text-align: left;
 }
 
-.noWrap td,
-.noWrap th {
-  border: none;
+.table tbody tr:nth-child(even) {
+  background-color: $line-even-color;
 }
 
-.titles {
-  cursor: pointer;
-}
-.button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.938rem;
-  font-weight: bold;
-  padding: 0.625rem 2.188rem;
-
-  &:hover {
-    background-color: transparent;
-    color: $lightGray;
-  }
-}
-.link {
-  color: black;
-  transition: 0.3s;
-  border-radius: 60px;
-}
-@media (max-width: 575px) {
-  .footer {
-    padding: 26px 16px;
-  }
-}
-@media (max-width: 410px) {
-  .footer {
-    justify-content: center;
-  }
+.table tbody tr:nth-child(odd) {
+  background-color: $line-odd-color;
 }

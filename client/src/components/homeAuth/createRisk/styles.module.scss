@@ -1,7 +1,7 @@
 @import "../../../../styles/colors.module.scss";
 
 .main {
-  height: 50px;
+  height: auto;
 }
 .button {
   display: block;
@@ -25,36 +25,38 @@
   margin-bottom: 2.5rem;
 }
 .form {
-  // width: 37.5rem;
-  background-color: $mediumWhite;
-  width: 26rem;
-  padding: 3.125rem;
+  background-color: $customLightYellow;
+  width: 50rem;
+  padding: 2rem;
   border: 1px solid $lightGray;
-  margin: 5 auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  margin-top: 2rem;
+  margin-left: -8rem;
 }
 .label {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
-  padding-top: 20px;
+  margin-top: 10px;
 }
 .input {
   border-color: $lightGray;
   background-color: transparent;
   color: $lightGray;
+  border-radius: 5px;
 
   &::placeholder {
     color: $lightGray;
   }
   &:focus {
     background-color: transparent;
-    border-color: $lightBlue;
-    color: $lightGray;
-    box-shadow: none;
+    border-color: $customYellow;
+    color: $darkGray;
   }
 }
 .inputName {
   @extend .input;
-  //   text-transform: uppercase;
   &::placeholder {
     text-transform: none;
   }
@@ -64,14 +66,15 @@
 }
 .formBtn {
   display: block;
-  margin: 50px auto 0 auto;
-  border-color: $mediumBlue;
-  color: $lightGray;
+  margin: 20px auto 0 auto;
+  background-color: $customYellow;
+  color: $darkBlue;
+  border: none;
+  border-radius: 5px;
 
   &:hover {
-    background-color: transparent;
-    color: $lightGray;
-    border-color: $lightBlue;
+    background-color: darken($customYellow, 10%);
+    color: $darkBlue;
   }
 }
 

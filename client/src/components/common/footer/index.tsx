@@ -6,7 +6,12 @@ const Footer = () => {
   return (
     <>
       <Container className={styles.footer}>
-      <p>SDE - Secretaria Municipal do Desenvolvimento Econômico</p>
+        <div className={styles.footerContent}>
+          <p>
+            &copy; 2023 - Secretaria de Desenvolvimento Econômico. <br />
+            Todos os direitos reservados.
+          </p>
+        </div>
       </Container>
     </>
   );

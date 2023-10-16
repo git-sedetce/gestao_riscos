@@ -3,29 +3,17 @@
 .footer {
   background-color: $mediumBlue;
   color: white;
-  padding: 20px;
   text-align: center;
+  padding: 0.4rem 0;
+  margin-top: auto;
 }
-.footerLogo {
-  width: 100%;
-}
-.footerLink {
-  text-decoration: none;
-  color: $mediumGray;
-  transition: 0.3s;
-
-  &:hover {
-    color: $lightGray;
-  }
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-@media (max-width: 575px) {
-  .footer {
-    padding: 26px 16px;
-  }
-}
-@media (max-width: 410px) {
-  .footer {
-    justify-content: center;
+@media (max-width: 767px) {
+  .footer-container {
+    padding: 0.9rem 0;
   }
 }

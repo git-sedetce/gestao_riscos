@@ -6,7 +6,7 @@ export interface Treatment {
   riskId: number;
   types_treatmentId: number;
   name: string;
-  user: string;
+  userId: number;
   start_date: Date;
   end_date: Date;
   status_treatmentId: number;
@@ -47,9 +47,12 @@ export const Treatment = sequelize.define<TreatmentInstance, Treatment>(
       allowNull: false,
       type: DataTypes.STRING,
     },
-    user: {
+    userId: {
       allowNull: false,
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
+      references: { model: "users", key: "id" },
+      onUpdate: "CASCADE",
+      onDelete: "RESTRICT",
     },
     start_date: {
       allowNull: true,

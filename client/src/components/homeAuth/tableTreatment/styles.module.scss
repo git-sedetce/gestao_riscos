@@ -1,11 +1,13 @@
 @import "../../../../styles/colors.module.scss";
 
-.table {
+.customTable {
   background-color: $mediumWhite;
   margin-top: 10px;
+  width: 100%;
+  overflow-x: auto;
 }
 
-.slide {
+.row {
   display: table-row;
   th:first-child,
   td:first-child {
@@ -13,54 +15,40 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-weight: 400;
-    width: 1%;
-  }
-  // td:nth-child(2) {
-  //   width: 20%;
-  // }
-  // td:nth-child(n + 3) {
-  //   width: 20%;
-  // }
-  // td:nth-child(3) {
-  //   width: 45%;
-  // }
-  td:nth-child(2) {
-    width: 5%;
-  }
-  td:nth-child(3) {
-    width: 5%;
   }
 }
+
 .titles {
   font-weight: 400;
+  color: $table-header-color;
 }
+
+.cell {
+  padding: 10px;
+}
+
 .link {
-  color: black;
-  transition: 0.3s;
-  border-radius: 60px;
-}
-.slideIndicator {
-  color: white;
-  padding-top: 4px;
-  padding-right: 4px;
-  font-weight: bold;
-  cursor: pointer;
+  color: $light-font-color;
   text-decoration: none;
   &:hover {
     text-decoration: underline;
   }
 }
-.slideEvent {
-  font-size: 14px;
-  color: white;
+
+.table th {
+  cursor: pointer;
+}
+
+.table th,
+.table td {
+  border: none;
   text-align: left;
 }
 
-.noWrap td,
-.noWrap th {
-  border: none;
+.table tbody tr:nth-child(even) {
+  background-color: $line-even-color;
 }
 
-.titles {
-  cursor: pointer;
+.table tbody tr:nth-child(odd) {
+  background-color: $line-odd-color;
 }

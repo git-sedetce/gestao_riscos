@@ -3,12 +3,12 @@
 .modal {
   display: block;
   margin: 20px auto 0 auto;
-  color: $mediumGray;
-  background-color: $mediumBlue;
+  color: $darkGray; /* Change text color to darkGray */
+  background-color: $customLightYellow; /* Use customLightYellow as background color */
   &:hover {
-    color: $lightGray;
-    background-color: $darkBlue;
-    border-color: $darkBlue;
+    color: $lightGray; /* Change hover text color to lightGray */
+    background-color: $customYellow; /* Use customYellow as background color on hover */
+    border-color: $customYellow; /* Change border color to customYellow on hover */
   }
 }
 .modalBody {
@@ -21,8 +21,7 @@
   margin-bottom: 2.5rem;
 }
 .form {
-  // width: 37.5rem;
-  background-color: $mediumBlue;
+  background-color: $customLightYellow; /* Use customLightYellow as background color */
   width: 28.125rem;
   padding: 3.125rem;
   border: 1px solid $lightGray;
@@ -36,21 +35,19 @@
 .input {
   border-color: $lightGray;
   background-color: transparent;
-  color: white;
-
+  color: $lightGray;
   &::placeholder {
-    color: #e2e8f0;
+    color: $lightGray;
   }
   &:focus {
     background-color: transparent;
-    border-color: $lightBlue;
-    color: white;
+    border-color: $customYellow;
+    color: $darkGray;
     box-shadow: none;
   }
 }
 .inputName {
   @extend .input;
-  //   text-transform: uppercase;
   &::placeholder {
     text-transform: none;
   }
@@ -61,13 +58,13 @@
 .formBtn {
   display: block;
   margin: 50px auto 0 auto;
-  border-color: $lightGray;
-  color: white;
-
+  background-color: $customYellow; /* Use customYellow as background color */
+  color: $darkBlue;
+  border: none;
+  border-radius: 5px;
   &:hover {
-    background-color: transparent;
-    color: $lightGray;
-    border-color: $lightBlue;
+    background-color: darken($customYellow, 10%);
+    color: $darkBlue;
   }
 }
 

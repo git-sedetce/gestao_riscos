@@ -16,13 +16,10 @@ import PageSpinner from "../../../../src/components/common/spinner";
 import useSWR from "swr";
 import authService, { UserType } from "../../../../src/services/authService";
 import listService, {
-  AreaType,
   CategoryType,
   ControlEvaluationType,
   ImpactType,
-  PeriodType,
   ProbabilityType,
-  RisksOriginType,
   TypesOriginType,
 } from "../../../../src/services/listService";
 import profileService from "src/services/profileService";
@@ -88,12 +85,11 @@ const EditRisk = function () {
     });
 
     if (res === 200) {
-      setModalOpen(false); // Close the modal
+      setModalOpen(false);
       setTimeout(async () => {
         router.push(`/risks/${id}`);
-      }, 400); // Redirect the user to the home page
+      }, 400);
     } else {
-      // handle error
     }
   };
 
@@ -101,7 +97,7 @@ const EditRisk = function () {
     const submitEvent = new Event("submit", {
       bubbles: true,
     }) as unknown as React.FormEvent<HTMLFormElement>;
-    await onSubmit(submitEvent); // trigger the form submit event
+    await onSubmit(submitEvent);
   };
 
   useEffect(() => {
@@ -126,7 +122,7 @@ const EditRisk = function () {
                   <strong>Edite seu risco!</strong>
                 </p>
                 <FormGroup>
-                  <Label for="name">Name</Label>
+                  <Label for="name">Risco</Label>
                   <Input
                     type="text"
                     name="name"
@@ -137,7 +133,7 @@ const EditRisk = function () {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="types_originId">Types Origin ID</Label>
+                  <Label for="types_originId">Tipo de Origem</Label>
                   <Input
                     type="select"
                     name="types_originId"
@@ -160,7 +156,7 @@ const EditRisk = function () {
                   </Input>
                 </FormGroup>
                 <FormGroup>
-                  <Label for="event">Event</Label>
+                  <Label for="event">Evento</Label>
                   <Input
                     type="text"
                     name="event"
@@ -173,7 +169,7 @@ const EditRisk = function () {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="cause">Cause</Label>
+                  <Label for="cause">Causa</Label>
                   <Input
                     type="text"
                     name="cause"
@@ -186,7 +182,7 @@ const EditRisk = function () {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="consequence">Consequence</Label>
+                  <Label for="consequence">Consequência</Label>
                   <Input
                     type="text"
                     name="consequence"
@@ -199,7 +195,7 @@ const EditRisk = function () {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="category_id">Category ID</Label>
+                  <Label for="category_id">Categoria</Label>
                   <Input
                     type="select"
                     name="category_id"
@@ -217,7 +213,7 @@ const EditRisk = function () {
                   </Input>
                 </FormGroup>
                 <FormGroup>
-                  <Label for="userId">User ID</Label>
+                  <Label for="userId">Responsável pelo Risco</Label>
                   <Input
                     type="select"
                     name="userId"
@@ -235,7 +231,7 @@ const EditRisk = function () {
                   </Input>
                 </FormGroup>
                 <FormGroup>
-                  <Label for="impact">Impact</Label>
+                  <Label for="impact">Impacto</Label>
                   <Input
                     type="select"
                     name="impactId"
@@ -253,7 +249,7 @@ const EditRisk = function () {
                   </Input>
                 </FormGroup>
                 <FormGroup>
-                  <Label for="probability">Probability</Label>
+                  <Label for="probability">Probabilidade</Label>
                   <Input
                     type="select"
                     name="probabilityId"

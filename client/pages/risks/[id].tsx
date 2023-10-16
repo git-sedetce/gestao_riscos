@@ -164,16 +164,17 @@ const RiskPage = function () {
             </p>
           )}
           <p className={styles.riskDescription}>
-            <b>Nível de Risco Residual: </b> {risk?.residual_risk}
+            <b>Nível de Risco Residual: </b>
+            {risk?.residual_risk ? risk.residual_risk.toFixed(1) : "N/A"}
           </p>
           {risk?.residual_risk && (
             <p className={styles.riskDescription}>
-              <b>Matrix:</b>{" "}
+              <b>Matrix de Nível de Riscos</b>{" "}
               {risk.residual_risk >= 1.0 && risk.residual_risk <= 10.0
-                ? "Risco Baixo"
-                : risk.residual_risk >= 10.1 && risk.residual_risk <= 20.0
+                ? "Risco Pequeno"
+                : risk.residual_risk >= 10.1 && risk.residual_risk <= 25.0
                 ? "Risco Alto"
-                : "Risco Critico"}
+                : "Risco Crítico"}
             </p>
           )}
         </Container>
@@ -227,7 +228,7 @@ const RiskPage = function () {
             ))
           )}
         </Container>
-        <Footer />
+        {/* <Footer /> */}
       </main>
     </>
   );

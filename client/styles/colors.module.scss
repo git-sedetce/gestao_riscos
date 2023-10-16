@@ -15,3 +15,15 @@ $lightBlue: #38bdf8;
 $mediumBlue: #028ac7;
 
 $darkBlue: #075e85;
+
+$customYellow: #ffc107;
+
+$customLightYellow: #ffecb3;
+$customDarkYellow: darken($customLightYellow, 10%);
+
+$light-font-color: red;
+$table-header-color: #334155;
+$line-odd-color: #ffffff;
+$line-even-color: darken($line-odd-color, 10%);
+$edit-button-color: #2563eb;
+$edit-button-hover-color: darken($edit-button-color, 10%);

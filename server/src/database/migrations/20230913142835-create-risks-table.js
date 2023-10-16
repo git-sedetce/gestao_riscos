@@ -100,13 +100,15 @@ module.exports = {
     `);
 
     await queryInterface.sequelize.query(`
-      UPDATE risks AS r
-      SET residual_risk = (
-        SELECT r.inherent * c.algorithm
+   UPDATE risks AS r
+   SET residual_risk = (
+     ROUND(
+       (SELECT r.inherent * c.algorithm
         FROM control_evaluations AS c
-        WHERE r.control_evaluation_id = c.id
-      );
-    `);
+        WHERE r.control_evaluation_id = c.id)::numeric, 1
+     )::DECIMAL(5, 1)
+   )::DECIMAL(5, 1);
+`);
   },
 
   async down(queryInterface, Sequelize) {

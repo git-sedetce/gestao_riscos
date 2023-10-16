@@ -99,6 +99,6 @@ export const Risk = sequelize.define<RiskInstance, Risk>("Risk", {
   },
   residual_risk: {
     allowNull: true,
-    type: DataTypes.FLOAT,
+    type: DataTypes.DECIMAL(5, 1),
   },
 });
