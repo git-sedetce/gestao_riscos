@@ -22,7 +22,6 @@ import listService, {
   ProbabilityType,
   TypesOriginType,
 } from "../../../../src/services/listService";
-import profileService from "src/services/profileService";
 
 const EditRisk = function () {
   const [risk, setRisk] = useState<RiskType | undefined>(undefined);
@@ -47,11 +46,6 @@ const EditRisk = function () {
   const { data: controlEvaluationData } = useSWR(
     "/listControlEvaluations",
     listService.getControlEvaluations
-  );
-
-  const { data: user } = useSWR<UserType>(
-    "/api/user",
-    profileService.fetchCurrent
   );
 
   const toggleModal = () => setModalOpen(!modalOpen);
@@ -108,11 +102,15 @@ const EditRisk = function () {
 
   if (risk === undefined) return <PageSpinner />;
 
-  if (user?.role === "admin") {
+  {
     return (
       <>
         <Container className={styles.editRisk}>
-          <Button className={styles.editRisk} onClick={toggleModal}>
+          <Button
+            className={styles.editRisk}
+            color="warning"
+            onClick={toggleModal}
+          >
             EDITAR RISCO
           </Button>
           <Modal isOpen={modalOpen} toggle={toggleModal}>
@@ -325,8 +323,6 @@ const EditRisk = function () {
       </>
     );
   }
-
-  return null;
 };
 
 export default EditRisk;

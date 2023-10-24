@@ -2,18 +2,7 @@
 
 .footer {
   background-color: $mediumBlue;
-  color: white;
   text-align: center;
-  padding: 0.4rem 0;
-  margin-top: auto;
-}
-.footerContent {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-@media (max-width: 767px) {
-  .footer-container {
-    padding: 0.9rem 0;
-  }
+  padding: 20px;
+  color: white;
 }

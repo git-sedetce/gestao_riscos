@@ -19,7 +19,7 @@ const NewestCategory = function () {
     return <PageSpinner />;
   }
 
-  if (user?.role === "admin") {
+  if (user?.profileId === 1) {
     return (
       <>
         <p className={styles.titleCategory}>LANÇAMENTOS</p>

@@ -8,11 +8,14 @@ export const userService = {
     });
     return user;
   },
-
-  findById: async (id: string) => {
+  findByNameId: async (id: string) => {
     const user = await User.findOne({
       where: { id },
     });
+    return user;
+  },
+  findByNumberId: async (id: number) => {
+    const user = await User.findByPk(id);
     return user;
   },
 
@@ -81,6 +84,24 @@ export const userService = {
   },
 
   update: async (
+    id: number,
+    attributes: {
+      name: string;
+      email: string;
+      entityId: number;
+      profileId: number;
+      isActive: boolean;
+    }
+  ) => {
+    const [affectedRows, updatedUsers] = await User.update(attributes, {
+      where: { id },
+      returning: true,
+    });
+
+    return updatedUsers[0];
+  },
+
+  updateCurrentUser: async (
     id: number,
     attributes: {
       name: string;

@@ -4,11 +4,14 @@ import HeaderAuth from "../../src/components/common/headerAuth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import riskService, { RiskType } from "../../src/services/riskService";
-import { Button, Container } from "reactstrap";
+import { Container } from "reactstrap";
 import PageSpinner from "../../src/components/common/spinner";
 import TreatmentCard from "../../src/components/treatmentCard/index";
 import useSWR from "swr";
-import authService, { UserType } from "../../src/services/authService";
+import authService, {
+  ProfileType,
+  UserType,
+} from "../../src/services/authService";
 import listService, {
   CategoryType,
   ControlEvaluationType,
@@ -17,9 +20,8 @@ import listService, {
   TypesOriginType,
 } from "../../src/services/listService";
 import CreateTreatment from "../../src/components/homeAuth/createTreatment";
-import Footer from "../../src/components/common/footer";
 import profileService from "src/services/profileService";
-import EditRisk from "src/components/homeAuth/editRisk";
+import ButtonRisk from "src/components/common/buttonRisk";
 
 const RiskPage = function () {
   const [risk, setRisk] = useState<RiskType | undefined>(undefined);
@@ -48,6 +50,10 @@ const RiskPage = function () {
   const { data: controlEvaluationData } = useSWR(
     "/listControlEvaluations",
     listService.getControlEvaluations
+  );
+  const { data: profileData } = useSWR<ProfileType>(
+    "/listProfiles",
+    authService.getProfiles
   );
 
   useEffect(() => {
@@ -172,47 +178,18 @@ const RiskPage = function () {
               <b>Matrix de Nível de Riscos</b>{" "}
               {risk.residual_risk >= 1.0 && risk.residual_risk <= 10.0
                 ? "Risco Pequeno"
-                : risk.residual_risk >= 10.1 && risk.residual_risk <= 25.0
+                : risk.residual_risk >= 10.1 && risk.residual_risk < 25.0
                 ? "Risco Alto"
                 : "Risco Crítico"}
             </p>
           )}
         </Container>
-        {user?.role === "admin" ? (
-          <Container className={styles.riskInfo}>
-            {risk?.treatments?.length === 0 && (
-              <Button
-                className={styles.button}
-                color="danger"
-                onClick={() => setShowWarning(true)}
-              >
-                Deletar Risco
-              </Button>
-            )}
-            {showWarning && (
-              <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center">
-                <div className="bg-white p-4 rounded">
-                  <h2>Atenção!</h2>
-                  <p>Tem certeza de que deseja excluir este risco?</p>
-                  <div className="d-flex justify-content-end">
-                    <Button
-                      color="secondary"
-                      onClick={() => setShowWarning(false)}
-                    >
-                      Cancelar
-                    </Button>
-                    <Button color="danger" onClick={handleDeleteRisk}>
-                      Deletar
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </Container>
-        ) : (
-          <br />
+        {user?.profileId === 1 && (
+          <>
+            <ButtonRisk />
+          </>
         )}
-        {user?.role === "admin" ? <EditRisk /> : <br />}
+
         <CreateTreatment riskId={Number(id)} />
         <Container className={styles.treatmentInfo}>
           <p className={styles.treatmentDivision}>TRATAMENTOS</p>
@@ -228,7 +205,6 @@ const RiskPage = function () {
             ))
           )}
         </Container>
-        {/* <Footer /> */}
       </main>
     </>
   );

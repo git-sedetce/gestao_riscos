@@ -20,7 +20,6 @@ const FeaturedSection = function () {
       {
         data.data?.map((risk: RiskType) => (
           <>
-            <HeaderAuth />
             <Container className="pt-4" color="danger" outline>
               <div className={styles.color}>
                 <p className={styles.title}>{risk.name}</p>

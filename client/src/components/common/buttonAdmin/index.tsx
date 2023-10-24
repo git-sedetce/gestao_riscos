@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { Button, Container } from "reactstrap";
-import { UserType } from "../../../../src/services/authService";
-import profileService from "../../../../src/services/profileService";
+import { UserType } from "../../../services/authService";
+import profileService from "../../../services/profileService";
 import useSWR from "swr";
 import styles from "./styles.module.scss";
 
@@ -12,7 +12,7 @@ const AdminButton = () => {
     profileService.fetchCurrent
   );
 
-  if (user?.role === "admin") {
+  if (user?.profileId === 1) {
     return (
       <>
         <Container className={styles.button}>

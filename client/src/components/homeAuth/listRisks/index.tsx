@@ -2,7 +2,6 @@ import styles from "./styles.module.scss";
 import useSWR from "swr";
 import riskService, { RiskType } from "../../../services/riskService";
 import authService, { UserType } from "../../../services/authService";
-import listService, { AreaType } from "../../../services/listService";
 import HeaderAuth from "../../common/headerAuth";
 import { Button, Container } from "reactstrap";
 import Link from "next/link";

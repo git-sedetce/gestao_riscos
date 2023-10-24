@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import { AuthenticatedRequest } from "../middlewares/auth";
 import { userService } from "../services/userService";
 
@@ -39,13 +39,38 @@ export const usersController = {
       }
     }
   },
+  update: async (req: Request, res: Response) => {
+    const id = parseInt(req.params.id);
+    const { name, email, entityId, profileId, isActive } = req.body;
+
+    try {
+      const user = await userService.findByNumberId(id);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const updatedUser = await userService.update(id, {
+        name,
+        email,
+        entityId,
+        profileId,
+        isActive,
+      });
+
+      return res.status(200).json(updatedUser);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
   // PUT /users/current
-  update: async (req: AuthenticatedRequest, res: Response) => {
+  updateCurrent: async (req: AuthenticatedRequest, res: Response) => {
     const { id } = req.user!;
     const { name, email, entityId } = req.body;
 
     try {
-      const updatedUser = await userService.update(id, {
+      const updatedUser = await userService.updateCurrentUser(id, {
         name,
         email,
         entityId,

@@ -11,10 +11,12 @@ import riskService, {
 } from ".././../../../src/services/riskService";
 import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 import Link from "next/link";
+import authService, { UserType } from "src/services/authService";
 
 const TableTreatment = () => {
   const [treatments, setTreatments] = useState<TreatmentType[]>([]);
   const [risks, setRisks] = useState<RiskType[]>([]);
+  const [users, setUsers] = useState<UserType[]>([]);
   const [types_treatments, setTypesTreatments] = useState<TypesTreatmentType[]>(
     []
   );
@@ -77,6 +79,14 @@ const TableTreatment = () => {
         setRisks(res.data);
       }
     };
+    const fetchUsers = async () => {
+      const res = await authService.getUsers();
+
+      if (res && res.data) {
+        setUsers(res.data);
+      }
+    };
+
     const fetchTypesTreatments = async () => {
       const res = await listService.getTypesTreatments();
 
@@ -95,6 +105,7 @@ const TableTreatment = () => {
 
     fetchTreatments();
     fetchRisks();
+    fetchUsers();
     fetchTypesTreatments();
     fetchStatusTreatments();
   }, [sortConfig]);
@@ -102,6 +113,11 @@ const TableTreatment = () => {
   const getRiskNameById = (id: number) => {
     const risk = risks.find((r) => r.id === id);
     return risk?.name || "";
+  };
+
+  const getUserNameById = (id: number) => {
+    const user = users.find((r) => r.id === id);
+    return user?.name || "";
   };
 
   const getTypeNameById = (
@@ -172,18 +188,17 @@ const TableTreatment = () => {
         >
           <thead>
             <tr>
-              <th onClick={() => handleSort("name")}>
-                Ações Corretivas {getSortIcon("name")}
-              </th>
               <th onClick={() => handleSort("riskId")}>
                 Riscos {getSortIcon("riskId")}
               </th>
-              <th> Responsável</th>
               <th onClick={() => handleSort("types_treatmentId")}>
                 Respostas aos Riscos {getSortIcon("types_treatmentId")}
               </th>
-              <th onClick={() => handleSort("status_treatmentId")}>
-                Monitoramento {getSortIcon("status_treatmentId")}
+              <th onClick={() => handleSort("name")}>
+                Ações Corretivas {getSortIcon("name")}
+              </th>
+              <th onClick={() => handleSort("userId")}>
+                Responsável {getSortIcon("userId")}
               </th>
               <th onClick={() => handleSort("start_date")}>
                 Data de Início {getSortIcon("start_date")}
@@ -191,13 +206,15 @@ const TableTreatment = () => {
               <th onClick={() => handleSort("end_date")}>
                 Data de Término {getSortIcon("end_date")}
               </th>
+              <th onClick={() => handleSort("status_treatmentId")}>
+                Monitoramento {getSortIcon("status_treatmentId")}
+              </th>
               <th>Observações</th>
             </tr>
           </thead>
           <tbody className={styles.tbody}>
             {sortedTreatments.map((treatment) => (
               <tr key={treatment.id} className={styles.row}>
-                <td className={styles.cell}>{treatment.name}</td>
                 <td className={styles.cell}>
                   <Link
                     href={`/risks/${treatment.riskId}`}
@@ -206,15 +223,18 @@ const TableTreatment = () => {
                     {getRiskNameById(treatment.riskId)}
                   </Link>
                 </td>
-                <td className={styles.cell}>{treatment.user}</td>
                 <td className={styles.cell}>{treatment.types_treatmentId}</td>
-                <td className={styles.cell}>{treatment.status_treatmentId}</td>
+                <td className={styles.cell}>{treatment.name}</td>
+                <td className={styles.cell}>
+                  {getUserNameById(treatment.userId)}
+                </td>
                 <td className={styles.cell}>
                   {formatStartDate(treatment.start_date)}
                 </td>
                 <td className={styles.cell}>
                   {formatEndDate(treatment.end_date)}
                 </td>
+                <td className={styles.cell}>{treatment.status_treatmentId}</td>
                 <td className={styles.cell}>{treatment.notes}</td>
               </tr>
             ))}

@@ -6,7 +6,7 @@ import HeaderAuth from "src/components/common/headerAuth";
 import riskService, { RiskType } from "src/services/riskService";
 import RiskComponent from "src/components/common/riskComponent";
 import useSWR from "swr";
-import AdminButton from "src/components/common/button";
+import AdminButton from "src/components/common/buttonAdmin";
 
 const RisksList = function () {
   const router = useRouter();

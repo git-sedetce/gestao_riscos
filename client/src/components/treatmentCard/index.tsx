@@ -60,10 +60,7 @@ const TreatmentCard = ({ treatment }: Props) => {
   const handleDeleteTreatment = async (treatmentId: number) => {
     try {
       await riskService.deleteTreatment(treatmentId);
-      // Handle successful deletion, such as updating the state or displaying a success message
-    } catch (error) {
-      // Handle error, such as displaying an error message
-    }
+    } catch (error) {}
   };
 
   return (
@@ -102,20 +99,17 @@ const TreatmentCard = ({ treatment }: Props) => {
           </p>
         </div>
       </div>
-      {user?.role === "admin" ? (
-        <EditTreatment treatment={treatment} />
-      ) : (
-        <br />
-      )}
-      {user?.role === "admin" ? (
-        <Button
-          color="danger"
-          onClick={() => handleDeleteTreatment(treatment.id)}
-        >
-          Deletar Tratamento
-        </Button>
-      ) : (
-        <br />
+
+      {user?.profileId === 1 && (
+        <>
+          <EditTreatment treatment={treatment} />
+          <Button
+            color="danger"
+            onClick={() => handleDeleteTreatment(treatment.id)}
+          >
+            Deletar Tratamento
+          </Button>
+        </>
       )}
     </>
   );

@@ -11,7 +11,10 @@ export interface User {
   email: string;
   entityId: number;
   password: string;
-  role: "admin" | "user";
+  profileId: number;
+  isActive: boolean;
+  sign_in_count: number;
+  accessed_at: Date;
 }
 
 export interface UserCreationAttributes extends Optional<User, "id"> {}
@@ -54,12 +57,24 @@ export const User = sequelize.define<UserInstance, User>(
       allowNull: false,
       type: DataTypes.STRING,
     },
-    role: {
-      allowNull: false,
-      type: DataTypes.STRING,
-      validate: {
-        isIn: [["admin", "user"]],
-      },
+    profileId: {
+      allowNull: true,
+      type: DataTypes.INTEGER,
+      references: { model: "profiles", key: "id" },
+      onUpdate: "CASCADE",
+      onDelete: "RESTRICT",
+    },
+    isActive: {
+      allowNull: true,
+      type: DataTypes.BOOLEAN,
+    },
+    sign_in_count: {
+      allowNull: true,
+      type: DataTypes.INTEGER,
+    },
+    accessed_at: {
+      allowNull: true,
+      type: DataTypes.DATE,
     },
   },
   {

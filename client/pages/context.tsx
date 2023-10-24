@@ -2,6 +2,7 @@ import useSWR from "swr";
 import PageSpinner from "src/components/common/spinner";
 import contextService, { ContextType } from "../src/services/contextService";
 import styles from "../styles/context.module.scss";
+import HomeButton from "src/components/common/buttonMain";
 
 const Contexts = () => {
   const { data: contextData, error: contextError } = useSWR(
@@ -32,6 +33,7 @@ const Contexts = () => {
           </div>
         ))}
       </div>
+      <HomeButton />
     </div>
   );
 };

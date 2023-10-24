@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { Container } from "reactstrap";
 import SearchCard from "../src/components/searchCard";
 import PageSpinner from "../src/components/common/spinner";
-import Footer from "../src/components/common/footer";
 
 const Search = function () {
   const router = useRouter();

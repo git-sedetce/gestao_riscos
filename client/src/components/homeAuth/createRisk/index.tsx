@@ -131,10 +131,6 @@ const createRisk = function () {
     setModalOpen(false);
   };
 
-  // if (roleData?.role !== "admin") {
-  //   return <div>ACESSO NEGADO</div>;
-  // }
-
   return (
     <>
       <main className={styles.main}>

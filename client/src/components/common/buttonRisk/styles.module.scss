@@ -1,0 +1,18 @@
+@import "../../../../styles/colors.module.scss";
+
+.buttonRow {
+  // display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.938rem;
+
+  .button {
+    font-weight: bold;
+    padding: 0.625rem 2.188rem;
+
+    &:hover {
+      background-color: transparent;
+      color: $lightGray;
+    }
+  }
+}

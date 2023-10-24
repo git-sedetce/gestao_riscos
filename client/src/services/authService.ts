@@ -17,13 +17,20 @@ export type UserType = {
   email: string;
   entityId: number;
   password: string;
-  role: "admin" | "user";
+  profileId: number;
 };
 
 export type EntityType = {
   id: number;
   name: string;
   position: number;
+  users?: UserType[];
+};
+
+export type ProfileType = {
+  id: number;
+  name: string;
+  isAdmin: boolean;
   users?: UserType[];
 };
 
@@ -60,6 +67,13 @@ const authService = {
 
     return res;
   },
+  getProfiles: async () => {
+    const res = await api.get("/profiles").catch((error) => {
+      return error.response;
+    });
+
+    return res;
+  },
   getUsers: async () => {
     const token = sessionStorage.getItem("risks-token");
 
@@ -78,21 +92,6 @@ const authService = {
     return res;
   },
   getUsersRisks: async (id: number) => {
-    const token = sessionStorage.getItem("risks-token");
-
-    const res = await api
-      .get(`users/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .catch((error) => {
-        return error.response;
-      });
-
-    return res;
-  },
-  getRoles: async (id: number) => {
     const token = sessionStorage.getItem("risks-token");
 
     const res = await api

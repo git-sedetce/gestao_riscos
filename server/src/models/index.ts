@@ -13,6 +13,7 @@ import { TypesTreatment } from "./TypesTreatment";
 import { User } from "./User";
 import { ControlEvaluation } from "./ControlEvaluation";
 import { Criticality } from "./Criticality";
+import { Profile } from "./Profile";
 
 Category.hasMany(Risk, { as: "risks" });
 TypesOrigin.hasMany(Risk);
@@ -25,6 +26,7 @@ Area.hasMany(Context);
 User.hasMany(Context, { as: "contexts" });
 
 Entity.hasMany(User);
+Profile.hasMany(User);
 
 Risk.hasMany(Treatment, { as: "treatments" });
 StatusTreatment.hasMany(Treatment);
@@ -40,6 +42,7 @@ Risk.belongsTo(Impact);
 Risk.belongsTo(ControlEvaluation);
 
 User.belongsTo(Entity);
+User.belongsTo(Profile);
 
 Treatment.belongsTo(Risk);
 Treatment.belongsTo(User);
@@ -67,4 +70,5 @@ export {
   TypesTreatment,
   User,
   ControlEvaluation,
+  Profile,
 };

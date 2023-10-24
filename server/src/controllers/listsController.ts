@@ -6,6 +6,7 @@ import {
   Entity,
   Period,
   Impact,
+  Profile,
   Probability,
   TypesOrigin,
   User,
@@ -48,6 +49,20 @@ export const listController = {
       });
 
       return res.json(areas);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(400).json({ message: err.message });
+      }
+    }
+  },
+  showProfiles: async (req: Request, res: Response) => {
+    try {
+      const profiles = await Profile.findAll({
+        attributes: ["id", "name", "isAdmin"],
+        order: [["id", "ASC"]],
+      });
+
+      return res.json(profiles);
     } catch (err) {
       if (err instanceof Error) {
         return res.status(400).json({ message: err.message });
@@ -127,7 +142,7 @@ export const listController = {
   showUsers: async (req: Request, res: Response) => {
     try {
       const users = await User.findAll({
-        attributes: ["id", "name", "email", "entityId"],
+        attributes: ["id", "name", "email", "entityId", "profileId"],
         order: [["name", "ASC"]],
       });
 

@@ -33,7 +33,7 @@ const deleteRisk = function () {
 
   const handleDeleteRisk = async function () {
     if (risk) {
-      setShowWarning(false); // hide the warning modal
+      setShowWarning(false);
       setTimeout(async () => {
         // set a timeout to wait for 10 seconds
         const res = await riskService.deleteRisk(risk.id);
@@ -43,8 +43,7 @@ const deleteRisk = function () {
   };
 
   if (risk === undefined) return <PageSpinner />;
-
-  if (user?.role === "admin") {
+  {
     return (
       <>
         <main>
@@ -55,7 +54,7 @@ const deleteRisk = function () {
                 color="danger"
                 onClick={() => setShowWarning(true)}
               >
-                Deletar Risco
+                DELETAR
               </Button>
             )}
             {showWarning && (
@@ -63,7 +62,7 @@ const deleteRisk = function () {
                 <div className="bg-white p-4 rounded">
                   <h2>Atenção!</h2>
                   <p>Tem certeza de que deseja excluir este risco?</p>
-                  <div className="d-flex justify-content-end">
+                  <div className="d-flex justify-content-end button-group">
                     <Button
                       color="secondary"
                       onClick={() => setShowWarning(false)}

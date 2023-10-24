@@ -30,6 +30,7 @@ router.get(
   ensureAuth,
   listController.showControlEvaluations
 );
+router.get("/profiles", listController.showProfiles);
 
 router.get("/risks", ensureAuth, risksController.index);
 router.get("/risks_all", ensureAuth, risksController.showRisks);
@@ -65,7 +66,7 @@ router.delete("/treatments/:id", ensureAuth, risksController.deleteTreatment);
 router.get("/users/current", ensureAuth, usersController.show);
 router.get("/users/current/:id", ensureAuth, usersController.showCurrentId);
 router.get("/users/:id", ensureAuth, usersController.showId);
-router.put("/users/current", ensureAuth, usersController.update);
+router.put("/users/current", ensureAuth, usersController.updateCurrent);
 router.put(
   "/users/current/password",
   ensureAuth,
