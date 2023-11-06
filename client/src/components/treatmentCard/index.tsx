@@ -2,10 +2,21 @@ import styles from "./styles.module.scss";
 import riskService, { TreatmentType } from "../../services/riskService";
 import { useEffect, useState } from "react";
 import EditTreatment from "../homeAuth/editTreatment";
-import { Button } from "reactstrap";
+import {
+  Button,
+  Card,
+  CardContent,
+  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 import useSWR from "swr";
 import authService, { UserType } from "src/services/authService";
 import profileService from "src/services/profileService";
+import router from "next/router";
 
 interface Props {
   treatment: TreatmentType;
@@ -18,6 +29,7 @@ const baseUrl = `http://localhost:3000`;
 const TreatmentCard = ({ treatment }: Props) => {
   const [statusTreatmentName, setStatusTreatmentName] = useState("");
   const [typesTreatmentName, setTypesTreatmentName] = useState("");
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const { data: userData } = useSWR("/listUsers", authService.getUsers);
 
@@ -25,6 +37,16 @@ const TreatmentCard = ({ treatment }: Props) => {
     "/api/user",
     profileService.fetchCurrent
   );
+
+  const confirmDelete = async () => {
+    try {
+      setTimeout(async () => {
+        const res = await riskService.deleteTreatment(treatment.id);
+        router.push(`/home`);
+      }, 500);
+      setShowDeleteDialog(false);
+    } catch (error) {}
+  };
 
   useEffect(() => {
     const getStatusTreatmentName = async () => {
@@ -57,61 +79,83 @@ const TreatmentCard = ({ treatment }: Props) => {
     return date.toLocaleDateString();
   }
 
-  const handleDeleteTreatment = async (treatmentId: number) => {
-    try {
-      await riskService.deleteTreatment(treatmentId);
-    } catch (error) {}
+  const handleDeleteTreatment = (treatmentId: number) => {
+    setShowDeleteDialog(true);
   };
 
   return (
-    <>
-      <div className={styles.treatmentCard}>
-        <div className={styles.treatmentTitleDescription}>
-          <p className={styles.treatmentTitle}>{treatment.name}</p>
+    <Card variant="outlined">
+      <div className={styles.treatmentTitleDescription}>
+        <CardContent className={styles.treatmentCard}>
+          <Typography variant="h3" gutterBottom>
+            {treatment.name}
+          </Typography>
           {typesTreatmentName && (
-            <p className={styles.treatmentDescription}>
+            <Typography variant="body1" color="textSecondary">
               <b>Resposta ao Risco:</b> {typesTreatmentName}
-            </p>
+            </Typography>
           )}
           {userData && userData.data && (
-            <p className={styles.treatmentDescription}>
+            <Typography variant="body1" color="textSecondary">
               <b>Usuário:</b>{" "}
               {treatment.userId
                 ? userData.data.find(
                     (user: UserType) => user.id === treatment.userId
                   )?.name
                 : "N/A"}
-            </p>
+            </Typography>
           )}
-          <p className={styles.treatmentDescription}>
+          <Typography variant="body1" color="textSecondary">
             <b>Data de Início:</b> {formatStartDate(treatment.start_date)}
-          </p>
-          <p className={styles.treatmentDescription}>
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
             <b>Data de Término:</b> {formatEndDate(treatment.end_date)}
-          </p>
+          </Typography>
           {statusTreatmentName && (
-            <p className={styles.treatmentDescription}>
+            <Typography variant="body1" color="textSecondary">
               <b>Monitoramento:</b> {statusTreatmentName}
-            </p>
+            </Typography>
           )}
-          <p className={styles.treatmentDescription}>
+          <Typography variant="body1" color="textSecondary">
             <b>Notas:</b> {treatment.notes}
-          </p>
-        </div>
+          </Typography>
+          {user?.profileId === 1 && (
+            <>
+              <EditTreatment treatment={treatment} />
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => handleDeleteTreatment(treatment.id)}
+              >
+                Delete Treatment
+              </Button>
+              <Dialog
+                open={showDeleteDialog}
+                onClose={() => setShowDeleteDialog(false)}
+              >
+                <DialogTitle>Confirm Deletion</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Are you sure you want to delete this treatment?
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={() => setShowDeleteDialog(false)}
+                    color="primary"
+                  >
+                    Cancel
+                  </Button>
+                  <Button onClick={confirmDelete} color="error">
+                    Delete
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </>
+          )}
+        </CardContent>
       </div>
-
-      {user?.profileId === 1 && (
-        <>
-          <EditTreatment treatment={treatment} />
-          <Button
-            color="danger"
-            onClick={() => handleDeleteTreatment(treatment.id)}
-          >
-            Deletar Tratamento
-          </Button>
-        </>
-      )}
-    </>
+    </Card>
   );
 };
 

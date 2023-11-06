@@ -19,6 +19,7 @@ import listService, {
   CategoryType,
   ControlEvaluationType,
   ImpactType,
+  PeriodType,
   ProbabilityType,
   TypesOriginType,
 } from "../../../../src/services/listService";
@@ -38,6 +39,7 @@ const EditRisk = function () {
     listService.getCategories
   );
   const { data: userData } = useSWR("/listUsers", authService.getUsers);
+  const { data: periodData } = useSWR("/listPeriods", listService.getPeriods);
   const { data: impactData } = useSWR("/listImpacts", listService.getImpacts);
   const { data: probabilityData } = useSWR(
     "/listProbabilities",
@@ -72,6 +74,7 @@ const EditRisk = function () {
       consequence: risk.consequence,
       category_id: risk.category_id,
       userId: risk.userId,
+      periodId: risk.periodId,
       impactId: risk.impactId,
       probabilityId: risk.probabilityId,
       control_identification: risk.control_identification,
@@ -106,12 +109,8 @@ const EditRisk = function () {
     return (
       <>
         <Container className={styles.editRisk}>
-          <Button
-            className={styles.editRisk}
-            color="warning"
-            onClick={toggleModal}
-          >
-            EDITAR RISCO
+          <Button className={styles.editButton} onClick={toggleModal}>
+            EDITAR
           </Button>
           <Modal isOpen={modalOpen} toggle={toggleModal}>
             <ModalBody className={styles.modalBody}>
@@ -224,6 +223,24 @@ const EditRisk = function () {
                     {userData?.data.map((user: UserType) => (
                       <option key={user.id} value={user.id}>
                         {user.name}
+                      </option>
+                    ))}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="period">Período</Label>
+                  <Input
+                    type="select"
+                    name="periodId"
+                    id="periodId"
+                    value={risk?.periodId}
+                    onChange={(e) =>
+                      setRisk({ ...risk, periodId: Number(e.target.value) })
+                    }
+                  >
+                    {periodData?.data.map((period: PeriodType) => (
+                      <option key={period.id} value={period.id}>
+                        {period.name}
                       </option>
                     ))}
                   </Input>

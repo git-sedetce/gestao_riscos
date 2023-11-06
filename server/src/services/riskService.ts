@@ -39,6 +39,7 @@ export const riskService = {
       consequence: string;
       category_id: number;
       userId: number;
+      periodId: number;
       impactId: number;
       probabilityId: number;
       control_identification: string;
@@ -93,6 +94,7 @@ export const riskService = {
         "consequence",
         "category_id",
         "userId",
+        "periodId",
         "impactId",
         "probabilityId",
         "inherent",
@@ -133,6 +135,7 @@ export const riskService = {
         "consequence",
         "category_id",
         "userId",
+        "periodId",
         "impactId",
         "probabilityId",
         "inherent",
@@ -164,6 +167,7 @@ export const riskService = {
         "consequence",
         "category_id",
         "userId",
+        "periodId",
         "impactId",
         "probabilityId",
         "inherent",
@@ -192,6 +196,7 @@ export const riskService = {
         "consequence",
         "category_id",
         "userId",
+        "periodId",
         "impactId",
         "probabilityId",
         "inherent",
@@ -226,6 +231,7 @@ export const riskService = {
         "consequence",
         "category_id",
         "userId",
+        "periodId",
         "impactId",
         "probabilityId",
         "inherent",

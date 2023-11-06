@@ -1,14 +1,21 @@
-import styles from "./styles.module.scss";
+import {
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Button, Container } from "reactstrap";
 import useSWR from "swr";
 import profileService from "src/services/profileService";
 import { UserType } from "src/services/authService";
 import riskService, { RiskType } from "src/services/riskService";
 import PageSpinner from "src/components/common/spinner";
 
-const deleteRisk = function () {
+const DeleteRisk = function () {
   const [risk, setRisk] = useState<RiskType | undefined>(undefined);
   const router = useRouter();
   const { id } = router.query;
@@ -35,7 +42,6 @@ const deleteRisk = function () {
     if (risk) {
       setShowWarning(false);
       setTimeout(async () => {
-        // set a timeout to wait for 10 seconds
         const res = await riskService.deleteRisk(risk.id);
         router.push("/home");
       }, 500);
@@ -43,45 +49,40 @@ const deleteRisk = function () {
   };
 
   if (risk === undefined) return <PageSpinner />;
-  {
-    return (
-      <>
-        <main>
-          <Container className={styles.deleteRisk}>
-            {risk?.treatments?.length === 0 && (
-              <Button
-                className={styles.deleteRisk}
-                color="danger"
-                onClick={() => setShowWarning(true)}
-              >
-                DELETAR
+
+  return (
+    <>
+      <main>
+        <Container>
+          {risk?.treatments?.length === 0 && (
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => setShowWarning(true)}
+            >
+              DELETAR
+            </Button>
+          )}
+          <Dialog open={showWarning} onClose={() => setShowWarning(false)}>
+            <DialogTitle>Atenção!</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Tem certeza de que deseja excluir este risco?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setShowWarning(false)} color="secondary">
+                Cancelar
               </Button>
-            )}
-            {showWarning && (
-              <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center">
-                <div className="bg-white p-4 rounded">
-                  <h2>Atenção!</h2>
-                  <p>Tem certeza de que deseja excluir este risco?</p>
-                  <div className="d-flex justify-content-end button-group">
-                    <Button
-                      color="secondary"
-                      onClick={() => setShowWarning(false)}
-                    >
-                      Cancelar
-                    </Button>
-                    <Button color="danger" onClick={handleDeleteRisk}>
-                      Deletar
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </Container>
-        </main>
-      </>
-    );
-  }
-  return null;
+              <Button onClick={handleDeleteRisk} color="error">
+                Deletar
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </Container>
+      </main>
+    </>
+  );
 };
 
-export default deleteRisk;
+export default DeleteRisk;

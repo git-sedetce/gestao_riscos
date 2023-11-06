@@ -1,28 +1,20 @@
 @import "../styles/colors.module.scss";
 
-.riskTitle {
-  font-size: 40px;
-  font-weight: bold;
-  padding-top: 10px;
-  padding-bottom: 25px;
-}
-.riskDescription {
-  color: $mediumBlue;
-  padding-bottom: 25px;
-}
-.riskBtn {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  font-weight: bold;
-  font-size: 14px;
-  padding: 10px 35px;
-  color: white;
-  border-color: $lightGreen;
-  &:hover {
-    border-color: $darkGreen;
-    color: $lightGray;
-    background-color: transparent;
+.bigCard {
+  background-color: $mediumBlue; 
+  color: white; 
+  border-radius: 10px;
+  padding: 20px;
+
+  .riskTitle {
+    font-size: 40px;
+    font-weight: bold;
+    padding-bottom: 25px;
+  }
+
+  .riskDescription {
+    color: $mediumBlue; 
+    padding-bottom: 25px;
   }
 }
 .buttonImg {

@@ -21,6 +21,7 @@ import listService, {
   ProbabilityType,
   TypesOriginType,
   ControlEvaluationType,
+  PeriodType,
 } from "../../../services/listService";
 import ToastComponent from "../../../components/common/toast";
 import authService, { UserType } from "../../../services/authService";
@@ -34,6 +35,7 @@ const createRisk = function () {
   const [consequence, setConsequence] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedUser, setSelectedUser] = useState("");
+  const [selectedPeriod, setSelectedPeriod] = useState("");
   const [selectedImpact, setSelectedImpact] = useState("");
   const [selectedProbability, setSelectedProbability] = useState("");
   const [control_identification, setControlIdentification] = useState("");
@@ -54,6 +56,7 @@ const createRisk = function () {
     "/listCategories",
     listService.getCategories
   );
+  const { data: periodData } = useSWR("/listPeriods", listService.getPeriods);
   const { data: impactData } = useSWR("/listImpacts", listService.getImpacts);
   const { data: probabilityData } = useSWR(
     "/listProbabilities",
@@ -77,6 +80,7 @@ const createRisk = function () {
     const consequence = formData.get("consequence")!.toString();
     const category_id = Number(selectedCategory);
     const userId = Number(selectedUser);
+    const periodId = Number(selectedPeriod);
     const impactId = Number(selectedImpact);
     const probabilityId = Number(selectedProbability);
     const control_identification = formData
@@ -92,6 +96,7 @@ const createRisk = function () {
       consequence,
       category_id,
       userId,
+      periodId,
       impactId,
       probabilityId,
       control_identification,
@@ -124,6 +129,7 @@ const createRisk = function () {
     setConsequence("");
     setSelectedCategory("");
     setSelectedUser("");
+    setSelectedPeriod("");
     setSelectedImpact("");
     setSelectedProbability("");
     setControlIdentification("");
@@ -293,6 +299,35 @@ const createRisk = function () {
                               className={styles.inputOption}
                             >
                               {user.name.split(" ").slice(0, 2).join(" ")}
+                            </option>
+                          ))}
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                  <Col md={6}>
+                    <FormGroup>
+                      <Label for="period" className={styles.label}>
+                        PERÍODO
+                      </Label>
+                      <Input
+                        type="select"
+                        name="periodId"
+                        id="periodId"
+                        value={selectedPeriod}
+                        onChange={(event) =>
+                          setSelectedPeriod(String(event.target.value))
+                        }
+                        className={styles.input}
+                      >
+                        <option value="">Selecione o usuário</option>
+                        {periodData &&
+                          periodData.data.map((period: PeriodType) => (
+                            <option
+                              key={period.id}
+                              value={period.id}
+                              className={styles.inputOption}
+                            >
+                              {period.name.split(" ").slice(0, 2).join(" ")}
                             </option>
                           ))}
                       </Input>

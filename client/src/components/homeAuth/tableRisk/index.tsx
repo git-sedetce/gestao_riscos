@@ -10,6 +10,7 @@ import listService, {
   CategoryType,
   ControlEvaluationType,
   ImpactType,
+  PeriodType,
   ProbabilityType,
   TypesOriginType,
 } from "../../../../src/services/listService";
@@ -27,6 +28,7 @@ const TableRisk = function ({ risk }: props) {
     "/listCategories",
     listService.getCategories
   );
+  const { data: periodData } = useSWR("/listPeriods", listService.getPeriods);
   const { data: impactData } = useSWR("/listImpacts", listService.getImpacts);
   const { data: probabilityData } = useSWR(
     "/listProbabilities",
@@ -49,6 +51,7 @@ const TableRisk = function ({ risk }: props) {
     | "consequence"
     | "user"
     | "category"
+    | "period"
     | "impact"
     | "probability"
     | "inherent"
@@ -67,6 +70,7 @@ const TableRisk = function ({ risk }: props) {
       | "consequence"
       | "user"
       | "category"
+      | "period"
       | "impact"
       | "probability"
       | "inherent"
@@ -208,6 +212,36 @@ const TableRisk = function ({ risk }: props) {
             ""
         );
       }
+    } else if (sortColumn === "period") {
+      if (sortOrder === "asc") {
+        return (
+          (up.periodId &&
+            periodData?.data.find(
+              (period: PeriodType) => period.id === up.periodId
+            )?.name) ||
+          ""
+        ).localeCompare(
+          (down.periodId &&
+            periodData?.data.find(
+              (period: PeriodType) => period.id === down.periodId
+            )?.name) ||
+            ""
+        );
+      } else {
+        return (
+          (down.periodId &&
+            periodData?.data.find(
+              (period: PeriodType) => period.id === down.periodId
+            )?.name) ||
+          ""
+        ).localeCompare(
+          (up.periodId &&
+            periodData?.data.find(
+              (period: PeriodType) => period.id === up.periodId
+            )?.name) ||
+            ""
+        );
+      }
     } else if (sortColumn === "impact") {
       if (sortOrder === "asc") {
         return (
@@ -324,6 +358,7 @@ const TableRisk = function ({ risk }: props) {
       | "consequence"
       | "user"
       | "category"
+      | "period"
       | "probability"
       | "impact"
       | "priority"
@@ -372,6 +407,9 @@ const TableRisk = function ({ risk }: props) {
                 </th>
                 <th onClick={() => handleSortByColumn("user")}>
                   Gestor de Risco {sortIcon("user")}
+                </th>
+                <th onClick={() => handleSortByColumn("period")}>
+                  Período {sortIcon("period")}
                 </th>
                 <th onClick={() => handleSortByColumn("impact")}>
                   Impacto {sortIcon("impact")}
@@ -430,6 +468,20 @@ const TableRisk = function ({ risk }: props) {
                       (risk.userId
                         ? userData.data
                             .find((user: UserType) => user.id === risk.userId)
+                            ?.name.split(" ")
+                            .slice(0, 2)
+                            .join(" ")
+                        : "N/A")}
+                  </td>
+                  <td className={styles.cell}>
+                    {periodData &&
+                      periodData.data &&
+                      (risk.periodId
+                        ? periodData.data
+                            .find(
+                              (period: PeriodType) =>
+                                period.id === risk.periodId
+                            )
                             ?.name.split(" ")
                             .slice(0, 2)
                             .join(" ")

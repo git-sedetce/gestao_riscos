@@ -7,6 +7,7 @@ interface CreateParamsRisks {
   consequence: string;
   category_id: number;
   userId: number;
+  periodId: number;
   impactId: number;
   probabilityId: number;
   control_identification: string;
@@ -45,6 +46,7 @@ export type RiskType = {
   consequence: string;
   category_id: number;
   userId: number;
+  periodId: number;
   impactId: number;
   probabilityId: number;
   inherent: number | null;

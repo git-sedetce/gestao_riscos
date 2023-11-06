@@ -1,8 +1,12 @@
 @import "../../../../styles/colors.module.scss";
 
-.editRisk {
-  font-weight: bold;
-  padding: 0.625rem 2.188rem;
+// .editRisk {
+//   margin-bottom: 100px;
+// }
+
+.editButton {
+  background-color: blue;
+  margin-bottom: 150px;
   &:hover {
     background-color: transparent;
     color: $lightGray;

@@ -10,6 +10,7 @@ export interface Risk {
   consequence: string;
   category_id: number;
   userId: number;
+  periodId: number;
   impactId: number;
   probabilityId: number;
   inherent: number | null;
@@ -65,6 +66,13 @@ export const Risk = sequelize.define<RiskInstance, Risk>("Risk", {
     allowNull: false,
     type: DataTypes.INTEGER,
     references: { model: "users", key: "id" },
+    onUpdate: "CASCADE",
+    onDelete: "RESTRICT",
+  },
+  periodId: {
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    references: { model: "periods", key: "id" },
     onUpdate: "CASCADE",
     onDelete: "RESTRICT",
   },
