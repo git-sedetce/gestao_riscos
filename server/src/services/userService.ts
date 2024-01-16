@@ -8,12 +8,14 @@ export const userService = {
     });
     return user;
   },
+  
   findByNameId: async (id: string) => {
     const user = await User.findOne({
       where: { id },
     });
     return user;
   },
+
   findByNumberId: async (id: number) => {
     const user = await User.findByPk(id);
     return user;

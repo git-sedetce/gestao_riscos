@@ -127,16 +127,16 @@ const TreatmentCard = ({ treatment }: Props) => {
                 color="error"
                 onClick={() => handleDeleteTreatment(treatment.id)}
               >
-                Delete Treatment
+                Deletar Tratamento
               </Button>
               <Dialog
                 open={showDeleteDialog}
                 onClose={() => setShowDeleteDialog(false)}
               >
-                <DialogTitle>Confirm Deletion</DialogTitle>
+                <DialogTitle>Confirmar</DialogTitle>
                 <DialogContent>
                   <DialogContentText>
-                    Are you sure you want to delete this treatment?
+                    Você tem certeza em deletar este tratamento?
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -144,10 +144,10 @@ const TreatmentCard = ({ treatment }: Props) => {
                     onClick={() => setShowDeleteDialog(false)}
                     color="primary"
                   >
-                    Cancel
+                    Cancelar
                   </Button>
                   <Button onClick={confirmDelete} color="error">
-                    Delete
+                    Deletar
                   </Button>
                 </DialogActions>
               </Dialog>
