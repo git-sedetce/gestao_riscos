@@ -129,7 +129,7 @@ export const listController = {
     try {
       const types_origin = await TypesOrigin.findAll({
         attributes: ["id", "name", "position"],
-        order: [["id", "ASC"]],
+        order: [["position", "ASC"]],
       });
 
       return res.json(types_origin);

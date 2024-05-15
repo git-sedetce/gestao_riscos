@@ -31,7 +31,7 @@ const HeaderAuth = function () {
       const response = await profileService.fetchCurrent();
       const nameParts = response.name.split(" ");
       const firstInitial = nameParts[0]?.charAt(0) || "";
-      const lastInitial = nameParts[1]?.charAt(1) || "";
+      const lastInitial = nameParts[1]?.charAt(0) || "";
       setInitials(`${firstInitial}${lastInitial}`);
     };
 

@@ -78,13 +78,14 @@ const RiskPage = function () {
         <HeaderAuth />
         <Container className={styles.riskInfo}>
           <Card className={styles.bigCard}>
+            <CardMedia
+              component="img"
+              style={{ height: "39vh" }} 
+              image="/background_sde.png"
+              alt="sde-background"
+            />
+
             <CardContent>
-              <CardMedia
-                component="img"
-                height="140"
-                image={require("../../public/background_sde.png")}
-                alt="sde-background"
-              />
               <Typography variant="h4" className={styles.riskTitle} mt={2}>
                 {risk?.name}
               </Typography>

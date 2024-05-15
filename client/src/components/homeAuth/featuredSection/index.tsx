@@ -3,7 +3,6 @@ import useSWR from "swr";
 import riskService, { RiskType } from "../../../services/riskService";
 import { Button, Container } from "reactstrap";
 import Link from "next/link";
-import HeaderAuth from "../../../../src/components/common/headerAuth";
 import PageSpinner from "../../common/spinner";
 
 const FeaturedSection = function () {
@@ -20,7 +19,7 @@ const FeaturedSection = function () {
       {
         data.data?.map((risk: RiskType) => (
           <>
-            <Container className="pt-4" color="danger" outline>
+            <Container className="pt-4" color="danger" outline style={{backgroundImage: `url('/emblem.png')`, backgroundSize: '26%', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundColor: '#F0F8FF'}}>
               <div className={styles.color}>
                 <p className={styles.title}>{risk.name}</p>
                 <p className={styles.description}>{risk.event}</p>

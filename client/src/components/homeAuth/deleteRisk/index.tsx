@@ -9,9 +9,6 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import useSWR from "swr";
-import profileService from "src/services/profileService";
-import { UserType } from "src/services/authService";
 import riskService, { RiskType } from "src/services/riskService";
 import PageSpinner from "src/components/common/spinner";
 
@@ -20,10 +17,6 @@ const DeleteRisk = function () {
   const router = useRouter();
   const { id } = router.query;
   const [showWarning, setShowWarning] = useState(false);
-  const { data: user } = useSWR<UserType>(
-    "/api/user",
-    profileService.fetchCurrent
-  );
 
   useEffect(() => {
     const getRisk = async function () {

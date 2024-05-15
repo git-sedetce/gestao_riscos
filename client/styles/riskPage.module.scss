@@ -1,7 +1,6 @@
 @import "../styles/colors.module.scss";
 
 .bigCard {
-  background-color: $mediumBlue; 
   color: white; 
   border-radius: 10px;
   padding: 20px;
@@ -56,8 +55,8 @@
 }
 .adminButton {
   display: flex;
-  justify-content: center; // Optional: adjust the alignment of the buttons horizontally
-  align-items: center; // Optional: adjust the alignment of the buttons vertically
+  justify-content: center; 
+  align-items: center; 
 }
 .adminButton > * {
   margin-right: 5rem;

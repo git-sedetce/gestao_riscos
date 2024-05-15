@@ -42,11 +42,17 @@ const UserForm = function () {
     }
   };
 
+  const nameParts = name.split(" ");
+  const nameAbbreviation =
+    nameParts.length >= 2
+      ? `${nameParts[0].charAt(0)}${nameParts[1].charAt(0)}`
+      : name.charAt(0);
+
   return (
     <>
       <Form className={styles.form} onSubmit={handleUserUpdate}>
         <div className={styles.formName}>
-          <p className={styles.nameAbbreviation}>{name.slice(0, 2)}</p>
+          <p className={styles.nameAbbreviation}>{nameAbbreviation}</p>
           <p className={styles.userName}>{`${name}`}</p>
         </div>
         <hr />
