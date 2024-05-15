@@ -1,0 +1,59 @@
+@import "../../../styles/colors.module.scss";
+
+.treatmentCard {
+  background-color: $lightBlue; /* Change to the desired blue color */
+  border: 1px solid $lightGray;
+  margin: 0 auto;
+  width: 550px;
+  height: 550px;
+  cursor: pointer;
+  padding: 10px 14px;
+  overflow: hidden;
+  transition: 0.5s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  &:hover {
+    border-color: $lightBlue;
+  }
+}
+
+.treatmentTitleDescription {
+  text-align: center;
+  margin: 10px 0px;
+}
+
+.treatmentTitle {
+  color: white; /* Change text color to white */
+  font-size: 24px; /* Increase font size */
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.treatmentDescription {
+  color: white; /* Change text color to white */
+  font-size: 18px; /* Increase font size */
+}
+
+@media (max-width: 570px) {
+  .treatmentCard {
+    width: 95%;
+  }
+}
+
+@media (max-width: 400px) {
+  .treatmentCard {
+    &:hover {
+      .treatmentTitle {
+        font-size: 20px;
+      }
+    }
+    .treatmentTitle {
+      font-size: 18px;
+    }
+    .treatmentDescription {
+      word-break: break-all;
+      font-size: 14px;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+@import "./colors.module.scss";
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.context_container {
+  background-color: #fef08a;
+  border: 2px solid #333;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 20px;
+  width: 600px; 
+}
+
+.title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.context_details p {
+  margin: 5px 0;
+}

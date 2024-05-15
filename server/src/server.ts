@@ -1,14 +1,21 @@
 import express from "express";
+import cors from "cors";
+
 import { sequelize } from "./database";
-import { adminJs, adminJsRouter } from "./adminjs";
+import { router } from "./routes";
 
 const app = express();
 
+app.use(cors());
+
 app.use(express.static("public"));
 
-app.use(adminJs.options.rootPath, adminJsRouter);
+app.use(express.json());
 
-const PORT = process.env.port || 4000;
+app.use(router);
+
+const PORT = process.env.port || 3000;
+// const PORT = process.env.port || 4001;
 
 app.listen(PORT, async () => {
   await sequelize.authenticate().then(() => {

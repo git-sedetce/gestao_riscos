@@ -1,0 +1,26 @@
+@import "./colors.module.scss";
+.main {
+  display: flex;
+  flex-direction: column;
+}
+.searchContainer {
+  flex: 1 0 auto;
+}
+.noSearchText {
+  text-align: center;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.header {
+  background-color: black;
+}
+@media (max-width: 334px) {
+  .searchCardTitle {
+    font-size: 16px;
+  }
+  .searchCardDescription {
+    font-size: 14px;
+  }
+}

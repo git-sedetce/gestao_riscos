@@ -1,0 +1,30 @@
+@import "../../../../styles/colors.module.scss";
+
+.formTitle {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 2.5rem;
+}
+.riskForm {
+  background-color: $mediumWhite;
+  width: 40rem;
+  padding: 3.125rem;
+  border: 1px solid $lightGray;
+  margin: 0 auto;
+}
+.button {
+  display: block;
+  margin: 20px auto 0 auto;
+  color: white;
+  background-color: $mediumBlue;
+  padding: 15px 32px;
+  &:hover {
+    color: $lightGray;
+    background-color: $darkBlue;
+    border-color: $darkBlue;
+  }
+}
+.modalBody {
+  display: flex;
+  position: absolute;
+}

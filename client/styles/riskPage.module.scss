@@ -1,0 +1,87 @@
+@import "../styles/colors.module.scss";
+
+.bigCard {
+  color: white; 
+  border-radius: 10px;
+  padding: 20px;
+
+  .riskTitle {
+    font-size: 40px;
+    font-weight: bold;
+    padding-bottom: 25px;
+  }
+
+  .riskDescription {
+    color: $mediumBlue; 
+    padding-bottom: 25px;
+  }
+}
+.buttonImg {
+  width: 10px;
+  margin: 0;
+  padding: 0;
+}
+.treatmentInfo {
+  padding: 10px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.treatmentRegister {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.treatmentDivision {
+  font-weight: bold;
+  border-bottom: 1px solid $lightGray;
+  padding: 3px 14px;
+  margin-bottom: 10px;
+}
+.treatmentPadding {
+  margin-top: -30px;
+}
+.formTitle {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 2.5rem;
+}
+.riskForm {
+  background-color: $mediumWhite;
+  width: 40rem;
+  padding: 3.125rem;
+  border: 1px solid $lightGray;
+  margin: 0 auto;
+}
+.adminButton {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+}
+.adminButton > * {
+  margin-right: 5rem;
+}
+
+@media (max-width: 767px) {
+  .riskTitle {
+    font-size: 26px;
+    width: 99%;
+  }
+  .riskDescription {
+    width: 95%;
+  }
+}
+@media (max-width: 400px) {
+  .riskInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .riskTitle {
+    font-size: 22px;
+  }
+  .riskDescription {
+    font-size: 14px;
+  }
+}

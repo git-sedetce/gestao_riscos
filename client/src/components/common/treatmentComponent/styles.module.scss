@@ -1,0 +1,53 @@
+@import "../../../../styles/colors.module.scss";
+
+.table {
+  background-color: $mediumWhite;
+  margin-top: 10px;
+}
+
+.slide {
+  display: table-row;
+  th:first-child,
+  td:first-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 400;
+    width: 1%;
+  }
+  td:nth-child(2) {
+    width: 5%;
+  }
+  td:nth-child(3) {
+    width: 5%;
+  }
+}
+.titles {
+  font-weight: 400;
+}
+.slideIndicator {
+  color: white;
+  padding-top: 4px;
+  padding-right: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.slideEvent {
+  font-size: 14px;
+  color: white;
+  text-align: left;
+}
+
+.noWrap td,
+.noWrap th {
+  border: none;
+}
+
+.titles {
+  cursor: pointer;
+}

@@ -1,0 +1,78 @@
+@import "./colors.module.scss";
+.main {
+  background-image: linear-gradient(to bottom, #076585, #fff);
+}
+.formTitle {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 2.5rem;
+}
+.form {
+  width: 37.5rem;
+  padding: 3.125rem;
+  border: 1px solid $lightGray;
+  margin: 0 auto;
+}
+.label {
+  font-size: 14px;
+  font-weight: bold;
+  padding-top: 20px;
+}
+.input {
+  border-color: $lightGray;
+  background-color: transparent;
+  color: $mediumWhite;
+
+  &::placeholder {
+    color: #e2e8f0;
+  }
+  &:focus {
+    color: $lightGray;
+    background-color: $mediumWhite;
+    border-color: $lightBlue;
+    box-shadow: none;
+  }
+}
+.inputName {
+  @extend .input;
+  //   text-transform: uppercase;
+  &::placeholder {
+    text-transform: none;
+  }
+}
+.inputOption {
+  color: $darkGray;
+}
+.formBtn {
+  display: block;
+  margin: 50px auto 0 auto;
+  color: white;
+  background-color: $darkBlue;
+  border-color: $lightGray;
+
+  &:hover {
+    color: $mediumWhite;
+    background-color: #006699;
+    border-color: #006699;
+  }
+}
+
+@media (max-width: 767px) {
+  .formTitle {
+    font-size: 30px;
+  }
+  .form {
+    width: 95%;
+  }
+}
+@media (max-width: 575px) {
+  .form {
+    padding: 50px 10px;
+  }
+}
+@media (max-width: 423px) {
+  .formTitle {
+    font-size: 24px;
+    text-align: center;
+  }
+}

@@ -1,0 +1,89 @@
+@import "../../../../styles/colors.module.scss";
+
+.modal {
+  display: block;
+  margin: 20px auto 0 auto;
+  color: $darkGray; /* Change text color to darkGray */
+  background-color: $customLightYellow; /* Use customLightYellow as background color */
+  &:hover {
+    color: $lightGray; /* Change hover text color to lightGray */
+    background-color: $customYellow; /* Use customYellow as background color on hover */
+    border-color: $customYellow; /* Change border color to customYellow on hover */
+  }
+}
+.modalBody {
+  display: flex;
+  position: absolute;
+}
+.formTitle {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 2.5rem;
+}
+.form {
+  background-color: $customLightYellow; /* Use customLightYellow as background color */
+  width: 28.125rem;
+  padding: 3.125rem;
+  border: 1px solid $lightGray;
+  margin: 0 auto;
+}
+.label {
+  font-size: 14px;
+  font-weight: bold;
+  padding-top: 20px;
+}
+.input {
+  border-color: $lightGray;
+  background-color: transparent;
+  color: $lightGray;
+  &::placeholder {
+    color: $lightGray;
+  }
+  &:focus {
+    background-color: transparent;
+    border-color: $customYellow;
+    color: $darkGray;
+    box-shadow: none;
+  }
+}
+.inputName {
+  @extend .input;
+  &::placeholder {
+    text-transform: none;
+  }
+}
+.inputOption {
+  color: $darkGray;
+}
+.formBtn {
+  display: block;
+  margin: 50px auto 0 auto;
+  background-color: $customYellow; /* Use customYellow as background color */
+  color: $darkBlue;
+  border: none;
+  border-radius: 5px;
+  &:hover {
+    background-color: darken($customYellow, 10%);
+    color: $darkBlue;
+  }
+}
+
+@media (max-width: 767px) {
+  .formTitle {
+    font-size: 30px;
+  }
+  .form {
+    width: 95%;
+  }
+}
+@media (max-width: 575px) {
+  .form {
+    padding: 50px 10px;
+  }
+}
+@media (max-width: 423px) {
+  .formTitle {
+    font-size: 24px;
+    text-align: center;
+  }
+}

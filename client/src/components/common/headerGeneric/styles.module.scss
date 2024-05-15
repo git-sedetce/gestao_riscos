@@ -1,0 +1,48 @@
+@import "../../../../styles/colors.module.scss";
+
+.header {
+  // background-color: #059669;
+  // background-color: #138a0f;
+  // background-color: #facc15;
+  background: linear-gradient(to bottom, #1c92d2, #f2fcfe);
+}
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0.9375rem 0;
+}
+.headerLogo {
+  @media (max-width: 402px) {
+    .headerContainer {
+      justify-content: center;
+    }
+  }
+  width: 12.5rem;
+  cursor: pointer;
+}
+.headerBtn {
+  color: white;
+  background-color: $darkBlue;
+  border-color: $darkBlue;
+  transition: background-color 0.3s ease-in-out;
+  height: 2.5rem;
+  margin-top: 0.875rem;
+  &:hover {
+    color: $mediumGray;
+    background-color: #006699;
+    border-color: #006699;
+  }
+}
+
+@media (max-width: 575px) {
+  .headerContainer {
+    padding: 1.25rem 1.625rem;
+    gap: 1.25rem;
+  }
+}
+@media (max-width: 402px) {
+  .headerContainer {
+    justify-content: center;
+  }
+}

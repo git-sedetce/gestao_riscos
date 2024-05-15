@@ -1,0 +1,59 @@
+@import "../../../../styles/colors.module.scss";
+
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.customTable {
+  background-color: $mediumWhite;
+  margin-top: 10px;
+  min-width: 1200px;
+}
+
+.row {
+  display: table-row;
+  th:first-child,
+  td:first-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 400;
+  }
+}
+
+.titles {
+  font-weight: 400;
+  color: $table-header-color;
+}
+
+.cell {
+  padding: 10px;
+}
+
+.link {
+  color: $light-font-color;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.table th {
+  cursor: pointer;
+}
+
+.table th,
+.table td {
+  border: none;
+  text-align: left;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: $line-even-color;
+}
+
+.table tbody tr:nth-child(odd) {
+  background-color: $line-odd-color;
+}

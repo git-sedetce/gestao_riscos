@@ -1,0 +1,30 @@
+@import "../../../../styles/colors.module.scss";
+
+// .editRisk {
+//   margin-bottom: 100px;
+// }
+
+.editButton {
+  background-color: blue;
+  margin-bottom: 150px;
+  &:hover {
+    background-color: transparent;
+    color: $lightGray;
+  }
+}
+.formTitle {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 2.5rem;
+}
+.riskForm {
+  background-color: $mediumWhite;
+  width: 40rem;
+  padding: 3.125rem;
+  border: 1px solid $lightGray;
+  margin: 0 auto;
+}
+.modalBody {
+  display: flex;
+  position: absolute;
+}
